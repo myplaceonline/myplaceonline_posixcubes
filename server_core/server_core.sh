@@ -14,6 +14,22 @@ cat <<'HEREDOC'
 
 HEREDOC
 
+# Description:
+#   Set system timezone to $1
+# Example call:
+#   cube_set_timezone UTC
+# Arguments:
+#   Required:
+#     $1: Relative time zone path under /usr/share/zoneinfo/
+cube_set_timezone() {
+  cube_check_numargs 1 "${@}"
+  ! cube_check_file_exists /usr/share/zoneinfo/${1} && cube_throw "Time zone doesn't exist"
+  ln -sf /usr/share/zoneinfo/${1} /etc/localtime || cube_check_return
+  return 0
+}
+
+cube_set_timezone UTC
+
 df -h | grep -v tmpfs
 echo ""
 free -m
