@@ -21,20 +21,26 @@ HEREDOC
 # Arguments:
 #   Required:
 #     $1: Relative time zone path under /usr/share/zoneinfo/
-cube_set_timezone() {
+cube_core_set_timezone() {
   cube_check_numargs 1 "${@}"
-  ! cube_check_file_exists /usr/share/zoneinfo/${1} && cube_throw "Time zone doesn't exist"
-  ln -sf /usr/share/zoneinfo/${1} /etc/localtime || cube_check_return
+  ! cube_check_file_exists /usr/share/zoneinfo/${1} && cube_throw "Time zone ${1} doesn't exist"
+  if [ "$(cube_readlink /etc/localtime)" != "/usr/share/zoneinfo/${1}" ]; then
+    ln -sf /usr/share/zoneinfo/${1} /etc/localtime || cube_check_return
+    cube_echo "Updated system time zone to /usr/share/zoneinfo/${1}"
+    export TZ=$1
+  else
+    [ "${TZ}" = "" ] && export TZ=$1
+  fi
   return 0
 }
 
-cube_set_timezone UTC
+cube_core_set_timezone UTC
 
 df -h | grep -v tmpfs
 echo ""
 free -m
 echo ""
-cat /proc/cpuinfo | grep -e processor -e MHz
+grep -e processor -e MHz /proc/cpuinfo
 echo ""
 grep -e MemTotal -e MemFree -e Buffers -e ^Cached /proc/meminfo
 echo ""
@@ -44,7 +50,7 @@ echo ""
 cube_check_dir_exists "/etc/cron.d" && cube_service stop crond
 
 # Ensure permissive selinux
-if cube_set_file_contents "/etc/selinux/config" "templates/selinux_config" ; then
+if cube_check_dir_exists "/etc/selinux/" && cube_set_file_contents "/etc/selinux/config" "templates/selinux_config" ; then
   setenforce Permissive || cube_check_return
 fi
 
