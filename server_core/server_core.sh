@@ -54,4 +54,10 @@ if cube_check_dir_exists "/etc/selinux/" && cube_set_file_contents "/etc/selinux
   setenforce Permissive || cube_check_return
 fi
 
+cube_set_file_contents_string ~/.passwd ${cubevar_app_passwords_root}
+
+# We set a user password in the case we need to do a manual login from the web console
+passwd --stdin root < ~/.passwd
+rm -f ~/.passwd
+
 cube_check_dir_exists "/etc/cron.d" && cube_service start crond
