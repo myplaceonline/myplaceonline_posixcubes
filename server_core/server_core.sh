@@ -1,6 +1,6 @@
 #!/bin/sh
 
-cube_read_heredoc <<'HEREDOC'
+cube_read_heredoc <<'HEREDOC'; cubevar_app_motd="${cube_read_heredoc_result}"
 
                         _                            _ _            
                        | |                          | (_)           
@@ -14,7 +14,7 @@ cube_read_heredoc <<'HEREDOC'
 
 
 HEREDOC
-cubevar_app_motd="${cube_read_heredoc_result}"
+
 echo "${cubevar_app_motd}"
 
 # Description:
@@ -80,5 +80,28 @@ if cube_set_file_contents "/etc/systemd/system/myplaceonline-networkup.service" 
 fi
 
 cube_service restart myplaceonline-networkup
+
+if cube_set_file_contents "/etc/systemd/journald.conf" "templates/journald.conf" ; then
+  cube_service restart systemd-journald
+fi
+
+cube_package install python python-dnf multitail htop lsof wget
+
+cube_package --enablerepo fedora-debuginfo --enablerepo updates-debuginfo install kernel-debuginfo-common-x86_64 kernel-debuginfo glibc-debuginfo-common glibc-debuginfo systemtap perf
+
+if cube_set_file_contents "/var/chef/cache/cookbooks/dnf/libraries/dnf-query.py" "templates/dnf-query.py" ; then
+  chmod 755 "/var/chef/cache/cookbooks/dnf/libraries/dnf-query.py" || cube_check_return
+fi
+
+cube_read_heredoc <<'HEREDOC'; cubevar_app_str="${cube_read_heredoc_result}"
+[influxdb]
+name = InfluxDB Repository - RHEL \$releasever
+baseurl = https://repos.influxdata.com/rhel/7Server/\$basearch/stable
+enabled = 1
+gpgcheck = 0
+gpgkey = https://repos.influxdata.com/influxdb.key
+HEREDOC
+
+cube_set_file_contents_string "/etc/yum.repos.d/influxdb.repo" "${cubevar_app_str}"
 
 cube_check_dir_exists "/etc/cron.d" && cube_service start crond
