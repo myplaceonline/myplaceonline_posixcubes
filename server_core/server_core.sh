@@ -1,5 +1,6 @@
 #!/bin/sh
-cat <<'HEREDOC'
+
+cube_read_heredoc <<'HEREDOC'
 
                         _                            _ _            
                        | |                          | (_)           
@@ -13,6 +14,8 @@ cat <<'HEREDOC'
 
 
 HEREDOC
+cubevar_app_motd="${cube_read_heredoc_result}"
+echo "${cubevar_app_motd}"
 
 # Description:
 #   Set system timezone to $1
@@ -59,5 +62,23 @@ cube_set_file_contents_string ~/.passwd ${cubevar_app_passwords_root}
 # We set a user password in the case we need to do a manual login from the web console
 passwd --stdin root < ~/.passwd
 rm -f ~/.passwd
+
+if cube_set_file_contents "/etc/commonprofile.sh" "templates/commonprofile.sh" ; then
+  chmod 755 "/etc/commonprofile.sh" || cube_check_return
+  cube_set_file_contents "/etc/profile" "templates/profile"
+fi
+
+cube_set_file_contents_string "/etc/motd" "${cubevar_app_motd}"
+
+if cube_set_file_contents "/etc/sysctl.conf" "templates/sysctl.conf" ; then
+  sysctl -p || cube_check_return
+fi
+
+if cube_set_file_contents "/etc/systemd/system/myplaceonline-networkup.service" "templates/myplaceonline-networkup.service.template" ; then
+  cube_service daemon-reload
+  cube_service enable myplaceonline-networkup
+fi
+
+cube_service restart myplaceonline-networkup
 
 cube_check_dir_exists "/etc/cron.d" && cube_service start crond
