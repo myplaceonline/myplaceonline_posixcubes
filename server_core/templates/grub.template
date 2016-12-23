@@ -1,0 +1,9 @@
+GRUB_TIMEOUT=1
+GRUB_DISTRIBUTOR="$(sed 's, release .*$,,g' /etc/system-release)"
+GRUB_DEFAULT=saved
+GRUB_DISABLE_SUBMENU=true
+GRUB_TERMINAL="serial console"
+GRUB_SERIAL_COMMAND="serial --unit=1"
+# http://unix.stackexchange.com/q/241552
+GRUB_CMDLINE_LINUX="no_timer_check console=tty1 console=ttyS0,115200n8 console=ttyS1 crashkernel=${cubevar_app_crashkernel_mem}M audit=0"
+GRUB_DISABLE_RECOVERY="true"

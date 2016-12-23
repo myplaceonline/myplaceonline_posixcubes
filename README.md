@@ -1,1 +1,12 @@
 # myplaceonline_posixcubes
+
+Assumes known SSH hosts of all web servers
+    
+## frontend
+
+    posixcube.sh -u root -w ~/production.pwd -h frontend*.myplaceonline.com -o "cubevar_app_web_servers=web*" -c server_core -c frontend -c core_finish
+
+## web
+
+    posixcube.sh -u root -w ~/production.pwd -h web*.myplaceonline.com -o "cubevar_app_web_servers=web*" -c server_core -c web -c core_finish
+

@@ -85,7 +85,7 @@ if cube_set_file_contents "/etc/systemd/journald.conf" "templates/journald.conf"
   cube_service restart systemd-journald
 fi
 
-cube_package install python python-dnf multitail htop lsof wget
+cube_package install python python-dnf multitail htop lsof wget nfs-utils
 
 cube_package --enablerepo fedora-debuginfo --enablerepo updates-debuginfo install kernel-debuginfo-common-x86_64 kernel-debuginfo glibc-debuginfo-common glibc-debuginfo systemtap perf
 
@@ -93,6 +93,7 @@ if cube_set_file_contents "/var/chef/cache/cookbooks/dnf/libraries/dnf-query.py"
   chmod 755 "/var/chef/cache/cookbooks/dnf/libraries/dnf-query.py" || cube_check_return
 fi
 
+# https://www.elastic.co/guide/en/logstash/current/installing-logstash.html
 cube_read_heredoc <<'HEREDOC'; cubevar_app_str="${cube_read_heredoc_result}"
 [influxdb]
 name = InfluxDB Repository - RHEL \$releasever
@@ -100,8 +101,72 @@ baseurl = https://repos.influxdata.com/rhel/7Server/\$basearch/stable
 enabled = 1
 gpgcheck = 0
 gpgkey = https://repos.influxdata.com/influxdb.key
+
+[logstash-5.x]
+name=Elastic repository for 5.x packages
+baseurl=https://artifacts.elastic.co/packages/5.x/yum
+gpgcheck=0
+gpgkey=https://artifacts.elastic.co/GPG-KEY-elasticsearch
+enabled=1
+autorefresh=1
+type=rpm-md
 HEREDOC
 
 cube_set_file_contents_string "/etc/yum.repos.d/influxdb.repo" "${cubevar_app_str}"
 
-cube_check_dir_exists "/etc/cron.d" && cube_service start crond
+cube_package install multitail strace htop mtr traceroute patch atop sysstat iotop gdb bind-utils ntp python sendmail make mailx postfix tcpdump cyrus-sasl-plain rsyslog gnupg kexec-tools lzo lzo-devel lzo-minilzo bison bison-devel ncurses ncurses-devel telegraf telnet iftop git nmap-ncat logstash java-1.8.0-openjdk
+
+cube_service enable atop
+cube_service start atop
+
+if cube_set_file_contents "/etc/rsyslog.conf" "templates/rsyslog.conf" ; then
+  # Some servers have a different syslog config, so don't update syslog immediately
+  cubevar_api_post_restart=$(cube_append_str "${cubevar_api_post_restart}" "rsyslog")
+fi
+
+cube_set_file_contents "/etc/kdump.conf" "templates/kdump.conf"
+
+# don't auto-start because we may not have crashkernel yet
+cube_service enable kdump
+
+# https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/7/html-single/Kernel_Crash_Dump_Guide/index.html#sect-kdump-memory-requirements
+# 160 MB + 2 bits for every 4 KB of RAM. For a system with 1 TB of memory, 224 MB is the minimum (160 + 64 MB). 
+cubevar_app_crashkernel_mem=$((161+($(cube_total_memory)/268435456)))
+if cube_set_file_contents "/etc/default/grub" "templates/grub.template" ; then
+  /usr/sbin/grub2-mkconfig -o /boot/grub2/grub.cfg
+fi
+
+cube_ensure_directory ~/.ssh/ 700
+cube_ensure_file ~/.ssh/authorized_keys 700
+
+cube_package update
+cube_package --enablerepo fedora-debuginfo --enablerepo updates-debuginfo update
+
+cube_service enable ntpd
+cube_service start ntpd
+
+cube_set_file_contents "/etc/postfix/main.cf" "templates/main.cf.template"
+
+cube_service enable postfix
+cube_service start postfix
+
+cube_set_file_contents "/etc/security/limits.conf" "templates/limits.conf"
+
+cube_set_file_contents ~/.toprc "templates/toprc"
+
+if ! cube_check_file_exists /usr/local/src/crash/crash ; then
+  cube_pushd /usr/local/src/
+  rm -rf crash* || cube_check_return
+  git clone https://github.com/crash-utility/crash/ || cube_check_return
+  cd crash || cube_check_return
+  echo '-DLZO' > CFLAGS.extra || cube_check_return
+  echo '-llzo2' > LDFLAGS.extra || cube_check_return
+  make || cube_check_return
+  cube_popd
+fi
+
+if ! cube_has_role "db_server_backup" ; then
+  if cube_set_file_contents "/etc/rsyslog.d/01-client.conf" "templates/rsyslog_client.conf.template" ; then
+    cube_service restart rsyslog
+  fi
+fi

@@ -1,0 +1,1 @@
+*/5 * * * * curl --progress-bar "http://${cubevar_app_hostname_simple}-internal.${cubevar_app_server_name}/admin/ensure_pending_all_users" >> ${cubevar_app_nginx_dir}/log/crontab.log 2>&1
