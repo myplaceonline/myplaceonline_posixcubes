@@ -5,7 +5,7 @@
 (cube_service stop nginx) 2>/dev/null
 cube_service restart rsyslog
 
-cube_package install nginx ruby rubygems ruby-devel redhat-rpm-config gnupg ImageMagick ImageMagick-c++ ImageMagick-c++-devel ImageMagick-devel ImageMagick-libs golang git gcc gcc-c++ openssl-devel postgresql-devel postgresql nodejs libcurl-devel
+cube_package install nginx ruby rubygems ruby-devel redhat-rpm-config gnupg ImageMagick ImageMagick-c++ ImageMagick-c++-devel ImageMagick-devel ImageMagick-libs golang git gcc gcc-c++ openssl-devel pcre-devel postgresql-devel postgresql nodejs libcurl-devel
 
 if cube_set_file_contents "/usr/lib/systemd/system/nginx.service" "templates/nginx.service.template" ; then
   cube_service daemon-reload

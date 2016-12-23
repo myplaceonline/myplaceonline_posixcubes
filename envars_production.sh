@@ -24,9 +24,12 @@ cubevar_app_nginx_passenger_version="5.0.30"
 cubevar_app_nginx_passenger_gem_binary="/usr/bin/gem"
 cubevar_app_nginx_passenger_ruby="/usr/bin/ruby"
 cubevar_app_nginx_passenger_root="/usr/local/share/gems/gems/passenger-5.0.30/"
+
+# When updating nginx version, also update checksum in the next var
 cubevar_app_nginx_source_version="1.11.6"
-# wget http://nginx.org/download/nginx-1.11.6.tar.gz; sha256sum nginx-1.11.6.tar.gz;
+# wget https://nginx.org/download/nginx-1.11.6.tar.gz; sha256sum nginx-1.11.6.tar.gz;
 cubevar_app_nginx_source_checksum="3153abbb518e2d9c032e1b127da3dc0028ad36cd4679e5f3be0b8afa33bc85bd"
+
 cubevar_app_nginx_source_modules="nginx::ipv6 nginx::http_ssl_module nginx::http_gzip_static_module nginx::passenger nginx::upload_progress_module"
 cubevar_app_postgresql_version="9.5"
 cubevar_app_postgresql_replication_cluster="cluster1"
