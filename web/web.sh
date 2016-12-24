@@ -3,21 +3,83 @@
 # Ruby uses a lot of memory, so first stop weighty processes. Wrap in a sub-shell to eat any exceptions (e.g. if
 # first setting up the box and the service doesn't exist)
 (cube_service stop nginx) 2>/dev/null
+(cube_service stop myplaceonline-delayedjobs) 2>/dev/null
 cube_service restart rsyslog
 
-cube_package install nginx ruby rubygems ruby-devel redhat-rpm-config gnupg ImageMagick ImageMagick-c++ ImageMagick-c++-devel ImageMagick-devel ImageMagick-libs golang git gcc gcc-c++ openssl-devel pcre-devel postgresql-devel postgresql nodejs libcurl-devel
+cube_package install ruby rubygems ruby-devel redhat-rpm-config gnupg \
+                     ImageMagick ImageMagick-c++ ImageMagick-c++-devel \
+                     ImageMagick-devel ImageMagick-libs golang git gcc \
+                     gcc-c++ openssl-devel pcre-devel postgresql-devel \
+                     postgresql nodejs libcurl-devel
 
 if cube_set_file_contents "/usr/lib/systemd/system/nginx.service" "templates/nginx.service.template" ; then
   cube_service daemon-reload
 fi
 
-if ! cube_check_file_exists "/opt/nginx-${cubevar_app_nginx_source_version}/sbin/nginx" ; then
-  # Install nginx
+cubevar_nginx_root="/opt/nginx-${cubevar_app_nginx_source_version}"
 
-  #mkdir ${cubevar_app_nginx_passenger_root}ext || cube_check_return
-  #ln -s ${cubevar_app_nginx_passenger_root}src/nginx_module ${cubevar_app_nginx_passenger_root}ext/nginx || cube_check_return
-  true
+if ! cube_check_dir_exists "${cubevar_nginx_root}" ; then
+
+  cube_echo "Installing nginx ${cubevar_app_nginx_source_version}"
+
+  cube_package install autoconf bison flex gcc gcc-c++ gettext kernel-devel \
+                       make m4 ncurses-devel patch zlib-devel gc pcre-devel \
+                       zlib-devel wget openssl-devel libxml2-devel \
+                       libxslt-devel gd-devel perl-ExtUtils-Embed \
+                       GeoIP-devel gperftools gperftools-devel \
+                       libatomic_ops-devel perl-ExtUtils-Embed
+
+  rm -rf "$(cube_tmpdir)"/nginx-${cubevar_app_nginx_source_version}* 2>/dev/null
+  wget -O "$(cube_tmpdir)/nginx-${cubevar_app_nginx_source_version}.tar.gz" "https://nginx.org/download/nginx-${cubevar_app_nginx_source_version}.tar.gz" || cube_check_return
+  
+  if ! cube_user_exists nginx ; then
+    cube_create_user nginx /sbin/nologin
+    if ! cube_group_exists nginx ; then
+      cube_create_group nginx
+    fi
+    if ! cube_group_contains_user nginx nginx ; then
+      cube_add_group_user nginx nginx true
+    fi
+  fi
+
+  cube_pushd "$(cube_tmpdir)"
+
+    tar xzvf "$(cube_tmpdir)/nginx-${cubevar_app_nginx_source_version}.tar.gz" || cube_check_return
+
+    cube_pushd "nginx-${cubevar_app_nginx_source_version}"
+
+      # https://www.phusionpassenger.com/library/install/nginx/install_as_nginx_module.html
+      # http://nginx.org/en/docs/configure.html
+
+      cube_echo "Installing passenger gem"
+
+      gem install passenger -N || cube_check_return
+      
+      cubevar_app_nginx_srcdir="$(passenger-config --nginx-addon-dir)" || cube_check_return
+      
+      cube_echo "Compiler nginx with passenger @ ${cubevar_app_nginx_srcdir}"
+      
+      ./configure --user=nginx --group=nginx --prefix=${cubevar_nginx_root} \
+        --with-http_ssl_module --with-pcre --with-http_gzip_static_module \
+        --with-ipv6 --add-module=${cubevar_app_nginx_srcdir} \
+        || cube_check_return
+      
+      cube_echo "Compiling nginx"
+      
+      make || cube_check_return
+      
+      cube_echo "Installing nginx"
+      
+      make install || cube_check_return
+      
+    cube_popd
+
+  cube_popd
+
+  rm -rf "$(cube_tmpdir)"/nginx-${cubevar_app_nginx_source_version}* 2>/dev/null
 fi
+
+cubevar_nginx_passenger_root="$(passenger-config about root)"
 
 if cube_set_file_contents "/etc/telegraf/telegraf.conf" "templates/telegraf.conf.template" ; then
   cube_service restart telegraf
@@ -26,7 +88,9 @@ fi
 cube_service enable telegraf
 cube_service start telegraf
 
-usermod -a -G webgrp root || cube_check_return
+if ! cube_group_contains_user webgrp root ; then
+  cube_add_group_user webgrp root
+fi
 
 cube_ensure_directory "${cubevar_app_web_dir}" 755 ${USER} webgrp
 
@@ -43,18 +107,17 @@ cube_popd
 
 cube_read_heredoc <<HEREDOC; cubevar_app_passenger_status="${cube_read_heredoc_result}"
 #!/bin/sh
-PASSENGER_INSTANCE_REGISTRY_DIR=/var/run/ /usr/local/share/gems/gems/passenger-${cubevar_app_nginx_passenger_version}/bin/passenger-status -v --show=xml
+PASSENGER_INSTANCE_REGISTRY_DIR=/var/run/ ${cubevar_nginx_passenger_root}/bin/passenger-status -v --show=xml
 HEREDOC
 
-if cube_set_file_contents_string "/usr/local/share/gems/gems/passenger-${cubevar_app_nginx_passenger_version}/bin/passenger_status.sh" "${cubevar_app_passenger_status}" ; then
-  chmod 755 "/usr/local/share/gems/gems/passenger-${cubevar_app_nginx_passenger_version}/bin/passenger_status.sh"
+if cube_set_file_contents_string "${cubevar_nginx_passenger_root}/bin/passenger_status.sh" "${cubevar_app_passenger_status}" ; then
+  chmod 755 "${cubevar_nginx_passenger_root}/bin/passenger_status.sh"
 fi
 
-cube_set_file_contents "/etc/nginx/conf.d/passenger.conf" "templates/passenger.conf.template"
+cube_set_file_contents "${cubevar_nginx_root}/conf/nginx.conf" "templates/nginx_core.conf.template"
+cube_set_file_contents "${cubevar_nginx_root}/conf/conf.d/passenger.conf" "templates/passenger.conf.template"
 
 cube_ensure_file "${cubevar_app_web_dir}/log/passenger.log" 666
-
-cube_set_file_contents "/etc/nginx/nginx.conf" "templates/nginx_core.conf.template"
 
 cubevar_app_eth1=$(cube_interface_ipv4_address eth1) || cube_check_return
 cubevar_app_hostname=$(cube_hostname) || cube_check_return
@@ -67,8 +130,8 @@ for cubevar_app_web_server in ${cubevar_app_web_servers}; do
   cubevar_app_trusted_servers=$(cube_append_str "${cubevar_app_trusted_servers}" "${cubevar_app_server_internal}" ";")
 done
 
-if cube_set_file_contents "${cubevar_app_nginx_dir}/sites-available/${cubevar_app_name}.conf" "templates/nginx.conf.template" ; then
-  chmod 644 "${cubevar_app_nginx_dir}/sites-available/${cubevar_app_name}.conf"
+if cube_set_file_contents "${cubevar_nginx_root}/conf/sites-enabled/${cubevar_app_name}.conf" "templates/nginx.conf.template" ; then
+  chmod 644 "${cubevar_nginx_root}/conf/sites-enabled/${cubevar_app_name}.conf"
 fi
 
 cube_ensure_directory "${cubevar_app_web_dir}/tmp/"
@@ -107,7 +170,9 @@ cube_pushd "${cubevar_app_web_dir}"
   
   bin/bundle install --deployment || cube_check_return
   
-  if [ "$(psql -tA -U ${cubevar_app_db_dbuser} -h ${cubevar_app_db_host} -d ${cubevar_app_db_dbname} -c "\\dt" | grep -c "No relations found.")" != "0" ]; then
+  cubevar_web_psql_output="$(psql -tA -U ${cubevar_app_db_dbuser} -h ${cubevar_app_db_host} -d ${cubevar_app_db_dbname} -c '\dt')" || cube_check_return
+  
+  if [ "$(echo "${cubevar_web_psql_output}" | grep -c "No relations found.")" != "0" ]; then
     # This is a major operation, so just in case there's some freak reason the previous command didn't work, prompt
     if cube_prompt "DESTRUCTIVE: Drop and re-create database?" ; then
       bin/bundle exec rake db:drop db:create db:schema:load db:seed || cube_check_return
@@ -125,10 +190,6 @@ cube_pushd "${cubevar_app_web_dir}"
 ) || cube_check_return
 
 cube_popd
-
-#nginx_site "#{node.app.name}.conf" do
-#  enable true
-#end
 
 if cube_set_file_contents_string ~/.irbrc "IRB.conf[:PROMPT_MODE] = :SIMPLE" ; then
   chmod 700 ~/.irbrc

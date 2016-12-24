@@ -10,7 +10,7 @@ events {
 
 http {
 
-  include       /etc/nginx/mime.types;
+  include       ${cubevar_nginx_root}/conf/mime.types;
   default_type  application/octet-stream;
 
   # https://github.com/phusion/passenger/issues/1514
@@ -48,6 +48,6 @@ http {
 
 
 
-  include /etc/nginx/conf.d/*.conf;
-  include /etc/nginx/sites-enabled/*;
+  include ${cubevar_nginx_root}/conf/conf.d/*.conf;
+  include ${cubevar_nginx_root}/conf/sites-enabled/*;
 }

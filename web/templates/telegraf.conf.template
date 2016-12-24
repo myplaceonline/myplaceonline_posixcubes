@@ -1258,7 +1258,7 @@
 #   ##
 #   ## If no path is specified, then the plugin simply execute passenger-status
 #   ## hopefully it can be found in your PATH
-#  command = "/usr/local/share/gems/gems/passenger-${cubevar_app_nginx_passenger_version}/bin/passenger_status.sh"
+#  command = "${cubevar_nginx_passenger_root}/bin/passenger_status.sh"
 
 
 # # Read metrics of phpfpm, via HTTP status page or socket

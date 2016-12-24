@@ -16,21 +16,7 @@ cubevar_app_rails_gc_max_newspace="33554432"
 cubevar_app_rails_gc_max_oldspace="67108864"
 cubevar_app_rails_threads_per_node="2"
 cubevar_app_rails_environment="production"
-cubevar_app_nginx_dir="/etc/nginx/"
-cubevar_app_nginx_user="nginx"
-cubevar_app_nginx_gzip_static="on"
-cubevar_app_nginx_passenger_install_method="source"
-cubevar_app_nginx_passenger_version="5.0.30"
-cubevar_app_nginx_passenger_gem_binary="/usr/bin/gem"
-cubevar_app_nginx_passenger_ruby="/usr/bin/ruby"
-cubevar_app_nginx_passenger_root="/usr/local/share/gems/gems/passenger-5.0.30/"
-
-# When updating nginx version, also update checksum in the next var
-cubevar_app_nginx_source_version="1.11.6"
-# wget https://nginx.org/download/nginx-1.11.6.tar.gz; sha256sum nginx-1.11.6.tar.gz;
-cubevar_app_nginx_source_checksum="3153abbb518e2d9c032e1b127da3dc0028ad36cd4679e5f3be0b8afa33bc85bd"
-
-cubevar_app_nginx_source_modules="nginx::ipv6 nginx::http_ssl_module nginx::http_gzip_static_module nginx::passenger nginx::upload_progress_module"
+cubevar_app_nginx_source_version="1.11.7"
 cubevar_app_postgresql_version="9.5"
 cubevar_app_postgresql_replication_cluster="cluster1"
 cubevar_app_keys_postgresql_public="ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDIaaOF750AA0A3/H/HxzO5Bje2zfPLjFEtnrBfn7/6hDa9jr95nAN2wyTAJz5Io+oPo11MTJBSVtQRbbj8UNExqEQubNv0SlmSbbIx6Mgh4QMgUeDh2dUVPetXN729KVUdLZFiaBAMf5hSRbO8DO5PFDwWKjPY1qBXnv/Y5+nw7N5upyN163Bo8r5DizzZ6Ow7zXXBWAd4uu7cV1qvkEO2+UeZyFj0pRZlgeury0Pi1eyoD6YLtQwkeJiKIjaz5+MUNwj51IgpBJR0bAHPQSsOIc9GgROoPR1MNZcOVwU6DPauEvtM0hxLk4Bj89vGp5lhaEKyzy/tCuqPKvQwS/DGBrS5yQ404x2IBIhD39XqTApU3zEKWjlbaePeGfNALLy6mmgMn9ppNI5dTuXfZj35uFDEP3Fdv8x5vJXucIM+I+LzGVyebB3tjsbfq/G8Kdoeoqpq6+oTDIF8iSVbndoRY5xwUSXPy3Os72n16dBj9BxhlihBPV8mGOlgmK91fpmAsYwXsjFNFhjm8YlJm6rXcK32WFC6wewNa+kbvHa+/guIGjVYjUk+fmrUDrNzQ4GZ8k6VgslpxF5uR5QY0oJT6mN47/eNoAh2KkKHFPVa/3t+0I0KnyKMeTuWkJ3no6WjHOfbWY21qmha4AiDFm8r3JRR2xA4iiIIAvFQ+XG6rQ=="

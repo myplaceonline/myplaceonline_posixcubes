@@ -1,4 +1,4 @@
-passenger_root ${cubevar_app_nginx_passenger_root};
+passenger_root ${cubevar_nginx_passenger_root};
 passenger_ruby /usr/bin/ruby;
 passenger_max_pool_size ${cubevar_app_rails_threads_per_node};
 passenger_spawn_method smart-lv2;
