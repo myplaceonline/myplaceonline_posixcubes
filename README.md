@@ -10,7 +10,7 @@
 
 ## primary database
 
-    posixcube.sh -u root -h db1.myplaceonline.com -o "cubevar_app_db_servers=db*" -c core_begin -c database -c core_end
+    posixcube.sh -u root -h db1.myplaceonline.com -o "cubevar_app_db_servers=db*" -c core_begin -c nfs_server -c database -c core_end
 
 ## backup database
 
