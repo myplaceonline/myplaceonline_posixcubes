@@ -14,5 +14,5 @@
 
 ## backup database
 
-    posixcube.sh -u root -h db2.myplaceonline.com -o "cubevar_app_db_servers=db*" -r database_backup -c core_begin -c database -c core_end
+    posixcube.sh -u root -h db2.myplaceonline.com -o "cubevar_app_db_servers=db*" -r syslog_server -r database_backup -c core_begin -c database -c search -c core_end
 

@@ -168,7 +168,7 @@ if ! cube_check_file_exists /usr/local/src/crash/crash ; then
   cube_popd
 fi
 
-if ! cube_has_role "db_server_backup" ; then
+if ! cube_has_role "syslog_server" ; then
   if cube_set_file_contents "/etc/rsyslog.d/01-client.conf" "templates/rsyslog_client.conf.template" ; then
     cube_service restart rsyslog
   fi
