@@ -85,7 +85,10 @@ if cube_set_file_contents "/etc/systemd/journald.conf" "templates/journald.conf"
   cube_service restart systemd-journald
 fi
 
-cube_package install python python-dnf multitail htop lsof wget nfs-utils
+cube_package install python python-dnf multitail htop lsof wget nfs-utils at
+
+cube_service enable atd
+cube_service start atd
 
 cube_package --enablerepo fedora-debuginfo --enablerepo updates-debuginfo install kernel-debuginfo-common-x86_64 kernel-debuginfo glibc-debuginfo-common glibc-debuginfo systemtap perf
 

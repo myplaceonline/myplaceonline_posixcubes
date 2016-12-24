@@ -1,0 +1,4 @@
+cluster=${cubevar_app_postgresql_replication_cluster}
+node=${cubevar_app_server_internal_number}
+node_name=${cubevar_app_server_internal_cut}
+conninfo='host=${cubevar_app_server_internal} user=repmgr dbname=repmgr'

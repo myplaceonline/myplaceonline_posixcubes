@@ -16,7 +16,7 @@ if cube_set_file_contents "/usr/lib/systemd/system/nginx.service" "templates/ngi
   cube_service daemon-reload
 fi
 
-cubevar_nginx_root="/opt/nginx-${cubevar_app_nginx_source_version}"
+cubevar_nginx_root="${cubevar_nginx_root}/nginx-${cubevar_app_nginx_source_version}"
 
 if ! cube_check_dir_exists "${cubevar_nginx_root}" ; then
 
