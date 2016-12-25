@@ -212,3 +212,5 @@ cube_service start nginx
 cube_echo "Initializing with curl"
 
 curl -s "http://${cubevar_app_hostname_simple}-internal.myplaceonline.com/" > /dev/null
+
+cube_echo "Finished initializing"
