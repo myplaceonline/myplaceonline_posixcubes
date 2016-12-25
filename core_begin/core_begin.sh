@@ -48,8 +48,26 @@ echo ""
 grep -e MemTotal -e MemFree -e Buffers -e ^Cached /proc/meminfo
 echo ""
 
+cube_package install firewalld
+
+cube_service start firewalld
+
+cube_service enable firewalld
+
+if ! cube_file_contains "/etc/sysconfig/network-scripts/ifcfg-eth0" "ZONE" ; then
+  echo "ZONE=public" >> "/etc/sysconfig/network-scripts/ifcfg-eth0" || cube_check_return
+  firewall-cmd --zone=public --add-interface=eth0 || cube_check_return
+  cube_echo "Set firewall zone of eth0 to public"
+fi
+
+if ! cube_file_contains "/etc/sysconfig/network-scripts/ifcfg-eth1" "ZONE" ; then
+  echo "ZONE=trusted" >> "/etc/sysconfig/network-scripts/ifcfg-eth1" || cube_check_return
+  firewall-cmd --zone=trusted --add-interface=eth1 || cube_check_return
+  cube_echo "Set firewall zone of eth1 to trusted"
+fi
+
 # Machines may be memory constrained, so disable crons for the duration
-# of the chef-client run. Re-enable in the server_finish cookbook
+# of the chef-client run. Re-enable in the core_end cube
 cube_check_dir_exists "/etc/cron.d" && cube_service stop crond
 
 # Ensure permissive selinux
@@ -148,6 +166,8 @@ cube_package --enablerepo fedora-debuginfo --enablerepo updates-debuginfo update
 cube_service enable ntpd
 cube_service start ntpd
 
+# To test sending mail from the box:
+#   echo "Message body" | mail -s "Subject" -r from@example.com to@example.com
 cube_set_file_contents "/etc/postfix/main.cf" "templates/main.cf.template"
 
 cube_service enable postfix

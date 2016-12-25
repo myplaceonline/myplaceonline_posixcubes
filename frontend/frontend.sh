@@ -1,4 +1,12 @@
 #!/bin/sh
+
+if [ "$(firewall-cmd --zone=public --list-ports | grep -c 80)" = "0" ]; then
+  firewall-cmd --zone=public --add-port=80/tcp
+  firewall-cmd --zone=public --permanent --add-port=80/tcp
+  firewall-cmd --zone=public --add-port=443/tcp
+  firewall-cmd --zone=public --permanent --add-port=443/tcp
+fi
+
 if cube_set_file_contents "/etc/telegraf/telegraf.conf" "templates/telegraf.conf.template" ; then
   cube_service restart telegraf
 fi
