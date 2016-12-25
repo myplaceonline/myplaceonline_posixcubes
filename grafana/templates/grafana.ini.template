@@ -47,7 +47,7 @@ domain = ${cubevar_app_grafana_host}
 ;root_url = http://localhost:3000
 
 # Log web requests
-router_logging = true
+router_logging = false
 
 # the path relative working path
 ;static_root_path = public
