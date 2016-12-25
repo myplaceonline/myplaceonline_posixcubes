@@ -30,7 +30,7 @@ fi
 cube_service enable influxdb
 
 cubevar_influx_databases="$(influx -host ${cubevar_app_server_internal} -execute "show databases")"
-if (echo "${cubevar_influx_databases}" | cube_input_contains "_internal") && ! (echo "${cubevar_influx_databases}" | cube_input_contains "telegraf") ; then
+if (echo "${cubevar_influx_databases}" | cube_stdin_contains "_internal") && ! (echo "${cubevar_influx_databases}" | cube_stdin_contains "telegraf") ; then
   influx -host ${cubevar_app_server_internal} -execute "CREATE DATABASE telegraf; CREATE USER influxadmin WITH PASSWORD '${cubevar_app_passwords_influxdb_admin}' WITH ALL PRIVILEGES"
   cube_echo "Created influxdb database and user"
 fi

@@ -92,13 +92,6 @@ if cube_set_file_contents "/etc/sysctl.conf" "templates/sysctl.conf" ; then
   sysctl -p || cube_check_return
 fi
 
-if cube_set_file_contents "/etc/systemd/system/myplaceonline-networkup.service" "templates/myplaceonline-networkup.service.template" ; then
-  cube_service daemon-reload
-  cube_service enable myplaceonline-networkup
-fi
-
-cube_service restart myplaceonline-networkup
-
 if cube_set_file_contents "/etc/systemd/journald.conf" "templates/journald.conf" ; then
   cube_service restart systemd-journald
 fi
