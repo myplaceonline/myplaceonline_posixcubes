@@ -1,4 +1,10 @@
 #!/bin/sh
+# influx -host $HOST -database telegraf
+#   show measurements
+#   show tag keys
+#   show field keys
+#   show retention policies on telegraf
+#   show series
 
 # http://docs.influxdata.com/influxdb/v1.1/introduction/installation/
 cube_read_heredoc <<'HEREDOC'; cubevar_app_str="${cube_read_heredoc_result}"

@@ -71,7 +71,7 @@ if cube_set_file_contents "/etc/rsyslog.d/02-haproxy.conf" "templates/rsyslog_ha
 fi
 
 if ! cube_check_file_exists /etc/letsencrypt/live/ ; then
-  /usr/bin/certbot --agree-tos --renew-by-default --email contact@myplaceonline.com --standalone --preferred-challenges http-01 --http-01-port 9999 certonly -d myplaceonline.com -d www.myplaceonline.com || cube_check_return
+  /usr/bin/certbot --non-interactive --agree-tos --renew-by-default --email contact@myplaceonline.com --standalone --preferred-challenges http-01 --http-01-port 9999 certonly -d myplaceonline.com -d www.myplaceonline.com || cube_check_return
   cat /etc/letsencrypt/live/myplaceonline.com/{fullchain.pem,privkey.pem} > /etc/haproxy/ssl/myplaceonline.com.pem || cube_check_return
   cat /etc/haproxy/ssl/myplaceonline.com.dh >> /etc/haproxy/ssl/myplaceonline.com.pem || cube_check_return
 fi
