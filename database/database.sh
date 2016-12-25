@@ -22,7 +22,7 @@ cube_package install --nogpgcheck postgresql95-server postgresql95-contrib \
 
 cube_ensure_directory "/var/lib/pgsql/${cubevar_app_postgresql_version}/data/" 700 postgres postgres
 
-cubevar_app_eth1=$(cube_interface_ipv4_address eth1) || cube_check_return
+cubevar_app_eth1=$(cube_interface_ipv4_address eth1)
 if ! cube_has_role "database_backup" ; then
   cubevar_postgres_shared_buffers="$((($(cube_total_memory "mb")*4)/10))"
 else

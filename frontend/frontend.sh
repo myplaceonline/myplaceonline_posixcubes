@@ -3,8 +3,19 @@
 if [ "$(firewall-cmd --zone=public --list-ports | grep -c 80)" = "0" ]; then
   firewall-cmd --zone=public --add-port=80/tcp
   firewall-cmd --zone=public --permanent --add-port=80/tcp
+  cube_echo "Opened firewall port for port 80"
+fi
+
+if [ "$(firewall-cmd --zone=public --list-ports | grep -c 443)" = "0" ]; then
   firewall-cmd --zone=public --add-port=443/tcp
   firewall-cmd --zone=public --permanent --add-port=443/tcp
+  cube_echo "Opened firewall port for port 443"
+fi
+
+if [ "$(firewall-cmd --zone=public --list-ports | grep -c 9443)" = "0" ]; then
+  firewall-cmd --zone=public --add-port=9443/tcp
+  firewall-cmd --zone=public --permanent --add-port=9443/tcp
+  cube_echo "Opened firewall port for port 9443"
 fi
 
 if cube_set_file_contents "/etc/telegraf/telegraf.conf" "templates/telegraf.conf.template" ; then
