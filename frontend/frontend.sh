@@ -52,6 +52,7 @@ cubevar_app_haproxy_servers=""
 for cubevar_app_web_server in ${cubevar_app_web_servers}; do
   cubevar_app_server_name=$(echo "${cubevar_app_web_server}" | sed 's/\..*$//g')
   cubevar_app_server_internal=$(echo "${cubevar_app_web_server}" | sed 's/\./-internal./')
+  cube_echo "Using web server ${cubevar_app_server_internal}"
   cube_read_heredoc <<HEREDOC; cubevar_app_line="${cube_read_heredoc_result}"
     #server  ${cubevar_app_server_name} ${cubevar_app_server_internal}:80 check
     server  ${cubevar_app_server_name} ${cubevar_app_server_internal}:80 check cookie ${cubevar_app_server_name}

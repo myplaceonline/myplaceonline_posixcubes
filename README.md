@@ -42,11 +42,11 @@ Update frontend servers
 
 ## Destroy Web Server
 
-* Destroy droplet
 * Remove entry from ~/.ssh/known_hosts
 
 Update frontend servers
 
     posixcube.sh -z frontend
 
+* Destroy droplet
 * Remove DNS A names
