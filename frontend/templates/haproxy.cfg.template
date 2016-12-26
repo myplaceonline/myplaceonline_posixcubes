@@ -100,8 +100,10 @@ frontend myplaceonline
 backend servers
     balance     roundrobin
     
-    # Don't use sticky sessions because session data is in the cookie
-    #cookie SERVERID insert indirect nocache
+    # Usually we don't need server affinity but there are cases where a user makes a request to a newly updated server
+    # which references an asset with a hash that only the new build has; however, the browser's request for that asset
+    # might go to the old server if it doesn't re-use an existing socket.
+    cookie SERVERID insert indirect nocache
   
     # http://www.haproxy.org/download/1.7/doc/configuration.txt
     # 5.2. Server and default-server options

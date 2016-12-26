@@ -88,6 +88,9 @@ fi
 cube_service enable telegraf
 cube_service start telegraf
 
+if ! cube_group_exists webgrp ; then
+  cube_create_group webgrp
+fi
 if ! cube_group_contains_user webgrp root ; then
   cube_add_group_user webgrp root
 fi
@@ -97,7 +100,7 @@ cube_ensure_directory "${cubevar_app_web_dir}" 755 ${USER} webgrp
 cube_pushd "${cubevar_app_web_dir}"
 
 if ! cube_check_dir_exists "${cubevar_app_web_dir}/.git" ; then
-  git clone "https://github.com/myplaceonline/myplaceonline_rails" || cube_check_return
+  git clone "https://github.com/myplaceonline/myplaceonline_rails" . || cube_check_return
 else
   cd "${cubevar_app_web_dir}/" || cube_check_return
   git pull origin master || cube_check_return
@@ -207,6 +210,7 @@ fi
 # Always restart the job to pick up the latest rails source code
 cube_service restart myplaceonline-delayedjobs
 
+cube_service enable nginx
 cube_service start nginx
 
 cube_echo "Initializing with curl"
