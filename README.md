@@ -44,9 +44,14 @@ Update frontend servers
 
 * Remove entry from ~/.ssh/known_hosts
 
-Update frontend servers
+Update frontend servers (to update available web servers list):
 
     posixcube.sh -z frontend
 
 * Destroy droplet
 * Remove DNS A names
+
+Update web servers (to update trusted client list):
+
+    posixcube.sh -z web
+

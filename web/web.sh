@@ -10,7 +10,7 @@ cube_package install ruby rubygems ruby-devel redhat-rpm-config gnupg \
                      ImageMagick ImageMagick-c++ ImageMagick-c++-devel \
                      ImageMagick-devel ImageMagick-libs golang git gcc \
                      gcc-c++ openssl-devel pcre-devel postgresql-devel \
-                     postgresql nodejs libcurl-devel
+                     postgresql nodejs libcurl-devel httpd
 
 if cube_set_file_contents "/usr/lib/systemd/system/nginx.service" "templates/nginx.service.template" ; then
   cube_service daemon-reload
@@ -213,8 +213,12 @@ cube_service restart myplaceonline-delayedjobs
 cube_service enable nginx
 cube_service start nginx
 
-cube_echo "Initializing with curl"
+cube_echo "Initializing with ab -c ${cubevar_app_rails_threads_per_node} -n $((${cubevar_app_rails_threads_per_node}*2)) http://${cubevar_app_hostname_simple}-internal.myplaceonline.com/"
 
-curl -s "http://${cubevar_app_hostname_simple}-internal.myplaceonline.com/" > /dev/null
+ab -s 60 -c ${cubevar_app_rails_threads_per_node} -n $((${cubevar_app_rails_threads_per_node}*2)) http://${cubevar_app_hostname_simple}-internal.myplaceonline.com/ || cube_check_return
+
+cube_echo "Benchmarking with ab -c ${cubevar_app_rails_threads_per_node} -n $((${cubevar_app_rails_threads_per_node}*10)) http://${cubevar_app_hostname_simple}-internal.myplaceonline.com/"
+
+ab -s 60 -c ${cubevar_app_rails_threads_per_node} -n $((${cubevar_app_rails_threads_per_node}*10)) http://${cubevar_app_hostname_simple}-internal.myplaceonline.com/ || cube_check_return
 
 cube_echo "Finished initializing"
