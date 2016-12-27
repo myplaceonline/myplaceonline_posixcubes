@@ -1,5 +1,13 @@
 #!/bin/sh
 
+cube_echo "Hello World"
+cube_printf "Hello World"
+cube_error_echo "Goodbye World"
+cube_error_printf "Goodbye World"
+
+cube_service stop atd
+cube_service start atd
+
 cube_read_heredoc <<'HEREDOC'; cubevar_app_str="${cube_read_heredoc_result}"
 
                         _                            _ _            

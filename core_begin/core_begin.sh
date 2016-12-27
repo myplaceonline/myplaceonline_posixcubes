@@ -128,7 +128,12 @@ HEREDOC
 
 cube_set_file_contents_string "/etc/yum.repos.d/influxdb.repo" "${cubevar_app_str}"
 
-cube_package install multitail strace htop mtr traceroute patch atop sysstat iotop gdb bind-utils ntp python sendmail make mailx postfix tcpdump cyrus-sasl-plain rsyslog gnupg kexec-tools lzo lzo-devel lzo-minilzo bison bison-devel ncurses ncurses-devel telegraf telnet iftop git nmap-ncat logstash java-1.8.0-openjdk
+cube_package install multitail strace htop mtr traceroute patch atop sysstat \
+                     iotop gdb bind-utils ntp python sendmail make mailx \
+                     postfix tcpdump cyrus-sasl-plain rsyslog gnupg \
+                     kexec-tools lzo lzo-devel lzo-minilzo bison bison-devel \
+                     ncurses ncurses-devel telegraf telnet iftop git \
+                     nmap-ncat logstash java-1.8.0-openjdk grub2-tools
 
 cube_service enable atop
 cube_service start atop
@@ -144,10 +149,15 @@ cube_set_file_contents "/etc/kdump.conf" "templates/kdump.conf"
 cube_service enable kdump
 
 # https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/7/html-single/Kernel_Crash_Dump_Guide/index.html#sect-kdump-memory-requirements
-# 160 MB + 2 bits for every 4 KB of RAM. For a system with 1 TB of memory, 224 MB is the minimum (160 + 64 MB). 
+# 160 MB + 2 bits for every 4 KB of RAM. For a system with 1 TB of memory, 224 MB is the minimum (160 + 64 MB).
 cubevar_app_crashkernel_mem=$((161+($(cube_total_memory)/268435456)))
+
+# https://docs.fedoraproject.org/en-US/Fedora/25/html/System_Administrators_Guide/sec-Making_Persistent_Changes_to_a_GRUB_2_Menu_Using_the_grubby_Tool.html
+# https://docs.fedoraproject.org/en-US/Fedora/25/html/System_Administrators_Guide/sec-Customizing_the_GRUB_2_Configuration_File.html
+#grubby --update-kernel=ALL "--args=no_timer_check console=hvc0 LANG=en_US.UTF-8 crashkernel=${cubevar_app_crashkernel_mem}M audit=0" || cube_check_return
+
 if cube_set_file_contents "/etc/default/grub" "templates/grub.template" ; then
-  /usr/sbin/grub2-mkconfig -o /boot/grub2/grub.cfg
+  /usr/sbin/grub2-mkconfig -o /boot/grub2/grub.cfg || cube_check_return
 fi
 
 cube_ensure_directory ~/.ssh/ 700
