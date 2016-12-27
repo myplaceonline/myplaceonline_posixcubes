@@ -60,13 +60,12 @@ Update web servers (to update trusted client list):
 
 * Create Droplet
   * Fedora
-  * 512MB, SFO1
+  * 1GB, SFO1
   * Private networking, IPv6
   * Select SSH Key
   * Hostname: frontendX.myplaceonline.com
-* Networking > Floating IPs; Assign floating IP and copy it
 * Networking > Domains > myplaceonline.com
-  * Create A record for floating IP and short hostname
+  * Create A record for public IP and short hostname
 
 Get eth1 IP:
 

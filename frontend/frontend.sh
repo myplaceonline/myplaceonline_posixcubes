@@ -64,35 +64,33 @@ done
 
 cubevar_haproxy_ready=0
 
-if cube_check_file_exists /etc/letsencrypt/live/ ; then
-  cubevar_haproxy_ready=1
-else
-
-  # This could fail if we're rebuilding a frontend server, and we haven't pointed the main domain IPs to the new
-  # frontend yet
-  /usr/bin/certbot --non-interactive --agree-tos --renew-by-default --email contact@myplaceonline.com --standalone --preferred-challenges http-01 --http-01-port 9999 certonly -d myplaceonline.com -d www.myplaceonline.com
-  if [ $? -eq 0 ]; then
-    cat /etc/letsencrypt/live/myplaceonline.com/{fullchain.pem,privkey.pem} > /etc/haproxy/ssl/myplaceonline.com.pem || cube_check_return
-    cat /etc/haproxy/ssl/myplaceonline.com.dh >> /etc/haproxy/ssl/myplaceonline.com.pem || cube_check_return
-    if cube_set_file_contents "/etc/cron.d/letsencrypt" "templates/crontab_letsencrypt" ; then
-      chmod 600 /etc/cron.d/letsencrypt
-    fi
-    cubevar_haproxy_ready=1
-  else
-    rm -rf /etc/letsencrypt/live/ 2>/dev/null
-  fi
-fi
-
 if cube_set_file_contents "/etc/rsyslog.d/02-haproxy.conf" "templates/rsyslog_haproxy.conf" ; then
   cube_service restart rsyslog
 fi
 
-if [ ${cubevar_haproxy_ready} -eq 1 ] ; then
-  if cube_set_file_contents "/etc/haproxy/haproxy.cfg" "templates/haproxy.cfg.template" ; then
-    chmod 644 /etc/haproxy/haproxy.cfg
-    cube_service reload haproxy
-  fi
+if cube_set_file_contents "/etc/haproxy/haproxy.cfg" "templates/haproxy.cfg.template" ; then
+  chmod 644 /etc/haproxy/haproxy.cfg
+  cube_service reload haproxy
+fi
 
-  cube_service enable haproxy
-  cube_service start haproxy
+cube_service enable haproxy
+cube_service start haproxy
+
+if ! cube_check_file_exists /etc/letsencrypt/live/ ; then
+  # This could fail if we're rebuilding a frontend server, and we haven't pointed the main domain IPs to the new
+  # frontend yet
+  /usr/bin/certbot --non-interactive --agree-tos --renew-by-default --email contact@myplaceonline.com --standalone --preferred-challenges http-01 --http-01-port 9999 certonly -d myplaceonline.com -d www.myplaceonline.com
+  if [ $? -ne 0 ]; then
+    rm -rf /etc/letsencrypt/live/ 2>/dev/null
+  fi
+fi
+
+if cube_check_file_exists /etc/letsencrypt/live/ && ! cube_check_file_exists /etc/haproxy/ssl/myplaceonline.com.pem ; then
+  cat /etc/letsencrypt/live/myplaceonline.com/{fullchain.pem,privkey.pem} > /etc/haproxy/ssl/myplaceonline.com.pem || cube_check_return
+  cat /etc/haproxy/ssl/myplaceonline.com.dh >> /etc/haproxy/ssl/myplaceonline.com.pem || cube_check_return
+  cube_service restart haproxy
+fi
+
+if cube_set_file_contents "/etc/cron.d/letsencrypt" "templates/crontab_letsencrypt" ; then
+  chmod 600 /etc/cron.d/letsencrypt
 fi
