@@ -156,8 +156,12 @@ cubevar_app_crashkernel_mem=$((161+($(cube_total_memory)/268435456)))
 # https://docs.fedoraproject.org/en-US/Fedora/25/html/System_Administrators_Guide/sec-Customizing_the_GRUB_2_Configuration_File.html
 #grubby --update-kernel=ALL "--args=no_timer_check console=hvc0 LANG=en_US.UTF-8 crashkernel=${cubevar_app_crashkernel_mem}M audit=0" || cube_check_return
 
-if cube_set_file_contents "/etc/default/grub" "templates/grub.template" ; then
-  /usr/sbin/grub2-mkconfig -o /boot/grub2/grub.cfg || cube_check_return
+if [ -r /boot/extlinux/extlinux.conf ]; then
+  sed -i "s/UTF-8\$/UTF-8 crashkernel=${cubevar_app_crashkernel_mem}M audit=0/g" /boot/extlinux/extlinux.conf
+else
+  if cube_set_file_contents "/etc/default/grub" "templates/grub.template" ; then
+    /usr/sbin/grub2-mkconfig -o /boot/grub2/grub.cfg || cube_check_return
+  fi
 fi
 
 cube_ensure_directory ~/.ssh/ 700
@@ -192,6 +196,7 @@ if ! cube_check_file_exists /usr/local/src/crash/crash ; then
 fi
 
 if ! cube_has_role "syslog_server" ; then
+  # tcpdump -Xvi any port 514
   if cube_set_file_contents "/etc/rsyslog.d/01-client.conf" "templates/rsyslog_client.conf.template" ; then
     cube_service restart rsyslog
   fi

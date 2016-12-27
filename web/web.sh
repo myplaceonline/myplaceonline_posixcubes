@@ -213,12 +213,12 @@ cube_service restart myplaceonline-delayedjobs
 cube_service enable nginx
 cube_service start nginx
 
-cube_echo "Initializing with ab -c ${cubevar_app_rails_threads_per_node} -n $((${cubevar_app_rails_threads_per_node}*2)) http://${cubevar_app_hostname_simple}-internal.myplaceonline.com/"
+cube_echo "Initializing with ab -s ${cubevar_app_web_init_timeout} -c ${cubevar_app_rails_threads_per_node} -n $((${cubevar_app_rails_threads_per_node}*2)) http://${cubevar_app_hostname_simple}-internal.myplaceonline.com/"
 
-ab -s 60 -c ${cubevar_app_rails_threads_per_node} -n $((${cubevar_app_rails_threads_per_node}*2)) http://${cubevar_app_hostname_simple}-internal.myplaceonline.com/ || cube_check_return
+ab -s ${cubevar_app_web_init_timeout} -c ${cubevar_app_rails_threads_per_node} -n $((${cubevar_app_rails_threads_per_node}*2)) http://${cubevar_app_hostname_simple}-internal.myplaceonline.com/ || cube_check_return
 
-cube_echo "Benchmarking with ab -c ${cubevar_app_rails_threads_per_node} -n $((${cubevar_app_rails_threads_per_node}*10)) http://${cubevar_app_hostname_simple}-internal.myplaceonline.com/"
+cube_echo "Benchmarking with ab -s ${cubevar_app_web_init_timeout} -c ${cubevar_app_rails_threads_per_node} -n $((${cubevar_app_rails_threads_per_node}*10)) http://${cubevar_app_hostname_simple}-internal.myplaceonline.com/"
 
-ab -s 60 -c ${cubevar_app_rails_threads_per_node} -n $((${cubevar_app_rails_threads_per_node}*10)) http://${cubevar_app_hostname_simple}-internal.myplaceonline.com/ || cube_check_return
+ab -s ${cubevar_app_web_init_timeout} -c ${cubevar_app_rails_threads_per_node} -n $((${cubevar_app_rails_threads_per_node}*10)) http://${cubevar_app_hostname_simple}-internal.myplaceonline.com/ || cube_check_return
 
 cube_echo "Finished initializing"
