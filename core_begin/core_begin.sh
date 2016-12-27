@@ -54,6 +54,9 @@ cube_service start firewalld
 
 cube_service enable firewalld
 
+# firewall-cmd --get-active-zones
+# firewall-cmd --info-zone trusted
+
 if ! cube_file_contains "/etc/sysconfig/network-scripts/ifcfg-eth0" "ZONE" ; then
   echo "ZONE=public" >> "/etc/sysconfig/network-scripts/ifcfg-eth0" || cube_check_return
   firewall-cmd --zone=public --add-interface=eth0 || cube_check_return

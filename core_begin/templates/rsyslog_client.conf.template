@@ -6,4 +6,5 @@ $ActionQueueMaxDiskSpace 1g
 $ActionQueueHighWatermark 50000
 $ActionQueueLowWatermark 5000
 
+# http://www.rsyslog.com/doc/v8-stable/configuration/actions.html#remote-machine
 *.info;authpriv.none                        @${cubevar_app_syslog_serverhost}:514
