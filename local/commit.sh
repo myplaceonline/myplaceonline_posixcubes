@@ -6,6 +6,8 @@ POSIXCUBE_SOURCED=true
 . $(which posixcube.sh) source
 POSIXCUBE_SOURCED=""
 
+popd
+
 if [ $# -eq 0 ]; then
   cube_echo_error "Please specify commit message"
   exit 1
@@ -26,6 +28,4 @@ done
 pushd "$PARENTDIR"
 git commit -a -m "Update submodules" && \
 git push
-popd
-
 popd
