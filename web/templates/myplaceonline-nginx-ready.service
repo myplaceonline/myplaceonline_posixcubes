@@ -1,0 +1,13 @@
+# Tutorial: https://www.digitalocean.com/community/tutorials/understanding-systemd-units-and-unit-files
+
+[Unit]
+Description=myplaceonline-nginx-ready
+Requires=nginx.service
+After=nginx.service
+
+[Service]
+Type=oneshot
+ExecStart=/opt/myplaceonline/myplaceonline-nginx-ready.sh
+
+[Install]
+WantedBy=nginx.service

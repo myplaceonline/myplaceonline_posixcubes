@@ -1,0 +1,3 @@
+#!/bin/sh
+/usr/bin/ab -s ${cubevar_app_web_init_timeout} -c ${cubevar_app_rails_threads_per_node} -n $((${cubevar_app_rails_threads_per_node}*2)) http://${cubevar_app_hostname_simple}-internal.myplaceonline.com/
+/usr/bin/ab -s ${cubevar_app_web_init_timeout} -c ${cubevar_app_rails_threads_per_node} -n $((${cubevar_app_rails_threads_per_node}*10)) http://${cubevar_app_hostname_simple}-internal.myplaceonline.com/

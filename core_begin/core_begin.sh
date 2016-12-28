@@ -136,7 +136,7 @@ cube_package install multitail strace htop mtr traceroute patch atop sysstat \
                      postfix tcpdump cyrus-sasl-plain rsyslog gnupg \
                      kexec-tools lzo lzo-devel lzo-minilzo bison bison-devel \
                      ncurses ncurses-devel telegraf telnet iftop git \
-                     nmap-ncat logstash java-1.8.0-openjdk grub2-tools
+                     nmap-ncat java-1.8.0-openjdk grub2-tools
 
 cube_service enable atop
 cube_service start atop

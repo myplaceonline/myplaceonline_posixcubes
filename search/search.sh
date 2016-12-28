@@ -29,8 +29,8 @@ fi
 cube_service enable elasticsearch
 cube_service start elasticsearch
 
-cube_set_file_contents "/etc/logstash/logstash.yml" "templates/logstash.yml"
-
+#cube_set_file_contents "/etc/logstash/logstash.yml" "templates/logstash.yml"
+#
 #if cube_set_file_contents "/etc/logstash/jvm.options" "templates/logstash_jvm.options" ; then
 #  cube_service restart logstash
 #fi
@@ -50,9 +50,9 @@ if cube_set_file_contents "/etc/rsyslog.d/01-server.conf" "templates/rsyslog_ser
   cube_service restart rsyslog
 fi
 
-if cube_set_file_contents "/etc/rsyslog.d/60-logstash.conf" "templates/rsyslog_logstash.conf.template" ; then
-  cube_service restart rsyslog
-fi
+#if cube_set_file_contents "/etc/rsyslog.d/60-logstash.conf" "templates/rsyslog_logstash.conf.template" ; then
+#  cube_service restart rsyslog
+#fi
 
 # https://www.elastic.co/guide/en/kibana/current/setup.html
 cube_read_heredoc <<'HEREDOC'; cubevar_app_str="${cube_read_heredoc_result}"

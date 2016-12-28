@@ -210,15 +210,15 @@ fi
 # Always restart the job to pick up the latest rails source code
 cube_service restart myplaceonline-delayedjobs
 
+if cube_set_file_contents "/opt/myplaceonline/myplaceonline-nginx-ready.sh" "templates/myplaceonline-nginx-ready.sh.template" ; then
+  chmod 755 /opt/myplaceonline/myplaceonline-nginx-ready.sh
+fi
+
+if cube_set_file_contents "/etc/systemd/system/myplaceonline-nginx-ready.service" "templates/myplaceonline-nginx-ready.service" ; then
+  cube_service daemon-reload
+  cube_service enable myplaceonline-nginx-ready
+  cube_service start myplaceonline-nginx-ready
+fi
+
 cube_service enable nginx
 cube_service start nginx
-
-cube_echo "Initializing with ab -s ${cubevar_app_web_init_timeout} -c ${cubevar_app_rails_threads_per_node} -n $((${cubevar_app_rails_threads_per_node}*2)) http://${cubevar_app_hostname_simple}-internal.myplaceonline.com/"
-
-ab -s ${cubevar_app_web_init_timeout} -c ${cubevar_app_rails_threads_per_node} -n $((${cubevar_app_rails_threads_per_node}*2)) http://${cubevar_app_hostname_simple}-internal.myplaceonline.com/ || cube_check_return
-
-cube_echo "Benchmarking with ab -s ${cubevar_app_web_init_timeout} -c ${cubevar_app_rails_threads_per_node} -n $((${cubevar_app_rails_threads_per_node}*10)) http://${cubevar_app_hostname_simple}-internal.myplaceonline.com/"
-
-ab -s ${cubevar_app_web_init_timeout} -c ${cubevar_app_rails_threads_per_node} -n $((${cubevar_app_rails_threads_per_node}*10)) http://${cubevar_app_hostname_simple}-internal.myplaceonline.com/ || cube_check_return
-
-cube_echo "Finished initializing"

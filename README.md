@@ -8,7 +8,7 @@ See execution parameters in [cubespecs.ini](cubespecs.ini)
 
 Update all servers:
 
-    for spec in database_backup database_primary web frontend; do posixcube.sh -z $spec || exit $?; done
+    for spec in database_backup database_primary web frontend; do posixcube.sh -z $spec || break; done
 
 ## Create Web Server
 
@@ -86,3 +86,77 @@ Update frontend server (to get TLS certificates):
 
     $(grep "^frontend=" cubespecs.ini | sed 's/^frontend=/posixcube.sh /g' | sed "s/\\-h frontend\\*/-h frontend${SERVER_NUMBER}/g")
 
+## Create Primary Database Server
+
+* Create Droplet
+  * Fedora
+  * 2GB, SFO1
+  * Private networking, IPv6
+  * Select SSH Key
+  * Hostname: dbX.myplaceonline.com
+* Networking > Domains > myplaceonline.com
+  * Create A record for public IP and short hostname
+
+Get eth1 IP:
+
+    SERVER_NUMBER=X
+    ssh root@db${SERVER_NUMBER}.myplaceonline.com ip -4 -o addr | grep eth1 | awk '{print $4}' | sed 's/\/.*//g'
+
+* Networking > Domains > myplaceonline.com
+  * Create A record for eth1 IP and short hostname with -internal
+
+Create primary database server:
+
+    # If creating while older DB servers exist, echo without the $() and replace the -o options with an explicit set
+    $(grep "^database_primary=" cubespecs.ini | sed 's/^database_primary=/posixcube.sh /g' | sed "s/\\-h db./-h db${SERVER_NUMBER}/g")
+
+## Destroy Primary Database Server
+
+Remember to copy over the NFS share
+
+## Create Backup Database Server
+
+* Create Droplet
+  * Fedora
+  * 2GB, SFO1
+  * Private networking, IPv6
+  * Select SSH Key
+  * Hostname: dbX.myplaceonline.com
+* Networking > Domains > myplaceonline.com
+  * Create A record for public IP and short hostname
+
+Get eth1 IP:
+
+    SERVER_NUMBER=X
+    ssh root@db${SERVER_NUMBER}.myplaceonline.com ip -4 -o addr | grep eth1 | awk '{print $4}' | sed 's/\/.*//g'
+
+* Networking > Domains > myplaceonline.com
+  * Create A record for eth1 IP and short hostname with -internal
+
+Create backup database server:
+
+    # If creating while older DB servers exist, echo without the $() and replace the -o options with an explicit set
+    $(grep "^database_backup=" cubespecs.ini | sed 's/^database_backup=/posixcube.sh /g' | sed "s/\\-h db./-h db${SERVER_NUMBER}/g")
+
+## Check Replication Status
+
+    # On the master database
+    posixcube.sh -u root -h db5.myplaceonline.com "sudo -i -u postgres psql -xc 'SELECT * FROM pg_stat_replication;'"
+
+## Quiesce Database Activity
+
+    posixcube.sh -u root -h web*.myplaceonline.com "cube_service stop nginx; cube_service stop myplaceonline-delayedjobs; cube_service stop crond;"
+
+## Backup Database
+
+    # The output file is compressed
+    sudo -i -u postgres pg_dump -U myplaceonline -d myplaceonline_production -Fc > /tmp/pgdump_myplaceonline_`date +"%Y%m%d_%H%M"`.sql.bin
+
+## Restore Database
+
+    sudo -i -u postgres pg_restore -U myplaceonline -d myplaceonline_production /tmp/pgdump_myplaceonline*.sql.bin
+
+## Promote Backup Database
+
+    # https://github.com/2ndQuadrant/repmgr#promoting-a-standby-server-with-repmgr
+    repmgr -f /etc/repmgr.conf standby promote

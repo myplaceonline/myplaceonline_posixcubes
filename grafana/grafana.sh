@@ -60,5 +60,5 @@ cubevar_grafana_datasources="$(curl -s -u "admin:${cubevar_app_passwords_grafana
 
 if [ "${cubevar_grafana_datasources}" = "[]" ]; then
   cube_echo "Creating grafana data source"
-  curl -s -u "admin:${cubevar_app_passwords_grafana_admin}" https://${cubevar_app_grafana_host}/api/datasources --data-urlencode "access=proxy" --data-urlencode "database=telegraf" --data-urlencode "name=mydb" --data-urlencode "password=${cubevar_app_passwords_influxdb_admin}" --data-urlencode "type=influxdb" --data-urlencode "url=http://db2-internal.myplaceonline.com:8086/" --data-urlencode "user=influxadmin"
+  curl -s -u "admin:${cubevar_app_passwords_grafana_admin}" https://${cubevar_app_grafana_host}/api/datasources --data-urlencode "access=proxy" --data-urlencode "database=telegraf" --data-urlencode "name=mydb" --data-urlencode "password=${cubevar_app_passwords_influxdb_admin}" --data-urlencode "type=influxdb" --data-urlencode "url=${cubevar_app_influxdb_url}/" --data-urlencode "user=influxadmin"
 fi
