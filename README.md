@@ -2,7 +2,8 @@
 
 Cubes that build a full Ruby on Rails stack with haproxy load balancer
 (frontend), nginx+passenger Rails servers (web), postgresql database
-(database) and more (elasticsearch, database backup, rsyslog server, etc.).
+(database) and more (elasticsearch, database backup, rsyslog server, etc.)
+using [posixcube.sh](https://github.com/myplaceonline/posixcube).
 
 See execution parameters in [cubespecs.ini](cubespecs.ini)
 
