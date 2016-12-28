@@ -1,4 +1,7 @@
 #!/bin/sh
+
+pushd "$(dirname "$0")/../"
+
 echo -n "Encrypted file password: "
 read -s ENCRYPTED_FILE_PASSWORD
 echo
@@ -27,3 +30,5 @@ ssh root@${cubevar_app_backup_host_db_public} "tar czvf ${LARGEFILES} /var/lib/r
 scp root@${cubevar_app_backup_host_db_public}:${LARGEFILES}.pgp ${OUTPUTDIR} && \
 ssh root@${cubevar_app_backup_host_db_public} "rm -f ${LARGEFILES}.pgp" && \
 echo "Done"
+
+popd

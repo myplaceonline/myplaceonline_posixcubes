@@ -1,4 +1,7 @@
 #!/bin/sh
+
+pushd "$(dirname "$0")/../"
+
 POSIXCUBE_SOURCED=true
 . $(which posixcube.sh) source
 POSIXCUBE_SOURCED=""
@@ -23,4 +26,6 @@ done
 pushd "$PARENTDIR"
 git commit -a -m "Update submodules" && \
 git push
+popd
+
 popd
