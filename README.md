@@ -161,3 +161,11 @@ Create backup database server:
 
     # https://github.com/2ndQuadrant/repmgr#promoting-a-standby-server-with-repmgr
     repmgr -f /etc/repmgr.conf standby promote
+
+## Architecture Notes
+
+* Droplets have a public network (eth0) and a private network (eth1). Both are behind firewalls with eth0 in the
+  public zone and eth1 in the trusted zone. The trusted zone has a whitelist of IP addresses. All non-public services
+  should bind on the eth1 interface. Even though they could instead bind on every interface and just use the firewall
+  to block access, there could be a case where for example, we whitelist an IP on the public interface which gets
+  too much access to internal services.
