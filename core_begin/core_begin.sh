@@ -54,6 +54,9 @@ cube_service start firewalld
 
 cube_service enable firewalld
 
+# eth0 goes into the public zone (basically just http, https, and ssh access), we set the default zone to block,
+# and then whitelist every eth1 IP address into the trusted zone
+#
 # firewall-cmd --get-default-zone
 # firewall-cmd --get-active-zones
 # firewall-cmd --list-all-zones
