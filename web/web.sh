@@ -41,6 +41,15 @@ if ! cube_check_dir_exists "${cubevar_nginx_root}" ; then
       cube_add_group_user nginx nginx true
     fi
   fi
+  
+  cube_echo "Cloning nginx-upload-module"
+  (
+    cd /usr/local/src/ || cube_check_return
+    rm -rf /usr/local/src/nginx-upload-module 2>/dev/null
+    git clone https://github.com/Austinb/nginx-upload-module || cube_check_return
+    cd nginx-upload-module || cube_check_return
+    git checkout 2.2 || cube_check_return
+  ) || cube_check_return
 
   cube_pushd "$(cube_tmpdir)"
 
@@ -57,11 +66,12 @@ if ! cube_check_dir_exists "${cubevar_nginx_root}" ; then
       
       cubevar_app_nginx_srcdir="$(passenger-config --nginx-addon-dir)" || cube_check_return
       
-      cube_echo "Compiler nginx with passenger @ ${cubevar_app_nginx_srcdir}"
+      cube_echo "Compiling nginx with passenger @ ${cubevar_app_nginx_srcdir}"
       
       ./configure --user=nginx --group=nginx --prefix=${cubevar_nginx_root} \
         --with-http_ssl_module --with-pcre --with-http_gzip_static_module \
-        --with-ipv6 --add-module=${cubevar_app_nginx_srcdir} \
+        --add-module=${cubevar_app_nginx_srcdir} \
+        --add-module=/usr/local/src/nginx-upload-module \
         || cube_check_return
       
       cube_echo "Compiling nginx"

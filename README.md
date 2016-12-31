@@ -33,6 +33,10 @@ Get eth1 IP:
 * Networking > Domains > myplaceonline.com
   * Create A record for eth1 IP and short hostname with -internal
 
+Add server to the other servers' whitelist:
+
+    posixcube.sh -z firewall_whitelist
+
 Create web server:
 
     $(grep "^web=" cubespecs.ini | sed 's/^web=/posixcube.sh /g' | sed "s/\\-h web\\*/-h web${SERVER_NUMBER}/g")
@@ -76,6 +80,10 @@ Get eth1 IP:
 * Networking > Domains > myplaceonline.com
   * Create A record for eth1 IP and short hostname with -internal
 
+Add server to the other servers' whitelist:
+
+    posixcube.sh -z firewall_whitelist
+
 Create frontend server:
 
     $(grep "^frontend=" cubespecs.ini | sed 's/^frontend=/posixcube.sh /g' | sed "s/\\-h frontend\\*/-h frontend${SERVER_NUMBER}/g")
@@ -106,6 +114,10 @@ Get eth1 IP:
 * Networking > Domains > myplaceonline.com
   * Create A record for eth1 IP and short hostname with -internal
 
+Add server to the other servers' whitelist:
+
+    posixcube.sh -z firewall_whitelist
+
 Create primary database server:
 
     # If creating while older DB servers exist, echo without the $() and replace the -o options with an explicit set
@@ -133,6 +145,10 @@ Get eth1 IP:
 
 * Networking > Domains > myplaceonline.com
   * Create A record for eth1 IP and short hostname with -internal
+
+Add server to the other servers' whitelist:
+
+    posixcube.sh -z firewall_whitelist
 
 Create backup database server:
 
