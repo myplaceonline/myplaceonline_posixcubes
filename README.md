@@ -21,9 +21,8 @@ Web server:
   * Private networking, IPv6
   * Select SSH Key
   * Hostname: webX.myplaceonline.com
-* Networking > Floating IPs; Assign floating IP and copy it
 * Networking > Domains > myplaceonline.com
-  * Create A record for floating IP and short hostname
+  * Create A record for short hostname and droplet
 
 Get eth1 IP:
 

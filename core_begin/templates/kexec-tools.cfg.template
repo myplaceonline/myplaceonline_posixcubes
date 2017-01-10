@@ -1,0 +1,1 @@
+GRUB_CMDLINE_LINUX_DEFAULT="$GRUB_CMDLINE_LINUX_DEFAULT crashkernel=${cubevar_app_crashkernel_mem}M audit=0"
