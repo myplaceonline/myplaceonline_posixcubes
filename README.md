@@ -16,7 +16,6 @@ Update all servers:
 Web server:
 
 * Create Droplet
-  * Fedora
   * 2GB, SFO1
   * Private networking, IPv6
   * Select SSH Key

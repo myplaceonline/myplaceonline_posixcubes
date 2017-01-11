@@ -12,4 +12,8 @@ fi
 cube_ensure_directory "${cubevar_app_nfs_client_mount}" 777
 
 # See matching stop in server_core
-cube_check_dir_exists "/etc/cron.d" && cube_service start crond
+if cube_service_exists crond ; then
+  cube_service start crond
+elif cube_service_exists cron ; then
+  cube_service start cron
+fi

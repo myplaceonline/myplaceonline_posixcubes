@@ -52,8 +52,10 @@ cube_include firewall_whitelist
 
 # Machines may be memory constrained, so disable crons for the duration
 # of the chef-client run. Re-enable in the core_end cube
-if [ "$(systemctl is-active crond)" = "active" ]; then
+if cube_service_exists crond ; then
   cube_service stop crond
+elif cube_service_exists cron ; then
+  cube_service stop cron
 fi
 
 if cube_operating_system_has_flavor ${POSIXCUBE_OS_FLAVOR_DEBIAN} ; then
@@ -177,18 +179,18 @@ elif cube_operating_system_has_flavor ${POSIXCUBE_OS_FLAVOR_DEBIAN}; then
   # https://wiki.ubuntu.com/Kernel/CrashdumpRecipe
   # https://help.ubuntu.com/lts/serverguide/kernel-crash-dump.html
 
-  cube_read_heredoc <<'HEREDOC'; cubevar_app_kdump_tools="${cube_read_heredoc_result}"
-USE_KDUMP=1
-HEREDOC
-
-  cube_set_file_contents_string /etc/default/kdump-tools "${cubevar_app_kdump_tools}"
-  
   cube_package install multitail strace htop mtr traceroute patch atop sysstat \
                         iotop gdb ldap-utils ntp python make mailutils \
                         postfix tcpdump rsyslog gnupg makedumpfile libsasl2-modules \
                         kexec-tools liblzo2-2 liblzo2-dev libbison-dev \
                         libncurses-dev telegraf telnet iftop git linux-crashdump \
                         netcat-openbsd default-jdk `uname -r`-dbg crash
+
+  cube_read_heredoc <<'HEREDOC'; cubevar_app_kdump_tools="${cube_read_heredoc_result}"
+USE_KDUMP=1
+HEREDOC
+
+  cube_set_file_contents_string /etc/default/kdump-tools "${cubevar_app_kdump_tools}"
 else
   cube_throw Not implemented
 fi
@@ -220,6 +222,12 @@ elif cube_check_file_exists /boot/grub/grub.cfg ; then
   fi
   if cube_set_file_contents "/etc/default/grub.d/kexec-tools.cfg" "templates/kexec-tools.cfg.template" ; then
     update-grub || cube_check_return
+    
+    # For some reason, a reboot is required to pick up the new config
+    # https://cloud.digitalocean.com/support/tickets/1349141
+    cube_error_echo "Updating grub requires a hard shutdown and reboot. Shutting down in 1 minute. Go into the console to power it back on."
+    shutdown -h +1
+    exit 0
   fi
 else
   # https://docs.fedoraproject.org/en-US/Fedora/25/html/System_Administrators_Guide/sec-Making_Persistent_Changes_to_a_GRUB_2_Menu_Using_the_grubby_Tool.html

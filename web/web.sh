@@ -6,11 +6,25 @@
 (cube_service stop myplaceonline-delayedjobs) 2>/dev/null
 cube_service restart rsyslog
 
-cube_package install ruby rubygems ruby-devel redhat-rpm-config gnupg \
-                     ImageMagick ImageMagick-c++ ImageMagick-c++-devel \
-                     ImageMagick-devel ImageMagick-libs golang git gcc \
-                     gcc-c++ openssl-devel pcre-devel postgresql-devel \
-                     postgresql nodejs libcurl-devel httpd
+if cube_operating_system_has_flavor ${POSIXCUBE_OS_FLAVOR_FEDORA}; then
+  cube_package install ruby rubygems ruby-devel redhat-rpm-config gnupg \
+                      ImageMagick ImageMagick-c++ ImageMagick-c++-devel \
+                      ImageMagick-devel ImageMagick-libs golang git gcc \
+                      gcc-c++ openssl-devel pcre-devel postgresql-devel \
+                      postgresql nodejs libcurl-devel httpd
+elif cube_operating_system_has_flavor ${POSIXCUBE_OS_FLAVOR_DEBIAN}; then
+  cube_package install ruby rubygems ruby-dev gnupg \
+                      imagemagick libmagickwand-dev \
+                      golang git gcc build-essential \
+                      g++ libssl-dev libpcre3-dev libpcre++-dev libpq-dev \
+                      postgresql nodejs libcurl4-openssl-dev apache2
+  
+  cube_service disable apache2
+  cube_service stop apache2
+
+  cube_service disable postgresql
+  cube_service stop postgresql
+fi
 
 if cube_set_file_contents "/usr/lib/systemd/system/nginx.service" "templates/nginx.service.template" ; then
   cube_service daemon-reload
@@ -22,12 +36,21 @@ if ! cube_check_dir_exists "${cubevar_nginx_root}" ; then
 
   cube_echo "Installing nginx ${cubevar_app_nginx_source_version}"
 
-  cube_package install autoconf bison flex gcc gcc-c++ gettext kernel-devel \
-                       make m4 ncurses-devel patch zlib-devel gc pcre-devel \
-                       zlib-devel wget openssl-devel libxml2-devel \
-                       libxslt-devel gd-devel perl-ExtUtils-Embed \
-                       GeoIP-devel gperftools gperftools-devel \
-                       libatomic_ops-devel perl-ExtUtils-Embed
+  if cube_operating_system_has_flavor ${POSIXCUBE_OS_FLAVOR_FEDORA}; then
+    cube_package install autoconf bison flex gcc gcc-c++ gettext kernel-devel \
+                        make m4 ncurses-devel patch zlib-devel gc pcre-devel \
+                        zlib-devel wget openssl-devel libxml2-devel \
+                        libxslt-devel gd-devel perl-ExtUtils-Embed \
+                        GeoIP-devel gperftools gperftools-devel \
+                        libatomic_ops-devel
+  elif cube_operating_system_has_flavor ${POSIXCUBE_OS_FLAVOR_DEBIAN}; then
+    cube_package install autoconf bison flex gcc g++ gettext linux-headers-$(uname -r) \
+                        make m4 patch libpcre3-dev \
+                        zlib1g-dev libncurses5-dev wget libcurl4-openssl-dev libxml2-dev \
+                        libxslt-dev libgd2-xpm-dev perl-modules \
+                        libgeoip-dev build-essential google-perftools libgoogle-perftools-dev \
+                        libatomic-ops-dev
+  fi
 
   rm -rf "$(cube_tmpdir)"/nginx-${cubevar_app_nginx_source_version}* 2>/dev/null
   wget -O "$(cube_tmpdir)/nginx-${cubevar_app_nginx_source_version}.tar.gz" "https://nginx.org/download/nginx-${cubevar_app_nginx_source_version}.tar.gz" || cube_check_return
