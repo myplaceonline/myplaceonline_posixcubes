@@ -14,9 +14,7 @@ if [ "${ENCRYPTED_FILE_PASSWORD}" != "${ENCRYPTED_FILE_PASSWORD2}" ]; then
 fi
 read -e -p "Local output directory: " OUTPUTDIR
 
-POSIXCUBE_SOURCED=true
-. $(which posixcube.sh) source
-POSIXCUBE_SOURCED=""
+POSIXCUBE_SOURCED=true . posixcube.sh source; POSIXCUBE_SOURCED=
 
 # Write to the root directory because /tmp is limited in some clouds
 OUTPUTFILE=/myplaceonline_backup_$(date +"%Y%m%d_%H%M")_pgdump.sql
