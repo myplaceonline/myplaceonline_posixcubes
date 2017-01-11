@@ -39,7 +39,7 @@ cube_service start nginx
 cube_ensure_directory /etc/haproxy/ssl/ 700 haproxy haproxy
 
 # https://weakdh.org/sysadmin.html#haproxy
-if ! cube_check_file_exists /etc/haproxy/ssl/myplaceonline.com.dh ; then
+if ! cube_file_exists /etc/haproxy/ssl/myplaceonline.com.dh ; then
   (
     RANDFILE="/var/lib/haproxy/.rnd"
     touch "${RANDFILE}" || cube_check_return
@@ -76,7 +76,7 @@ fi
 cube_service enable haproxy
 cube_service start haproxy
 
-if ! cube_check_file_exists /etc/letsencrypt/live/ ; then
+if ! cube_file_exists /etc/letsencrypt/live/ ; then
   # This could fail if we're rebuilding a frontend server, and we haven't pointed the main domain IPs to the new
   # frontend yet
   /usr/bin/certbot --non-interactive --agree-tos --renew-by-default --email contact@myplaceonline.com --standalone --preferred-challenges http-01 --http-01-port 9999 certonly -d myplaceonline.com -d www.myplaceonline.com
@@ -85,12 +85,12 @@ if ! cube_check_file_exists /etc/letsencrypt/live/ ; then
   fi
 fi
 
-if cube_check_file_exists /etc/letsencrypt/live/ && ! cube_check_file_exists /etc/haproxy/ssl/myplaceonline.com.pem ; then
+if cube_file_exists /etc/letsencrypt/live/ && ! cube_file_exists /etc/haproxy/ssl/myplaceonline.com.pem ; then
   cat /etc/letsencrypt/live/myplaceonline.com/{fullchain.pem,privkey.pem} > /etc/haproxy/ssl/myplaceonline.com.pem || cube_check_return
   cat /etc/haproxy/ssl/myplaceonline.com.dh >> /etc/haproxy/ssl/myplaceonline.com.pem || cube_check_return
 fi
 
-if cube_check_file_exists /etc/letsencrypt/live/ && ! cube_file_contains /etc/haproxy/haproxy.cfg /etc/haproxy/ssl/myplaceonline.com.pem ; then
+if cube_file_exists /etc/letsencrypt/live/ && ! cube_file_contains /etc/haproxy/haproxy.cfg /etc/haproxy/ssl/myplaceonline.com.pem ; then
   cube_set_file_contents "$(cube_tmpdir)/haproxy_secure.cfg" "templates/haproxy_secure.cfg.template"
   cat "$(cube_tmpdir)/haproxy_secure.cfg" >> /etc/haproxy/haproxy.cfg || cube_check_return
   rm -f "$(cube_tmpdir)/haproxy_secure.cfg" || cube_check_return

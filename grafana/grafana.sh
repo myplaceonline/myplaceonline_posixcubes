@@ -39,7 +39,7 @@ if [ "$(firewall-cmd --zone=public --list-ports | grep -c 443)" = "0" ]; then
   cube_echo "Opened firewall port for port 443"
 fi
 
-if ! cube_check_file_exists "/etc/letsencrypt/live/${cubevar_app_grafana_host}/fullchain.pem" ; then
+if ! cube_file_exists "/etc/letsencrypt/live/${cubevar_app_grafana_host}/fullchain.pem" ; then
   certbot --non-interactive --agree-tos --renew-by-default --email contact@myplaceonline.com --standalone certonly -d ${cubevar_app_grafana_host} || cube_check_return
   cp "/etc/letsencrypt/live/${cubevar_app_grafana_host}/fullchain.pem" "/etc/letsencrypt/live/${cubevar_app_grafana_host}/privkey.pem" /etc/grafana/ || cube_check_return
   chown ${USER}:grafana /etc/grafana/*pem || cube_check_return

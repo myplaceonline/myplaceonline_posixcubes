@@ -19,7 +19,7 @@ if [ "$(firewall-cmd --get-default-zone)" != "block" ]; then
 fi
 
 # TODO do we even need to add ZONE to ifcfg-eth0 or just use Ubuntu style --permanent in the else?
-if cube_check_file_exists "/etc/sysconfig/network-scripts/ifcfg-eth0"; then
+if cube_file_exists "/etc/sysconfig/network-scripts/ifcfg-eth0"; then
   if ! cube_file_contains "/etc/sysconfig/network-scripts/ifcfg-eth0" "ZONE" ; then
     echo "ZONE=public" >> "/etc/sysconfig/network-scripts/ifcfg-eth0" || cube_check_return
     firewall-cmd --zone=public --add-interface=eth0 || cube_check_return

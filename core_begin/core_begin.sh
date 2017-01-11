@@ -26,7 +26,7 @@ echo "${cubevar_app_motd}"
 #     $1: Relative time zone path under /usr/share/zoneinfo/
 cube_core_set_timezone() {
   cube_check_numargs 1 "${@}"
-  ! cube_check_file_exists /usr/share/zoneinfo/${1} && cube_throw "Time zone ${1} doesn't exist"
+  ! cube_file_exists /usr/share/zoneinfo/${1} && cube_throw "Time zone ${1} doesn't exist"
   if [ "$(cube_readlink /etc/localtime)" != "/usr/share/zoneinfo/${1}" ]; then
     ln -sf /usr/share/zoneinfo/${1} /etc/localtime || cube_check_return
     cube_echo "Updated system time zone to /usr/share/zoneinfo/${1}"
@@ -64,7 +64,7 @@ if cube_operating_system_has_flavor ${POSIXCUBE_OS_FLAVOR_DEBIAN} ; then
 fi
 
 # Ensure permissive selinux
-if cube_check_dir_exists "/etc/selinux/" && cube_set_file_contents "/etc/selinux/config" "templates/selinux_config" && [ "$(getenforce)" != "Disabled" ] ; then
+if cube_dir_exists "/etc/selinux/" && cube_set_file_contents "/etc/selinux/config" "templates/selinux_config" && [ "$(getenforce)" != "Disabled" ] ; then
   setenforce Permissive || cube_check_return
 fi
 
@@ -105,7 +105,7 @@ if cube_operating_system_has_flavor ${POSIXCUBE_OS_FLAVOR_FEDORA}; then
   cube_package --enablerepo fedora-debuginfo --enablerepo updates-debuginfo install kernel-debuginfo-common-x86_64 kernel-debuginfo glibc-debuginfo-common glibc-debuginfo systemtap perf
 elif cube_operating_system_has_flavor ${POSIXCUBE_OS_FLAVOR_DEBIAN}; then
   # https://wiki.ubuntu.com/DebuggingProgramCrash#Debug_Symbol_Packages
-  if ! cube_check_file_exists /etc/apt/sources.list.d/ddebs.list ; then
+  if ! cube_file_exists /etc/apt/sources.list.d/ddebs.list ; then
     if cube_operating_system_has_flavor ${POSIXCUBE_OS_FLAVOR_UBUNTU}; then
       echo "deb http://ddebs.ubuntu.com $(lsb_release -cs) main restricted universe multiverse" | tee -a /etc/apt/sources.list.d/ddebs.list
       # The following is in one of the Ubuntu guides but returns:
@@ -155,14 +155,14 @@ HEREDOC
 
   cube_set_file_contents_string "/etc/yum.repos.d/logstash.repo" "${cubevar_app_str}"
 elif cube_operating_system_has_flavor ${POSIXCUBE_OS_FLAVOR_DEBIAN}; then
-  if ! cube_check_file_exists /etc/apt/sources.list.d/elastic-5.x.list ; then
+  if ! cube_file_exists /etc/apt/sources.list.d/elastic-5.x.list ; then
     cube_app_tmp="$(wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch || cube_check_return)" || cube_check_return
     printf '%s' "${cube_app_tmp}" | apt-key add - || cube_check_return
     echo "deb https://artifacts.elastic.co/packages/5.x/apt stable main" | tee -a /etc/apt/sources.list.d/elastic-5.x.list || cube_check_return
     cube_package update
   fi
   
-  if ! cube_check_file_exists /etc/apt/sources.list.d/influxdb.list ; then
+  if ! cube_file_exists /etc/apt/sources.list.d/influxdb.list ; then
     cube_app_tmp="$(curl -sL https://repos.influxdata.com/influxdb.key || cube_check_return)" || cube_check_return
     printf '%s' "${cube_app_tmp}" | apt-key add - || cube_check_return
     if cube_operating_system_has_flavor ${POSIXCUBE_OS_FLAVOR_UBUNTU}; then
@@ -225,9 +225,9 @@ fi
 # 160 MB + 2 bits for every 4 KB of RAM. For a system with 1 TB of memory, 224 MB is the minimum (160 + 64 MB).
 cubevar_app_crashkernel_mem=$((161+($(cube_total_memory)/268435456)))
 
-if cube_check_file_exists /boot/extlinux/extlinux.conf ; then
+if cube_file_exists /boot/extlinux/extlinux.conf ; then
   sed -i "s/UTF-8\$/UTF-8 crashkernel=${cubevar_app_crashkernel_mem}M audit=0/g" /boot/extlinux/extlinux.conf || cube_check_return
-elif cube_check_file_exists /boot/grub/grub.cfg ; then
+elif cube_file_exists /boot/grub/grub.cfg ; then
   if cube_set_file_contents "/etc/default/grub" "templates/grub1.template" ; then
     update-grub || cube_check_return
   fi
@@ -292,7 +292,7 @@ cube_set_file_contents "/etc/security/limits.conf" "templates/limits.conf"
 cube_set_file_contents ~/.toprc "templates/toprc"
 
 if ! cube_operating_system_has_flavor ${POSIXCUBE_OS_FLAVOR_DEBIAN} ; then
-  if ! cube_check_file_exists /usr/local/src/crash/crash ; then
+  if ! cube_file_exists /usr/local/src/crash/crash ; then
     cube_pushd /usr/local/src/
     rm -rf crash* || cube_check_return
     git clone https://github.com/crash-utility/crash/ || cube_check_return

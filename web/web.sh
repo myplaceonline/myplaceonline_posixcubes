@@ -32,7 +32,7 @@ fi
 
 cubevar_nginx_root="${cubevar_nginx_root}/nginx-${cubevar_app_nginx_source_version}"
 
-if ! cube_check_dir_exists "${cubevar_nginx_root}" ; then
+if ! cube_dir_exists "${cubevar_nginx_root}" ; then
 
   cube_echo "Installing nginx ${cubevar_app_nginx_source_version}"
 
@@ -132,7 +132,7 @@ cube_ensure_directory "${cubevar_app_web_dir}" 755 ${USER} webgrp
 
 cube_pushd "${cubevar_app_web_dir}"
 
-if ! cube_check_dir_exists "${cubevar_app_web_dir}/.git" ; then
+if ! cube_dir_exists "${cubevar_app_web_dir}/.git" ; then
   git clone "https://github.com/myplaceonline/myplaceonline_rails" . || cube_check_return
 else
   cd "${cubevar_app_web_dir}/" || cube_check_return

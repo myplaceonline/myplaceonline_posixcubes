@@ -91,7 +91,7 @@ if ! cube_has_role "database_backup" ; then
   fi
 fi
 
-if ! cube_check_file_exists "/usr/bin/repmgr" ; then
+if ! cube_file_exists "/usr/bin/repmgr" ; then
   (
     cd /usr/local/src/ || cube_check_return
     wget https://github.com/2ndQuadrant/repmgr/archive/v3.3.tar.gz || cube_check_return
