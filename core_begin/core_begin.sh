@@ -48,15 +48,36 @@ echo ""
 grep -e MemTotal -e MemFree -e Buffers -e ^Cached /proc/meminfo
 echo ""
 
-cube_include firewall_whitelist
-
-# Machines may be memory constrained, so disable crons for the duration
-# of the chef-client run. Re-enable in the core_end cube
+# Machines may be memory constrained. Even things like the package manager
+# checking for updates may throw them over the edge, so stop various services
+# for the duration of the cubeset (they should be started later as part of the
+# cubes).
 if cube_service_exists crond ; then
   cube_service stop crond
 elif cube_service_exists cron ; then
   cube_service stop cron
 fi
+if cube_service_exists grafana-server ; then
+  cube_service stop grafana-server
+fi
+if cube_service_exists elasticsearch ; then
+  cube_service stop elasticsearch
+fi
+if cube_service_exists influx ; then
+  cube_service stop influxd
+fi
+
+cubevar_app_fullhostname="$(cube_hostname true).${cubevar_app_server_name}"
+
+cube_read_heredoc <<'HEREDOC'; cubevar_app_str="${cube_read_heredoc_result}"
+${cubevar_app_fullhostname}
+HEREDOC
+
+if cube_set_file_contents_string "/etc/hostname" "${cubevar_app_str}"; then
+  hostname ${cubevar_app_fullhostname} || cube_check_return
+fi
+
+cube_include firewall_whitelist
 
 if cube_operating_system_has_flavor ${POSIXCUBE_OS_FLAVOR_DEBIAN} ; then
   cube_package update
@@ -291,6 +312,7 @@ cube_set_file_contents "/etc/security/limits.conf" "templates/limits.conf"
 
 cube_set_file_contents ~/.toprc "templates/toprc"
 
+# crash is already in the debian repos
 if ! cube_operating_system_has_flavor ${POSIXCUBE_OS_FLAVOR_DEBIAN} ; then
   if ! cube_file_exists /usr/local/src/crash/crash ; then
     cube_pushd /usr/local/src/

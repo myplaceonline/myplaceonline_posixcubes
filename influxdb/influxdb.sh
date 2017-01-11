@@ -28,6 +28,7 @@ if cube_set_file_contents "/etc/influxdb/influxdb.conf" "templates/influxdb.conf
 fi
 
 cube_service enable influxdb
+cube_service start influxdb
 
 cubevar_influx_databases="$(influx -host ${cubevar_app_server_internal} -execute "show databases")"
 if (echo "${cubevar_influx_databases}" | cube_stdin_contains "_internal") && ! (echo "${cubevar_influx_databases}" | cube_stdin_contains "telegraf") ; then
