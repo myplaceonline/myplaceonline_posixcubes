@@ -106,19 +106,24 @@ if cube_operating_system_has_flavor ${POSIXCUBE_OS_FLAVOR_FEDORA}; then
 elif cube_operating_system_has_flavor ${POSIXCUBE_OS_FLAVOR_DEBIAN}; then
   # https://wiki.ubuntu.com/DebuggingProgramCrash#Debug_Symbol_Packages
   if ! cube_check_file_exists /etc/apt/sources.list.d/ddebs.list ; then
-    echo "deb http://ddebs.ubuntu.com $(lsb_release -cs) main restricted universe multiverse" | tee -a /etc/apt/sources.list.d/ddebs.list
-    # The following is in one of the Ubuntu guides but returns:
-    # W: The repository 'http://ddebs.ubuntu.com xenial-security Release' does not have a Release file.
-    #echo "deb http://ddebs.ubuntu.com $(lsb_release -cs)-security main restricted universe multiverse" | tee -a /etc/apt/sources.list.d/ddebs.list
-    echo "deb http://ddebs.ubuntu.com $(lsb_release -cs)-updates main restricted universe multiverse" | tee -a /etc/apt/sources.list.d/ddebs.list
-    echo "deb http://ddebs.ubuntu.com $(lsb_release -cs)-proposed main restricted universe multiverse" | tee -a /etc/apt/sources.list.d/ddebs.list
-    apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 5FDFF622 || cube_check_return
-    apt-key adv --keyserver keyserver.ubuntu.com --recv-keys ECDCAD72428D7C01 || cube_check_return
-    apt-get update || cube_check_return
-  fi
+    if cube_operating_system_has_flavor ${POSIXCUBE_OS_FLAVOR_UBUNTU}; then
+      echo "deb http://ddebs.ubuntu.com $(lsb_release -cs) main restricted universe multiverse" | tee -a /etc/apt/sources.list.d/ddebs.list
+      # The following is in one of the Ubuntu guides but returns:
+      # W: The repository 'http://ddebs.ubuntu.com xenial-security Release' does not have a Release file.
+      #echo "deb http://ddebs.ubuntu.com $(lsb_release -cs)-security main restricted universe multiverse" | tee -a /etc/apt/sources.list.d/ddebs.list
+      echo "deb http://ddebs.ubuntu.com $(lsb_release -cs)-updates main restricted universe multiverse" | tee -a /etc/apt/sources.list.d/ddebs.list
+      echo "deb http://ddebs.ubuntu.com $(lsb_release -cs)-proposed main restricted universe multiverse" | tee -a /etc/apt/sources.list.d/ddebs.list
+      apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 5FDFF622 || cube_check_return
+      apt-key adv --keyserver keyserver.ubuntu.com --recv-keys ECDCAD72428D7C01 || cube_check_return
+      apt-get update || cube_check_return
 
-  # https://wiki.ubuntu.com/Kernel/Systemtap
-  cube_package install linux-image-$(uname -r)-dbgsym systemtap linux-tools-generic
+      # https://wiki.ubuntu.com/Kernel/Systemtap
+      cube_package install linux-image-$(uname -r)-dbgsym linux-headers-$(uname -r) systemtap linux-tools-generic linux-crashdump
+      
+    # TODO couldn't figure out where to get linux-image*dbgsym on Debian
+    #elif cube_operating_system_has_flavor ${POSIXCUBE_OS_FLAVOR_DEBIAN}; then
+    fi
+  fi
 else
   cube_throw Not implemented
 fi
@@ -160,8 +165,14 @@ elif cube_operating_system_has_flavor ${POSIXCUBE_OS_FLAVOR_DEBIAN}; then
   if ! cube_check_file_exists /etc/apt/sources.list.d/influxdb.list ; then
     cube_app_tmp="$(curl -sL https://repos.influxdata.com/influxdb.key || cube_check_return)" || cube_check_return
     printf '%s' "${cube_app_tmp}" | apt-key add - || cube_check_return
-    . /etc/lsb-release || cube_check_return
-    echo "deb https://repos.influxdata.com/${DISTRIB_ID,,} ${DISTRIB_CODENAME} stable" | tee /etc/apt/sources.list.d/influxdb.list || cube_check_return
+    if cube_operating_system_has_flavor ${POSIXCUBE_OS_FLAVOR_UBUNTU}; then
+      . /etc/lsb-release || cube_check_return
+      echo "deb https://repos.influxdata.com/${DISTRIB_ID,,} ${DISTRIB_CODENAME} stable" | tee /etc/apt/sources.list.d/influxdb.list || cube_check_return
+    elif cube_operating_system_has_flavor ${POSIXCUBE_OS_FLAVOR_DEBIAN}; then
+      . /etc/os-release || cube_check_return
+      test $VERSION_ID = "7" && echo "deb https://repos.influxdata.com/debian wheezy stable" | tee /etc/apt/sources.list.d/influxdb.list || cube_check_return
+      test $VERSION_ID = "8" && echo "deb https://repos.influxdata.com/debian jessie stable" | tee /etc/apt/sources.list.d/influxdb.list || cube_check_return
+    fi
     cube_package update
   fi
 else
@@ -183,7 +194,7 @@ elif cube_operating_system_has_flavor ${POSIXCUBE_OS_FLAVOR_DEBIAN}; then
                         iotop gdb ldap-utils ntp python make mailutils \
                         postfix tcpdump rsyslog gnupg makedumpfile libsasl2-modules \
                         kexec-tools liblzo2-2 liblzo2-dev libbison-dev \
-                        libncurses-dev telegraf telnet iftop git linux-crashdump \
+                        libncurses-dev telegraf telnet iftop git \
                         netcat-openbsd default-jdk `uname -r`-dbg crash
 
   cube_read_heredoc <<'HEREDOC'; cubevar_app_kdump_tools="${cube_read_heredoc_result}"
