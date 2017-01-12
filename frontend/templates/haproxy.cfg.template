@@ -66,7 +66,7 @@ backend servers
     # Usually we don't need server affinity but there are cases where a user makes a request to a newly updated server
     # which references an asset with a hash that only the new build has; however, the browser's request for that asset
     # might go to the old server if it doesn't re-use an existing socket.
-    cookie SERVERID insert indirect nocache
+    cookie SERVERID insert nocache preserve
   
     http-request set-header X-Forwarded-Proto https if { ssl_fc }
     http-response set-header Strict-Transport-Security max-age=31536000;\ includeSubDomains;\ preload;
