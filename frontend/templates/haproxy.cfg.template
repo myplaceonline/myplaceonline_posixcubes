@@ -68,14 +68,17 @@ backend servers
     # might go to the old server if it doesn't re-use an existing socket.
     cookie SERVERID insert indirect nocache
   
-    # http://www.haproxy.org/download/1.7/doc/configuration.txt
-    # 5.2. Server and default-server options
+    http-request set-header X-Forwarded-Proto https if { ssl_fc }
+    http-response set-header Strict-Transport-Security max-age=31536000;\ includeSubDomains;\ preload;
+    
+    # http://serverfault.com/a/777764/363770
+${cubevar_app_haproxy_servers_bypass}
 
+    # http://www.haproxy.org/download/1.6/doc/configuration.txt
+    # 5.2. Server and default-server options
 ${cubevar_app_haproxy_servers}
   
     server maintenance 127.0.0.1:81 backup
-    http-request set-header X-Forwarded-Proto https if { ssl_fc }
-    http-response set-header Strict-Transport-Security max-age=31536000;\ includeSubDomains;\ preload;
 
 backend letsencrypt
     mode http
