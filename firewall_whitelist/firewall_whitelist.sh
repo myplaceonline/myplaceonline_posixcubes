@@ -35,7 +35,7 @@ fi
 
 for cubevar_app_server in ${cubevar_app_servers}; do
   cubevar_app_server_internal=$(echo "${cubevar_app_server}" | sed 's/\./-internal./')
-  cubevar_app_server_internal_ip="$(dig +short ${cubevar_app_server_internal})"
+  cubevar_app_server_internal_ip="$(dig +short ${cubevar_app_server_internal} || cube_check_return)" || cube_check_return
   if [ "${cubevar_app_server}" != "$(cube_hostname)" ]; then
     if ! firewall-cmd -q --zone=trusted --query-source=${cubevar_app_server_internal_ip} ; then
       cube_echo "Adding ${cubevar_app_server}'s IP ${cubevar_app_server_internal_ip} to trusted whitelist"
