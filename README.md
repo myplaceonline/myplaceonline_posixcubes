@@ -45,6 +45,10 @@ Update frontend servers (to update available web servers list):
 
     posixcube.sh -z frontend
 
+Update web servers (to update trusted client list):
+
+    posixcube.sh -z web
+
 ## Destroy Web Server
 
 * Remove entry from ~/.ssh/known_hosts
