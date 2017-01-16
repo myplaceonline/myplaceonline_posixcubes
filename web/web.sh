@@ -136,7 +136,6 @@ cube_pushd "${cubevar_app_web_dir}"
 if ! cube_dir_exists "${cubevar_app_web_dir}/.git" ; then
   git clone "https://github.com/myplaceonline/myplaceonline_rails" . || cube_check_return
 else
-  cd "${cubevar_app_web_dir}/" || cube_check_return
   git pull origin master || cube_check_return
 fi
 

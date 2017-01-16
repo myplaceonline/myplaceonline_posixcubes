@@ -123,7 +123,7 @@ Add server to the other servers' whitelist:
 
 Create primary database server:
 
-    # If creating while older DB servers exist, echo without the $() and replace the -o options with an explicit set
+    # If creating while older DB servers exist, echo without the $() and replace the -O options with an explicit set
     $(grep "^database_primary=" cubespecs.ini | sed 's/^database_primary=/posixcube.sh /g' | sed "s/\\-h db./-h db${SERVER_NUMBER}/g")
 
 ## Destroy Primary Database Server
@@ -155,7 +155,7 @@ Add server to the other servers' whitelist:
 
 Create backup database server:
 
-    # If creating while older DB servers exist, echo without the $() and replace the -o options with an explicit set
+    # If creating while older DB servers exist, echo without the $() and replace the -O options with an explicit set
     $(grep "^database_backup=" cubespecs.ini | sed 's/^database_backup=/posixcube.sh /g' | sed "s/\\-h db./-h db${SERVER_NUMBER}/g")
 
 ## Check Replication Status

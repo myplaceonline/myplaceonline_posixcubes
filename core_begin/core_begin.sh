@@ -90,7 +90,7 @@ if cube_dir_exists "/etc/selinux/" && cube_set_file_contents "/etc/selinux/confi
 fi
 
 # We set a user password in the case we need to do a manual login from the web console
-echo "root:${cubevar_app_passwords_root}" | chpasswd
+echo "root:${cubevar_app_passwords_root}" | chpasswd || cube_check_return
 
 #cube_set_file_contents_string ~/.passwd ${cubevar_app_passwords_root}
 #passwd --stdin root < ~/.passwd || cube_check_return
