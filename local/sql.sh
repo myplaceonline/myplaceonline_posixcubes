@@ -2,9 +2,9 @@
 
 pushd "$(dirname "$0")/../"
 
-POSIXCUBE_SOURCED=true
-. $(which posixcube.sh) source
-POSIXCUBE_SOURCED=""
+POSIXCUBE_SOURCED=true . posixcube.sh source; POSIXCUBE_SOURCED=
+
+export POSIXCUBE_COLORS=true
 
 LOCALDBHOST="$(echo "${cubevar_app_backup_host_db_public}" | sed 's/\./-internal./')"
 

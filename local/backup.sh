@@ -16,6 +16,8 @@ read -e -p "Local output directory: " OUTPUTDIR
 
 POSIXCUBE_SOURCED=true . posixcube.sh source; POSIXCUBE_SOURCED=
 
+export POSIXCUBE_COLORS=true
+
 # Write to the root directory because /tmp is limited in some clouds
 OUTPUTFILE=/myplaceonline_backup_$(date +"%Y%m%d_%H%M")_pgdump.sql
 LARGEFILES=/myplaceonline_backup_$(date +"%Y%m%d_%H%M")_files.tar.gz
