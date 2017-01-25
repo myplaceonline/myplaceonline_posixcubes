@@ -17,6 +17,24 @@ HEREDOC
 
 echo "${cubevar_app_motd}"
 
+if ! cube_user_exists "${cubevar_app_test_user}" ; then
+  cube_create_user "${cubevar_app_test_user}" "" "${cubevar_app_test_user_password}"
+  if cube_group_exists "sudo" ; then
+    cube_add_group_user "sudo" "${cubevar_app_test_user}"
+  elif cube_group_exists "wheel" ; then
+    cube_add_group_user "wheel" "${cubevar_app_test_user}"
+  fi
+fi
+
+if cube_file_exists "/etc/sudoers.d/90-cloud-init-users" ; then
+  cube_read_heredoc <<'HEREDOC'; cubevar_app_sudoers_nopasswd="${cube_read_heredoc_result}"
+# User rules for root
+root ALL=(ALL) NOPASSWD:ALL
+%sudo ALL=(ALL) NOPASSWD:ALL
+HEREDOC
+  cube_set_file_contents_string "/etc/sudoers.d/90-cloud-init-users" "${cubevar_app_sudoers_nopasswd}"
+fi
+
 # Description:
 #   Set system timezone to $1
 # Example call:
@@ -96,9 +114,10 @@ echo "root:${cubevar_app_passwords_root}" | chpasswd || cube_check_return
 #passwd --stdin root < ~/.passwd || cube_check_return
 #rm -f ~/.passwd
 
+cube_set_file_contents "/etc/profile" "templates/profile"
+
 if cube_set_file_contents "/etc/commonprofile.sh" "templates/commonprofile.sh" ; then
   chmod 755 "/etc/commonprofile.sh" || cube_check_return
-  cube_set_file_contents "/etc/profile" "templates/profile"
 fi
 
 cube_set_file_contents_string "/etc/motd" "${cubevar_app_motd}"
