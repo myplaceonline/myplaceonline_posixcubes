@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # http://docs.grafana.org/installation/rpm/
-cube_read_heredoc <<'HEREDOC'; cubevar_app_str="${cube_read_heredoc_result}"
+cube_read_stdin cubevar_app_str <<'HEREDOC'
 [grafana]
 name=grafana
 baseurl=https://packagecloud.io/grafana/stable/el/6/$basearch

@@ -1,6 +1,6 @@
 #!/bin/sh
 
-cube_read_heredoc <<'HEREDOC'; cubevar_app_str="${cube_read_heredoc_result}"
+cube_read_stdin cubevar_app_str <<'HEREDOC'
 
                         _                            _ _            
                        | |                          | (_)           

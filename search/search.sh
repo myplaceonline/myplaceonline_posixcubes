@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # https://www.elastic.co/guide/en/elasticsearch/reference/current/setup-repositories.html
-cube_read_heredoc <<'HEREDOC'; cubevar_app_str="${cube_read_heredoc_result}"
+cube_read_stdin cubevar_app_str <<'HEREDOC'
 [elasticsearch-5.x]
 name=Elasticsearch repository for 5.x packages
 baseurl=https://artifacts.elastic.co/packages/5.x/yum
@@ -55,7 +55,7 @@ fi
 #fi
 
 # https://www.elastic.co/guide/en/kibana/current/setup.html
-cube_read_heredoc <<'HEREDOC'; cubevar_app_str="${cube_read_heredoc_result}"
+cube_read_stdin cubevar_app_str <<'HEREDOC'
 [kibana-5.x]
 name=Kibana repository for 5.x packages
 baseurl=https://artifacts.elastic.co/packages/5.x/yum

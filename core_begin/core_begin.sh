@@ -1,6 +1,6 @@
 #!/bin/sh
 
-cube_read_heredoc <<'HEREDOC'; cubevar_app_motd="${cube_read_heredoc_result}"
+cube_read_stdin cubevar_app_motd <<'HEREDOC'
 
                         _                            _ _            
                        | |                          | (_)           
@@ -27,7 +27,7 @@ if ! cube_user_exists "${cubevar_app_test_user}" ; then
 fi
 
 if cube_file_exists "/etc/sudoers.d/90-cloud-init-users" ; then
-  cube_read_heredoc <<'HEREDOC'; cubevar_app_sudoers_nopasswd="${cube_read_heredoc_result}"
+  cube_read_stdin cubevar_app_sudoers_nopasswd <<'HEREDOC'
 # User rules for root
 root ALL=(ALL) NOPASSWD:ALL
 %sudo ALL=(ALL) NOPASSWD:ALL
@@ -87,7 +87,7 @@ fi
 
 cubevar_app_fullhostname="$(cube_hostname true).${cubevar_app_server_name}"
 
-cube_read_heredoc <<'HEREDOC'; cubevar_app_str="${cube_read_heredoc_result}"
+cube_read_stdin cubevar_app_str <<'HEREDOC'
 ${cubevar_app_fullhostname}
 HEREDOC
 
@@ -171,7 +171,7 @@ fi
 # https://www.elastic.co/guide/en/logstash/current/installing-logstash.html
 # https://docs.influxdata.com/telegraf/v1.1/introduction/installation/
 if cube_operating_system_has_flavor ${POSIXCUBE_OS_FLAVOR_FEDORA}; then
-  cube_read_heredoc <<'HEREDOC'; cubevar_app_str="${cube_read_heredoc_result}"
+  cube_read_stdin cubevar_app_str <<'HEREDOC'
 [influxdb]
 name = InfluxDB Repository - RHEL \$releasever
 baseurl = https://repos.influxdata.com/rhel/7Server/\$basearch/stable
@@ -182,7 +182,7 @@ HEREDOC
 
   cube_set_file_contents_string "/etc/yum.repos.d/influxdb.repo" "${cubevar_app_str}"
 
-  cube_read_heredoc <<'HEREDOC'; cubevar_app_str="${cube_read_heredoc_result}"
+  cube_read_stdin cubevar_app_str <<'HEREDOC'
 [logstash-5.x]
 name=Elastic repository for 5.x packages
 baseurl=https://artifacts.elastic.co/packages/5.x/yum
@@ -237,7 +237,7 @@ elif cube_operating_system_has_flavor ${POSIXCUBE_OS_FLAVOR_DEBIAN}; then
                         libncurses-dev telegraf telnet iftop git \
                         netcat-openbsd default-jdk `uname -r`-dbg crash
 
-  cube_read_heredoc <<'HEREDOC'; cubevar_app_kdump_tools="${cube_read_heredoc_result}"
+  cube_read_stdin cubevar_app_kdump_tools <<'HEREDOC'
 USE_KDUMP=1
 HEREDOC
 

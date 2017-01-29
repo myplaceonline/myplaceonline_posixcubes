@@ -7,7 +7,7 @@
 #   show series
 
 # http://docs.influxdata.com/influxdb/v1.1/introduction/installation/
-cube_read_heredoc <<'HEREDOC'; cubevar_app_str="${cube_read_heredoc_result}"
+cube_read_stdin cubevar_app_str <<'HEREDOC'
 [influxdb]
 name = InfluxDB Repository - RHEL 7Server
 baseurl = https://repos.influxdata.com/rhel/7Server/\$basearch/stable

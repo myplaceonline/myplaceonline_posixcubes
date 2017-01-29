@@ -141,7 +141,7 @@ fi
 
 cube_popd
 
-cube_read_heredoc <<HEREDOC; cubevar_app_passenger_status="${cube_read_heredoc_result}"
+cube_read_stdin cubevar_app_passenger_status <<HEREDOC
 #!/bin/sh
 PASSENGER_INSTANCE_REGISTRY_DIR=/var/run/ ${cubevar_nginx_passenger_root}/bin/passenger-status -v --show=xml
 HEREDOC
