@@ -40,7 +40,7 @@ if ! cube_has_role "database_backup" ; then
     cube_service restart postgresql
   fi
 
-  if cube_set_file_contents "/var/lib/pgsql/data/postgresql.replication.conf" "templates/postgresql.replication.conf-master" ; then
+  if cube_set_file_contents "/var/lib/pgsql/data/postgresql.replication.conf" "templates/postgresql.replication.conf" ; then
     chown postgres:postgres "/var/lib/pgsql/data/postgresql.replication.conf" || cube_check_return
   fi
 
@@ -130,7 +130,7 @@ else
     sudo -i -u postgres /usr/bin/repmgr -h ${cubevar_app_db_host} -U repmgr -d repmgr -D /var/lib/pgsql/data/ standby clone || cube_check_return
   fi
 
-  if cube_set_file_contents "/var/lib/pgsql/data/postgresql.replication.conf" "templates/postgresql.replication.conf-master" ; then
+  if cube_set_file_contents "/var/lib/pgsql/data/postgresql.replication.conf" "templates/postgresql.replication.conf" ; then
     chown postgres:postgres "/var/lib/pgsql/data/postgresql.replication.conf" || cube_check_return
   fi
 
