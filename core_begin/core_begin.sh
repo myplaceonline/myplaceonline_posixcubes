@@ -143,6 +143,12 @@ cube_service start atd
 
 if cube_operating_system_has_flavor ${POSIXCUBE_OS_FLAVOR_FEDORA}; then
   cube_package --enablerepo fedora-debuginfo --enablerepo updates-debuginfo install kernel-debuginfo-common-x86_64 kernel-debuginfo glibc-debuginfo-common glibc-debuginfo systemtap perf
+  
+  # https://fedoraproject.org/wiki/Yum_to_DNF_Cheatsheet
+  cubevar_redundant_packages="$(dnf repoquery --installonly --latest-limit -1 -q)"
+  if [ "${cubevar_redundant_packages}" != "" ]; then
+    cube_package remove ${cubevar_redundant_packages}
+  fi
 elif cube_operating_system_has_flavor ${POSIXCUBE_OS_FLAVOR_DEBIAN}; then
   # https://wiki.ubuntu.com/DebuggingProgramCrash#Debug_Symbol_Packages
   if ! cube_file_exists /etc/apt/sources.list.d/ddebs.list ; then
