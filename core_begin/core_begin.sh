@@ -248,6 +248,8 @@ USE_KDUMP=1
 HEREDOC
 
   cube_set_file_contents_string /etc/default/kdump-tools "${cubevar_app_kdump_tools}"
+  
+  apt -y autoremove || cube_check_return
 else
   cube_throw Not implemented
 fi

@@ -7,17 +7,39 @@
 cube_service restart rsyslog
 
 if cube_operating_system_has_flavor ${POSIXCUBE_OS_FLAVOR_FEDORA}; then
+
+  # https://yarnpkg.com/lang/en/docs/install/
+  cube_read_stdin cubevar_app_str <<'HEREDOC'
+[yarn]
+name=Yarn Repository
+baseurl=https://dl.yarnpkg.com/rpm/
+enabled=1
+gpgcheck=1
+gpgkey=https://dl.yarnpkg.com/rpm/pubkey.gpg
+HEREDOC
+
+  cube_set_file_contents_string "/etc/yum.repos.d/yarn.repo" "${cubevar_app_str}"
+
   cube_package install ruby rubygems ruby-devel redhat-rpm-config gnupg \
                        ImageMagick ImageMagick-c++ ImageMagick-c++-devel \
                        ImageMagick-devel ImageMagick-libs golang git gcc \
                        gcc-c++ openssl-devel pcre-devel postgresql-devel \
-                       postgresql nodejs libcurl-devel httpd
+                       postgresql nodejs libcurl-devel httpd yarn
 elif cube_operating_system_has_flavor ${POSIXCUBE_OS_FLAVOR_DEBIAN}; then
+
+  # https://yarnpkg.com/lang/en/docs/install/
+  if ! cube_file_exists /etc/apt/sources.list.d/yarn.list ; then
+    cube_app_tmp="$(wget -qO - https://dl.yarnpkg.com/debian/pubkey.gpg || cube_check_return)" || cube_check_return
+    printf '%s' "${cube_app_tmp}" | apt-key add - || cube_check_return
+    echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee -a /etc/apt/sources.list.d/yarn.list || cube_check_return
+    cube_package update
+  fi
+
   cube_package install ruby rubygems ruby-dev gnupg \
                        imagemagick libmagickwand-dev \
                        golang git gcc build-essential \
                        g++ libssl-dev libpcre3-dev libpcre++-dev libpq-dev \
-                       postgresql nodejs libcurl4-openssl-dev apache2
+                       postgresql nodejs libcurl4-openssl-dev apache2 yarn
   
   cube_service disable apache2
   cube_service stop apache2
