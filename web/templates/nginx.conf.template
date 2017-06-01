@@ -29,6 +29,8 @@ server {
   passenger_env_var TWILIO_ACCOUNT "${cubevar_app_passwords_twilio_account}";
   passenger_env_var TWILIO_AUTH "${cubevar_app_passwords_twilio_auth}";
   passenger_env_var TRUSTED_CLIENTS "${cubevar_app_trusted_servers}";
+  passenger_env_var GOOGLE_MAPS_API_KEY "${cubevar_app_passwords_google_maps_api_key}";
+  passenger_env_var GOOGLE_MAPS_API_SERVER_KEY "${cubevar_app_passwords_google_maps_api_server_key}";
   
   location /assets/ {
     add_header Cache-Control "public, max-age=31536000";
