@@ -26,6 +26,10 @@ if cube_set_file_contents "/etc/elasticsearch/elasticsearch.yml" "templates/elas
   cube_service restart elasticsearch
 fi
 
+if cube_set_file_contents "/etc/elasticsearch/log4j2.properties" "templates/elasticsearch_log4j2.properties" ; then
+  cube_service restart elasticsearch
+fi
+
 cube_service enable elasticsearch
 cube_service start elasticsearch
 
