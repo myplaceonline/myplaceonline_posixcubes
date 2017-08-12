@@ -44,6 +44,8 @@ elif cube_operating_system_has_flavor ${POSIXCUBE_OS_FLAVOR_DEBIAN}; then
   cube_service stop postgresql
 fi
 
+cube_ensure_directory "${cubevar_app_nfs_client_mount}/uploads/" 777
+
 if cube_set_file_contents "/usr/lib/systemd/system/nginx.service" "templates/nginx.service.template" ; then
   cube_service daemon-reload
 fi
