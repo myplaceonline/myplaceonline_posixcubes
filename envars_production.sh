@@ -13,7 +13,8 @@ cubevar_app_tmpdir="/var/tmp/"
 cubevar_app_full_text_search_target="db6-internal.myplaceonline.com:9200"
 cubevar_app_rails_gc_max_newspace="33554432"
 cubevar_app_rails_gc_max_oldspace="67108864"
-cubevar_app_rails_threads_per_node="2"
+# Assume about 350MB per thread
+cubevar_app_rails_threads_per_node="3"
 cubevar_app_rails_environment="production"
 # Updating this causes a recompile. See available versions at https://nginx.org/download/
 cubevar_app_nginx_source_version="1.13.1"
