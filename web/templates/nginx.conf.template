@@ -1,10 +1,9 @@
 server {
   listen ${cubevar_app_eth1}:80;
+  listen 127.0.0.1:80;
   root ${cubevar_app_web_dir}/public;
 
   client_max_body_size 100M;
-
-  passenger_enabled on;
 
   passenger_env_var RAILS_ENV "${cubevar_app_rails_environment}";
   passenger_env_var SECRET_KEY_BASE "${cubevar_app_passwords_devise_secret}";
@@ -36,10 +35,13 @@ server {
     add_header Cache-Control "public, max-age=31536000";
   }
   
-  location /upload {
-    upload_pass /info/upload;
+  # Any locations with upload_pass will write any files in the request to the filesystem and then proxy the request back
+  # to Rails with the file objects replaced with metadata about the files and the paths in the filesystem.
+  # The file is owned by nginx but will be read by Rails (nobody).
+  location /api/newfile {
+    upload_pass @upload_proxy;
     upload_store "${cubevar_app_nfs_client_mount}/uploads/";
-    upload_store_access user:rw;
+    upload_store_access all:rw;
     upload_set_form_field $upload_field_name[original_filename] "$upload_file_name";
     upload_set_form_field $upload_field_name[content_type] "$upload_content_type";
     upload_set_form_field $upload_field_name[path] "$upload_tmp_path";
@@ -47,5 +49,13 @@ server {
     upload_aggregate_form_field "$upload_field_name[size]" "$upload_file_size";
     upload_pass_form_field ".*";
     upload_cleanup 400 404 499 500-505;
+  }
+
+  location / {
+    passenger_enabled on;
+  }
+
+  location @upload_proxy {
+    passenger_enabled on;
   }
 }

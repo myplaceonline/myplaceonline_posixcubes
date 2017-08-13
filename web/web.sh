@@ -267,11 +267,11 @@ if cube_set_file_contents "/opt/myplaceonline/myplaceonline-nginx-ready.sh" "tem
   chmod 755 /opt/myplaceonline/myplaceonline-nginx-ready.sh
 fi
 
-if cube_set_file_contents "/etc/systemd/system/myplaceonline-nginx-ready.service" "templates/myplaceonline-nginx-ready.service" ; then
-  cube_service daemon-reload
-  cube_service enable myplaceonline-nginx-ready
-  cube_service start myplaceonline-nginx-ready
-fi
+# if cube_set_file_contents "/etc/systemd/system/myplaceonline-nginx-ready.service" "templates/myplaceonline-nginx-ready.service" ; then
+#   cube_service daemon-reload
+#   cube_service enable myplaceonline-nginx-ready
+#   cube_service start myplaceonline-nginx-ready
+# fi
 
 cube_service enable nginx
 cube_service start nginx
