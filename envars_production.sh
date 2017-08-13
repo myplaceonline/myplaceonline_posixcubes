@@ -13,7 +13,7 @@ cubevar_app_tmpdir="/var/tmp/"
 cubevar_app_full_text_search_target="db6-internal.myplaceonline.com:9200"
 cubevar_app_rails_gc_max_newspace="33554432"
 cubevar_app_rails_gc_max_oldspace="67108864"
-# Assume about 350MB per thread
+# Assume about 400MB per thread
 cubevar_app_rails_threads_per_node="3"
 cubevar_app_rails_environment="production"
 # Updating this causes a recompile. See available versions at https://nginx.org/download/
@@ -33,5 +33,5 @@ cubevar_app_primary_host_web_public="web4.myplaceonline.com"
 cubevar_app_primary_host_db_public="db5.myplaceonline.com"
 cubevar_app_backup_host_db_public="db6.myplaceonline.com"
 cubevar_app_test_user="user1"
-#cubevar_app_letsencrypt_tls_domains="-d myplaceonline.com -d www.myplaceonline.com -d roamancers.com -d www.roamancers.com"
+cubevar_app_letsencrypt_tls_domains="-d myplaceonline.com -d www.myplaceonline.com -d roamancers.com -d www.roamancers.com"
 cubevar_app_tls_domains="myplaceonline.com roamancers.com"
