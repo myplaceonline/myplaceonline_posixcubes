@@ -275,3 +275,7 @@ fi
 
 cube_service enable nginx
 cube_service start nginx
+
+# Wait for Passenger to initialize all of the handler processes
+cube_echo "Waiting ${cubevar_app_nginx_start_wait} seconds for Rails to start"
+sleep ${cubevar_app_nginx_start_wait}
