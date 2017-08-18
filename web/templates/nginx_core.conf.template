@@ -2,6 +2,7 @@ user nginx;
 worker_processes  1;
 
 error_log  syslog:server=127.0.0.1,facility=user;
+#error_log  ${cubevar_nginx_root}/logs/debug.txt debug;
 pid        /var/run/nginx.pid;
 
 events {

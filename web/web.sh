@@ -52,6 +52,10 @@ fi
 
 cubevar_nginx_root="${cubevar_nginx_root}/nginx-${cubevar_app_nginx_source_version}"
 
+if [ "${cubevar_nginx_reinstall}" = "1" ]; then
+  rm -rf "${cubevar_nginx_root}"
+fi
+
 if ! cube_dir_exists "${cubevar_nginx_root}" ; then
 
   cube_echo "Installing nginx ${cubevar_app_nginx_source_version}"
@@ -90,9 +94,9 @@ if ! cube_dir_exists "${cubevar_nginx_root}" ; then
   (
     cd /usr/local/src/ || cube_check_return
     rm -rf /usr/local/src/nginx-upload-module 2>/dev/null
-    git clone https://github.com/Austinb/nginx-upload-module || cube_check_return
+    git clone https://github.com/myplaceonline/nginx-upload-module || cube_check_return
     cd nginx-upload-module || cube_check_return
-    git checkout 2.2 || cube_check_return
+    git checkout 2.255 || cube_check_return
   ) || cube_check_return
 
   cube_pushd "$(cube_tmpdir)"
@@ -116,6 +120,7 @@ if ! cube_dir_exists "${cubevar_nginx_root}" ; then
         --with-http_ssl_module --with-pcre --with-http_gzip_static_module \
         --add-module=${cubevar_app_nginx_srcdir} \
         --add-module=/usr/local/src/nginx-upload-module \
+        --with-debug \
         || cube_check_return
       
       cube_echo "Compiling nginx"
