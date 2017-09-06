@@ -25,6 +25,6 @@ while [ `basename $PARENTDIR` != "src" ]; do
   PARENTDIR=`dirname ${PARENTDIR}`
 done
 pushd "$PARENTDIR"
-git commit -a -m "Update submodules" && \
+git commit -a -m "${*}" && \
 git push
 popd
