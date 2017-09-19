@@ -86,6 +86,7 @@ if cube_service_exists influx ; then
 fi
 
 cubevar_app_fullhostname="$(cube_hostname true).${cubevar_app_server_name}"
+cubevar_app_shorthostname="$(cube_hostname true)"
 
 cube_read_stdin cubevar_app_str <<'HEREDOC'
 ${cubevar_app_fullhostname}
@@ -257,6 +258,8 @@ fi
 cube_service enable atop
 cube_service start atop
 
+mkdir -p /var/lib/rsyslog
+
 if cube_set_file_contents "/etc/rsyslog.conf" "templates/rsyslog.conf" ; then
   # Some servers have a different syslog config, so don't update syslog immediately
   cubevar_api_post_restart=$(cube_append_str "${cubevar_api_post_restart}" "rsyslog")
@@ -375,7 +378,9 @@ cube_ensure_directory "${cubevar_app_nfs_client_mount}" 777
 if cube_set_file_contents "/etc/systemd/system/tcpdump.service" "templates/tcpdump.service.template" ; then
   cube_service daemon-reload
   cube_service enable tcpdump
-  cube_service start tcpdump
+  cube_service restart tcpdump
 fi
+
+cube_set_file_contents "/etc/hosts" "templates/hosts.template"
 
 true

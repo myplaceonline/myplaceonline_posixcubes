@@ -1,0 +1,18 @@
+# https://www.digitalocean.com/community/questions/why-the-system-ubuntu-14-04-is-configured-manage_etc_hosts-as-true-by-default
+# https://cloudsupport.digitalocean.com/s/case/5001N00000TWiovQAD
+
+# The following lines are desirable for IPv4 capable hosts
+127.0.0.1 ${cubevar_app_fullhostname} ${cubevar_app_shorthostname}
+127.0.0.1 localhost.localdomain localhost
+127.0.0.1 localhost4.localdomain4 localhost4
+
+# The following lines are desirable for IPv6 capable hosts
+::1 ${cubevar_app_fullhostname} ${cubevar_app_shorthostname}
+::1 localhost.localdomain localhost
+::1 localhost6.localdomain6 localhost6
+
+10.134.1.68 frontend1-internal frontend1-internal.myplaceonline.com
+10.134.19.183 web4-internal web4-internal.myplaceonline.com
+10.134.0.70 web12-internal web12-internal.myplaceonline.com
+10.134.42.155 db5-internal db5-internal.myplaceonline.com
+10.134.14.128 db6-internal db6-internal.myplaceonline.com
