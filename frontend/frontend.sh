@@ -92,21 +92,24 @@ fi
 
 if ! cube_file_exists /etc/letsencrypt/live/ ; then
   # This could fail if we're rebuilding a frontend server, and we haven't pointed the main domain IPs to the new
-  # frontend yet
+  # frontend yet, so we don't raise on a bad return code.
+  cube_echo "Calling letsencrypt with ${cubevar_app_letsencrypt_tls_domains}"
   /usr/bin/certbot --non-interactive --agree-tos --renew-by-default --email contact@myplaceonline.com --standalone --preferred-challenges http-01 --http-01-port 9999 certonly ${cubevar_app_letsencrypt_tls_domains}
-  if [ $? -ne 0 ]; then
+  cubevar_app_letsencrypt_result=$?
+  if [ ${cubevar_app_letsencrypt_result} -ne 0 ]; then
+    cube_warning_echo "Letsencrypt failure: ${cubevar_app_letsencrypt_result}"
     rm -rf /etc/letsencrypt/live/ 2>/dev/null
   fi
 fi
 
 if cube_file_exists /etc/letsencrypt/live/ ; then
-# certbot will only create a single certificate.
-#   for cubevar_app_tls_domain in ${cubevar_app_tls_domains}; do
-#     if ! cube_file_exists /etc/haproxy/ssl/${cubevar_app_tls_domain}.pem ; then
-#       cat /etc/letsencrypt/live/${cubevar_app_tls_domain}/{fullchain.pem,privkey.pem} > /etc/haproxy/ssl/${cubevar_app_tls_domain}.pem || cube_check_return
-#       cat /etc/haproxy/ssl/dh/${cubevar_app_tls_domain}.dh >> /etc/haproxy/ssl/${cubevar_app_tls_domain}.pem || cube_check_return
-#     fi
-#   done
+  # certbot will only create a single certificate.
+  #   for cubevar_app_tls_domain in ${cubevar_app_tls_domains}; do
+  #     if ! cube_file_exists /etc/haproxy/ssl/${cubevar_app_tls_domain}.pem ; then
+  #       cat /etc/letsencrypt/live/${cubevar_app_tls_domain}/{fullchain.pem,privkey.pem} > /etc/haproxy/ssl/${cubevar_app_tls_domain}.pem || cube_check_return
+  #       cat /etc/haproxy/ssl/dh/${cubevar_app_tls_domain}.dh >> /etc/haproxy/ssl/${cubevar_app_tls_domain}.pem || cube_check_return
+  #     fi
+  #   done
   if ! cube_file_exists /etc/haproxy/ssl/myplaceonline.com.pem ; then
     cat /etc/letsencrypt/live/myplaceonline.com/{fullchain.pem,privkey.pem} > /etc/haproxy/ssl/myplaceonline.com.pem || cube_check_return
     cat /etc/haproxy/ssl/dh/myplaceonline.com.dh >> /etc/haproxy/ssl/myplaceonline.com.pem || cube_check_return
