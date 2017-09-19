@@ -8,7 +8,11 @@
 # firewall-cmd --list-all-zones
 # firewall-cmd --info-zone trusted
 
-cube_package install firewalld
+if cube_operating_system_has_flavor ${POSIXCUBE_OS_FLAVOR_FEDORA}; then
+  cube_package install firewalld bind-utils
+elif cube_operating_system_has_flavor ${POSIXCUBE_OS_FLAVOR_DEBIAN}; then
+  cube_package install firewalld dnsutils
+fi
 
 cube_service start firewalld
 

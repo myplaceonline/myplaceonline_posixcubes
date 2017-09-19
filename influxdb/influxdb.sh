@@ -10,7 +10,7 @@
 cube_read_stdin cubevar_app_str <<'HEREDOC'
 [influxdb]
 name = InfluxDB Repository - RHEL 7Server
-baseurl = https://repos.influxdata.com/rhel/7Server/\$basearch/stable
+baseurl = https://repos.influxdata.com/rhel/7Server/$basearch/stable
 enabled = 1
 gpgcheck = 1
 gpgkey = https://repos.influxdata.com/influxdb.key

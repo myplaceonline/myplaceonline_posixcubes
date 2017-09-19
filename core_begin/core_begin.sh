@@ -146,7 +146,11 @@ if cube_operating_system_has_flavor ${POSIXCUBE_OS_FLAVOR_FEDORA}; then
   cube_package --enablerepo fedora-debuginfo --enablerepo updates-debuginfo install kernel-debuginfo-common-x86_64 kernel-debuginfo glibc-debuginfo-common glibc-debuginfo systemtap perf
   
   # https://fedoraproject.org/wiki/Yum_to_DNF_Cheatsheet
-  cubevar_redundant_packages="$(dnf repoquery --installonly --latest-limit -1 -q)"
+  if [ $(cube_operating_system_version_major) -lt 26 ]; then
+    cubevar_redundant_packages="$(dnf repoquery --installonly --latest-limit -1 -q)"
+  else
+    cubevar_redundant_packages="$(dnf repoquery --installonly --latest-limit=-1 -q)"
+  fi
   if [ "${cubevar_redundant_packages}" != "" ]; then
     cube_package remove ${cubevar_redundant_packages}
   fi
@@ -180,8 +184,8 @@ fi
 if cube_operating_system_has_flavor ${POSIXCUBE_OS_FLAVOR_FEDORA}; then
   cube_read_stdin cubevar_app_str <<'HEREDOC'
 [influxdb]
-name = InfluxDB Repository - RHEL \$releasever
-baseurl = https://repos.influxdata.com/rhel/7Server/\$basearch/stable
+name = InfluxDB Repository - RHEL $releasever
+baseurl = https://repos.influxdata.com/rhel/7Server/$basearch/stable
 enabled = 1
 gpgcheck = 0
 gpgkey = https://repos.influxdata.com/influxdb.key
