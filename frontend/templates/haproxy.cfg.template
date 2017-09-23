@@ -49,9 +49,11 @@ listen internaladmin
 #---------------------------------------------------------------------
 frontend myplaceonline_insecure
     bind *:80
+    capture request header Host len 50
     capture request header User-Agent len 128
     capture request header Referer len 128
-    log-format             %ci:%cp\ [%t]\ %ft\ %b/%s\ %Tq/%Tw/%Tc/%Tr/%Tt\ %ST\ %B\ %U\ %ac/%fc/%bc/%sc/%rc\ %sq/%bq\ %{+Q}r\ %hr
+    capture response header X-Request-Id len 38
+    log-format             %ci:%cp\ [%t]\ %ft\ %b/%s\ %Th/%Ti/%TR/%Tw/%Tc/%Tr/%Tt\ %ST\ %B\ %U\ %ac/%fc/%bc/%sc/%rc\ %sq/%bq\ %{+Q}r\ %hr\ %hs
     acl letsencrypt-request path_beg -i /.well-known/acme-challenge/
     redirect scheme https if !{ ssl_fc } !{ path_beg /.well-known/acme-challenge/ }
     use_backend letsencrypt if letsencrypt-request

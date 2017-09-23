@@ -228,7 +228,8 @@ cube_pushd "${cubevar_app_web_dir}"
   export RUBY_GC_OLDMALLOC_LIMIT_MAX="${cubevar_app_rails_gc_max_oldspace}"
   
   cube_echo "Running bundle install"
-  
+
+  # bin/bundle exec gem uninstall rmagick
   bin/bundle install --deployment || cube_check_return
   
   cubevar_web_psql_output="$(psql -tA -U ${cubevar_app_db_dbuser} -h ${cubevar_app_db_host} -d ${cubevar_app_db_dbname} -c '\dt')" || cube_check_return

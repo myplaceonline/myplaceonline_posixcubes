@@ -151,7 +151,7 @@ dynamic_shared_memory_type = posix	# the default is the first option
 
 # - Kernel Resource Usage -
 
-#max_files_per_process = 1000		# min 25
+#max_files_per_process = 50		# min 25
 					# (change requires restart)
 #shared_preload_libraries = ''		# (change requires restart)
 
@@ -329,7 +329,7 @@ effective_cache_size = ${cubevar_postgres_cache_size}MB
 
 # - Where to Log -
 
-#log_destination = 'stderr'		# Valid values are combinations of
+log_destination = 'syslog'		# Valid values are combinations of
 					# stderr, csvlog, syslog, and eventlog,
 					# depending on platform.  csvlog
 					# requires logging_collector to be on.
@@ -409,7 +409,7 @@ log_min_error_statement = notice	# values in order of decreasing detail:
 					#   fatal
 					#   panic (effectively off)
 
-log_min_duration_statement = 1000	# -1 is disabled, 0 logs all statements
+log_min_duration_statement = 100	# -1 is disabled, 0 logs all statements
 					# and their durations, > 0 logs only
 					# statements running at least this number
 					# of milliseconds
@@ -448,7 +448,8 @@ log_line_prefix = '%t %u@%r:%d [%p] '			# special values:
 					#   %% = '%'
 					# e.g. '<%u%%%d> '
 #log_lock_waits = off			# log lock waits >= deadlock_timeout
-#log_statement = 'none'			# none, ddl, mod, all
+#log_statement = 'all'			# none, ddl, mod, all
+log_statement = 'none'
 #log_temp_files = -1			# log temporary files equal or larger
 					# than the specified size in kilobytes;
 					# -1 disables, 0 logs all temp files

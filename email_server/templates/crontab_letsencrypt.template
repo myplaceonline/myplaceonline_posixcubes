@@ -1,0 +1,1 @@
+0 0 15 * * root date >> /var/log/crontab_letsencrypt.log; /usr/bin/certbot --non-interactive --agree-tos --renew-by-default --email contact@myplaceonline.com --standalone certonly -d ${cubevar_app_email_host} >> /var/log/crontab_letsencrypt.log 2>&1 && systemctl restart opensmtpd
