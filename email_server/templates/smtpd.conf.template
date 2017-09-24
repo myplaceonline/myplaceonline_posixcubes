@@ -22,7 +22,7 @@ listen on lo   port 587 tls-require pki ${cubevar_app_email_host} auth <passwd>
 listen on eth0 port 587 tls-require pki ${cubevar_app_email_host} auth <passwd>
 
 # DKIM
-#listen on lo0  port 10028 tag DKIM
+listen on lo   port 10028 tag DKIM
 
 accept from local for local alias <aliases> deliver to lmtp "/run/dovecot/lmtp" rcpt-to
 accept from any for domain <domains> virtual <users> deliver to lmtp "/run/dovecot/lmtp" rcpt-to
@@ -38,7 +38,8 @@ accept from any for domain <domains> virtual <users> deliver to lmtp "/run/dovec
 
 # Authenticated outbound mails will come in and forward to the DKIM proxy on port 10027 which will sign with DKIM
 # and send back to us on port 10028 which we'll tag above and then process below to relay:
-#accept from local for any relay via smtp://127.0.0.1:10027
-#accept tagged DKIM for any relay via tls+auth://label@smtp.sendgrid.net auth <secrets>
+accept tagged DKIM for any relay via tls+auth://label@smtp.sendgrid.net auth <secrets>
+accept from local for any relay via smtp://127.0.0.1:10027
 
-accept from local for any relay via tls+auth://label@smtp.sendgrid.net auth <secrets>
+# Old config without DKIM:
+#accept from local for any relay via tls+auth://label@smtp.sendgrid.net auth <secrets>
