@@ -1,7 +1,6 @@
 # https://www.opensmtpd.org/faq/example1.html
 # https://man.openbsd.org/smtpd.conf
 # https://www.opensmtpd.org/faq/config.html
-# https://man.openbsd.org/smtpd.conf#EXAMPLES
 
 table aliases file:/etc/mail/aliases
 table domains file:/etc/mail/domains
@@ -22,6 +21,9 @@ listen on eth0 port  25 tls pki ${cubevar_app_email_host} auth-optional <passwd>
 listen on lo   port 587 tls-require pki ${cubevar_app_email_host} auth <passwd>
 listen on eth0 port 587 tls-require pki ${cubevar_app_email_host} auth <passwd>
 
+# DKIM
+#listen on lo0  port 10028 tag DKIM
+
 accept from local for local alias <aliases> deliver to lmtp "/run/dovecot/lmtp" rcpt-to
 accept from any for domain <domains> virtual <users> deliver to lmtp "/run/dovecot/lmtp" rcpt-to
 
@@ -33,5 +35,10 @@ accept from any for domain <domains> virtual <users> deliver to lmtp "/run/dovec
 # "Any remote sender that passed SMTPAUTH is treated as if it was the server's local user that was sending the mail.
 #  This means that filter rules using from local will be matched."
 # https://man.openbsd.org/smtpd.conf
+
+# Authenticated outbound mails will come in and forward to the DKIM proxy on port 10027 which will sign with DKIM
+# and send back to us on port 10028 which we'll tag above and then process below to relay:
+#accept from local for any relay via smtp://127.0.0.1:10027
+#accept tagged DKIM for any relay via tls+auth://label@smtp.sendgrid.net auth <secrets>
 
 accept from local for any relay via tls+auth://label@smtp.sendgrid.net auth <secrets>
