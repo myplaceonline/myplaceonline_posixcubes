@@ -133,7 +133,11 @@ if cube_set_file_contents "/usr/lib/systemd/scripts/dkimproxy.sh" "templates/dki
   cube_service restart dkimproxy_out
 fi
 
+# http://dkimproxy.sourceforge.net/usage.html
+
 if cube_set_file_contents_string "/usr/local/dkimproxy/etc/private.key" "${cubevar_app_dkim_key_private}"; then
+  chown dkim:dkim /usr/local/dkimproxy/etc/private.key || cube_check_return
+  chmod 600 /usr/local/dkimproxy/etc/private.key || cube_check_return
   cube_service restart dkimproxy_in
 fi
 
@@ -189,6 +193,13 @@ if ! cube_dir_exists "/usr/local/src/opensmtpd-201702130941p1/" ; then
     make
     make install
   ) || cube_check_return
+fi
+
+if ! cube_file_exists /etc/mail/secrets ; then
+  touch /etc/mail/secrets || cube_check_return
+  chmod 640 /etc/mail/secrets || cube_check_return
+  chown root:_smtpd /etc/mail/secrets || cube_check_return
+  cube_set_file_contents_string "/etc/mail/secrets" "label myplaceonline:${cubevar_app_passwords_smtp}"
 fi
 
 if cube_set_file_contents "/usr/local/etc/smtpd.conf" "templates/smtpd.conf.template"; then

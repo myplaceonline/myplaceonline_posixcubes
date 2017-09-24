@@ -1,23 +1,29 @@
 # https://www.opensmtpd.org/faq/example1.html
 # https://man.openbsd.org/smtpd.conf
 # https://www.opensmtpd.org/faq/config.html
+# https://man.openbsd.org/smtpd.conf#EXAMPLES
 
 table aliases file:/etc/mail/aliases
 table domains file:/etc/mail/domains
 table passwd passwd:/etc/mail/passwd
 table users file:/etc/mail/users
+table secrets file:/etc/mail/secrets
 
 pki ${cubevar_app_email_host} certificate "/etc/letsencrypt/live/${cubevar_app_email_host}/fullchain.pem"
 pki ${cubevar_app_email_host} key "/etc/letsencrypt/live/${cubevar_app_email_host}/privkey.pem"
 
-listen on lo inet4 tls pki ${cubevar_app_email_host}
-listen on lo inet4 port 465 tls-require pki ${cubevar_app_email_host}
-listen on lo inet4 port 587 tls-require pki ${cubevar_app_email_host}
+# Port 25 is for an MX server to receive emails (it upgrades to TLS if possible) and should not relay.
+# Ports 465/587 are for authenticated users to relay emails through.
+# Authenticated users receive their email through IMAP/POP through dovecot.
 
-listen on eth0 inet4 tls pki ${cubevar_app_email_host}
-listen on eth0 inet4 port 465 tls-require pki ${cubevar_app_email_host}
-listen on eth0 inet4 port 587 tls-require pki ${cubevar_app_email_host}
+listen on lo   inet4 port  25 tls pki ${cubevar_app_email_host} auth-optional <users>
+listen on lo   inet4 port 465 tls-require pki ${cubevar_app_email_host} auth <users>
+listen on lo   inet4 port 587 tls-require pki ${cubevar_app_email_host} auth <users>
+
+listen on eth0 inet4 port  25 tls pki ${cubevar_app_email_host} auth-optional <users>
+listen on eth0 inet4 port 465 tls-require pki ${cubevar_app_email_host} auth <users>
+listen on eth0 inet4 port 587 tls-require pki ${cubevar_app_email_host} auth <users>
 
 accept from local for local alias <aliases> deliver to lmtp "/run/dovecot/lmtp" rcpt-to
 accept from any for domain <domains> virtual <users> deliver to lmtp "/run/dovecot/lmtp" rcpt-to
-#accept from local for any relay
+#accept from any for any relay via tls+auth://label@smtp.sendgrid.net auth <secrets>
