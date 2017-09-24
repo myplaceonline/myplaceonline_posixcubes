@@ -1,0 +1,12 @@
+[Unit]
+Description=DKIM Inbound Proxy
+After=opensmtpd.service
+
+[Service]
+Type=simple
+PIDFile=/usr/local/dkimproxy/var/run/dkimproxy_in.pid
+ExecStart=/usr/lib/systemd/scripts/dkimproxy.sh start-in
+ExecStop=/usr/lib/systemd/scripts/dkimproxy.sh stop-in
+
+[Install]
+WantedBy=multi-user.target

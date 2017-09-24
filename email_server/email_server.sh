@@ -79,7 +79,9 @@ if ! cube_file_exists /etc/letsencrypt/live/ ; then
   fi
 fi
 
-cube_package install certbot automake git libtool libevent-devel libasr-devel dovecot
+# http://dkimproxy.sourceforge.net/download.html
+cube_package install certbot automake git libtool libevent-devel libasr-devel dovecot perl-Crypt-OpenSSL-RSA \
+                     perl-Digest-SHA perl-MailTools perl-Net-DNS perl-Net-Server perl-Mail-DKIM
 
 # https://www.opensmtpd.org/faq/example1.html
 if ! cube_user_exists vmail; then
@@ -92,6 +94,59 @@ if ! cube_file_exists /etc/mail/aliases ; then
   cube_set_file_contents_string "/etc/mail/domains" "${cubevar_app_email_domains}"
   cube_set_file_contents_string "/etc/mail/passwd" "${cubevar_app_email_passwords}"
   cube_set_file_contents_string "/etc/mail/users" "${cubevar_app_email_users}"
+fi
+
+if ! cube_dir_exists "/usr/local/src/dkimproxy-1.4.1" ; then
+  (
+    cd /usr/local/src/ || cube_check_return
+    wget https://downloads.sourceforge.net/dkimproxy/dkimproxy-1.4.1.tar.gz || cube_check_return
+    tar xzvf dkimproxy-1.4.1.tar.gz || cube_check_return
+    cd dkimproxy* || cube_check_return
+    ./configure --prefix=/usr/local/dkimproxy || cube_check_return
+    make install || cube_check_return
+  ) || cube_check_return
+  
+  cube_set_file_contents "/usr/local/dkimproxy/etc/dkimproxy_in.conf" "templates/dkimproxy_in.conf.template"
+  cube_set_file_contents "/usr/local/dkimproxy/etc/dkimproxy_out.conf" "templates/dkimproxy_out.conf.template"
+  cube_set_file_contents "/usr/lib/systemd/scripts/dkimproxy.sh" "templates/dkimproxy.sh"
+  chmod a+x /usr/lib/systemd/scripts/dkimproxy.sh || cube_check_return
+fi
+
+if ! cube_user_exists "dkim" ; then
+  cube_create_user "dkim"
+fi
+
+if cube_set_file_contents "/usr/lib/systemd/system/dkimproxy_in.service" "templates/dkimproxy_in.service.template" ; then
+  cube_service daemon-reload
+  cube_service enable dkimproxy_in
+  cube_service restart dkimproxy_in
+fi
+
+if cube_set_file_contents "/usr/lib/systemd/system/dkimproxy_out.service" "templates/dkimproxy_out.service.template" ; then
+  cube_service daemon-reload
+  cube_service enable dkimproxy_out
+  cube_service restart dkimproxy_out
+fi
+
+if cube_set_file_contents "/usr/lib/systemd/scripts/dkimproxy.sh" "templates/dkimproxy.sh"; then
+  cube_service restart dkimproxy_in
+  cube_service restart dkimproxy_out
+fi
+
+if cube_set_file_contents_string "/usr/local/dkimproxy/etc/private.key" "${cubevar_app_dkim_key_private}"; then
+  cube_service restart dkimproxy_in
+fi
+
+if cube_set_file_contents_string "/usr/local/dkimproxy/etc/public.key" "${cubevar_app_dkim_key_public}"; then
+  cube_service restart dkimproxy_in
+fi
+
+if cube_set_file_contents "/usr/local/dkimproxy/etc/dkimproxy_in.conf" "templates/dkimproxy_in.conf.template"; then
+  cube_service restart dkimproxy_in
+fi
+
+if cube_set_file_contents "/usr/local/dkimproxy/etc/dkimproxy_out.conf" "templates/dkimproxy_out.conf.template"; then
+  cube_service restart dkimproxy_out
 fi
 
 if cube_set_file_contents "/etc/dovecot/conf.d/10-ssl.conf" "templates/10-ssl.conf.template"; then
