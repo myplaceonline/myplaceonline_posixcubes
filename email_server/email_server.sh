@@ -180,9 +180,10 @@ if ! cube_dir_exists "/usr/local/src/opensmtpd-201702130941p1/" ; then
     wget http://www.opensmtpd.org/archives/opensmtpd-portable-latest.tar.gz || cube_check_return
     tar xzvf opensmtpd-portable-latest.tar.gz || cube_check_return
     cd opensmtpd* || cube_check_return
-    ./configure || cube_check_return
+    ./configure --with-path-CAfile=/etc/pki/tls/cert.pem || cube_check_return
     make || cube_check_return
-    sudo make install || cube_check_return
+    make install || cube_check_return
+    ln -s /etc/pki/tls/cert.pem /etc/ssl/cert.pem
     useradd -m -c "SMTP Daemon" -d /var/empty -s /sbin/nologin _smtpd || cube_check_return
     useradd -m -c "SMTPD Queue" -d /var/empty -s /sbin/nologin _smtpq || cube_check_return
     cd /usr/local/src/ || cube_check_return
