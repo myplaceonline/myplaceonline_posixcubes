@@ -1,5 +1,12 @@
 #!/bin/sh
 
+# Create user
+# Generate password (no prompt; type password twice):
+#   ssh root@${HOST} doveadm pw -s SHA512-CRYPT
+# Take everything from $6$ to the end and add a line to cubevar_app_email_passwords following the passwd format
+# Add a vmail line to cubevar_app_email_users for the user
+# Build email_server to update the files
+
 # IMAP:
   # openssl s_client -connect ${HOST}:993 -crlf
   # tag login ${USER} "${PASSWORD}"
@@ -21,9 +28,6 @@
   #   Test
   #   .
   # QUIT
-
-# Generate password (no prompt; type password twice):
-# ssh root@${HOST} doveadm pw -s SHA512-CRYPT
 
 # Check if IP address is blacklisted
 # http://mxtoolbox.com/blacklists.aspx
@@ -162,6 +166,10 @@ if cube_set_file_contents "/etc/dovecot/conf.d/auth-system.conf.ext" "templates/
 fi
 
 if cube_set_file_contents "/etc/dovecot/conf.d/10-mail.conf" "templates/10-mail.conf.template"; then
+  cube_service restart dovecot
+fi
+
+if cube_set_file_contents "/etc/dovecot/conf.d/15-mailboxes.conf" "templates/15-mailboxes.conf.template"; then
   cube_service restart dovecot
 fi
 
