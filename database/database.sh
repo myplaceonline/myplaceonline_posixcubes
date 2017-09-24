@@ -153,3 +153,5 @@ else
     chmod 600 "/var/spool/cron/root" || cube_check_return
   fi
 fi
+
+cube_set_file_contents "/usr/lib/systemd/system/postgresql.service" "templates/postgresql.service"
