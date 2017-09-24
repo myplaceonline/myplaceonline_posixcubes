@@ -12,18 +12,26 @@ table secrets file:/etc/mail/secrets
 pki ${cubevar_app_email_host} certificate "/etc/letsencrypt/live/${cubevar_app_email_host}/fullchain.pem"
 pki ${cubevar_app_email_host} key "/etc/letsencrypt/live/${cubevar_app_email_host}/privkey.pem"
 
-# Port 25 is for an MX server to receive emails (it upgrades to TLS if possible) and should not relay.
-# Ports 465/587 are for authenticated users to relay emails through.
-# Authenticated users receive their email through IMAP/POP through dovecot.
+listen on lo   port  25 tls pki ${cubevar_app_email_host} auth-optional <passwd>
+listen on eth0 port  25 tls pki ${cubevar_app_email_host} auth-optional <passwd>
 
-listen on lo   inet4 port  25 tls pki ${cubevar_app_email_host} auth-optional <users>
-listen on lo   inet4 port 465 tls-require pki ${cubevar_app_email_host} auth <users>
-listen on lo   inet4 port 587 tls-require pki ${cubevar_app_email_host} auth <users>
+# Only support 587/STARTTLS due to https://github.com/OpenSMTPD/OpenSMTPD/issues/451
+#listen on lo   port 465 tls-require pki ${cubevar_app_email_host} auth <passwd>
+#listen on eth0 port 465 tls-require pki ${cubevar_app_email_host} auth <passwd>
 
-listen on eth0 inet4 port  25 tls pki ${cubevar_app_email_host} auth-optional <users>
-listen on eth0 inet4 port 465 tls-require pki ${cubevar_app_email_host} auth <users>
-listen on eth0 inet4 port 587 tls-require pki ${cubevar_app_email_host} auth <users>
+listen on lo   port 587 tls-require pki ${cubevar_app_email_host} auth <passwd>
+listen on eth0 port 587 tls-require pki ${cubevar_app_email_host} auth <passwd>
 
 accept from local for local alias <aliases> deliver to lmtp "/run/dovecot/lmtp" rcpt-to
 accept from any for domain <domains> virtual <users> deliver to lmtp "/run/dovecot/lmtp" rcpt-to
-#accept from any for any relay via tls+auth://label@smtp.sendgrid.net auth <secrets>
+
+# MX incoming mail will always come in on port 25. We set it to auth-optional so that anybody can send email to the
+# domains specified in <domains> and a matching user specified in <users>; however, only those users that authenticate
+# (on port 25, 465, or 587) can send email through this server (to a relay) because once a user is authenticated, they
+# are treated as a local user:
+# 
+# "Any remote sender that passed SMTPAUTH is treated as if it was the server's local user that was sending the mail.
+#  This means that filter rules using from local will be matched."
+# https://man.openbsd.org/smtpd.conf
+
+accept from local for any relay via tls+auth://label@smtp.sendgrid.net auth <secrets>
