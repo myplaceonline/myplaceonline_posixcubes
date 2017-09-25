@@ -12,7 +12,7 @@
 ::1 localhost6.localdomain6 localhost6
 
 # This was used during some intermittent DigitalOcean DNS issues
-#10.134.25.221 frontend3-internal frontend3-internal.myplaceonline.com
+#10.134.1.142 frontend1-internal frontend1-internal.myplaceonline.com
 #10.134.19.183 web4-internal web4-internal.myplaceonline.com
 #10.134.0.70 web12-internal web12-internal.myplaceonline.com
 #10.134.42.155 db5-internal db5-internal.myplaceonline.com

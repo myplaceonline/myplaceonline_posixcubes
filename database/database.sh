@@ -155,3 +155,5 @@ else
 fi
 
 cube_set_file_contents "/usr/lib/systemd/system/postgresql.service" "templates/postgresql.service"
+
+true

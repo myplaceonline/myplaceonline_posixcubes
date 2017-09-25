@@ -276,32 +276,37 @@ if cube_service_exists kdump ; then
   cube_service enable kdump
 fi
 
-# https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/7/html-single/Kernel_Crash_Dump_Guide/index.html#sect-kdump-memory-requirements
-# 160 MB + 2 bits for every 4 KB of RAM. For a system with 1 TB of memory, 224 MB is the minimum (160 + 64 MB).
-cubevar_app_crashkernel_mem=$((161+($(cube_total_memory)/268435456)))
+cube_echo "Total memory (MB): $(cube_total_memory MB)"
 
-if cube_file_exists /boot/extlinux/extlinux.conf ; then
-  sed -i "s/UTF-8\$/UTF-8 crashkernel=${cubevar_app_crashkernel_mem}M audit=0/g" /boot/extlinux/extlinux.conf || cube_check_return
-elif cube_file_exists /boot/grub/grub.cfg ; then
-  if cube_set_file_contents "/etc/default/grub" "templates/grub1.template" ; then
-    update-grub || cube_check_return
-  fi
-  if cube_set_file_contents "/etc/default/grub.d/kexec-tools.cfg" "templates/kexec-tools.cfg.template" ; then
-    update-grub || cube_check_return
-    
-    # For some reason, a reboot is required to pick up the new config
-    # https://cloud.digitalocean.com/support/tickets/1349141
-    cube_error_echo "Updating grub requires a hard shutdown and reboot. Shutting down in 1 minute. Go into the console to power it back on."
-    shutdown -h +1
-    exit 0
-  fi
-else
-  # https://docs.fedoraproject.org/en-US/Fedora/25/html/System_Administrators_Guide/sec-Making_Persistent_Changes_to_a_GRUB_2_Menu_Using_the_grubby_Tool.html
-  # https://docs.fedoraproject.org/en-US/Fedora/25/html/System_Administrators_Guide/sec-Customizing_the_GRUB_2_Configuration_File.html
-  # grubby --update-kernel=ALL "--args=no_timer_check console=hvc0 LANG=en_US.UTF-8 crashkernel=${cubevar_app_crashkernel_mem}M audit=0" || cube_check_return
+# We can't afford a crash kernel on a tiny server
+if [ $(cube_total_memory MB) -gt 512 ]; then
+  # https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/7/html-single/Kernel_Crash_Dump_Guide/index.html#sect-kdump-memory-requirements
+  # 160 MB + 2 bits for every 4 KB of RAM. For a system with 1 TB of memory, 224 MB is the minimum (160 + 64 MB).
+  cubevar_app_crashkernel_mem=$((161+($(cube_total_memory)/268435456)))
 
-  if cube_set_file_contents "/etc/default/grub" "templates/grub2.template" ; then
-    /usr/sbin/grub2-mkconfig -o /boot/grub2/grub.cfg || cube_check_return
+  if cube_file_exists /boot/extlinux/extlinux.conf ; then
+    sed -i "s/UTF-8\$/UTF-8 crashkernel=${cubevar_app_crashkernel_mem}M audit=0/g" /boot/extlinux/extlinux.conf || cube_check_return
+  elif cube_file_exists /boot/grub/grub.cfg ; then
+    if cube_set_file_contents "/etc/default/grub" "templates/grub1.template" ; then
+      update-grub || cube_check_return
+    fi
+    if cube_set_file_contents "/etc/default/grub.d/kexec-tools.cfg" "templates/kexec-tools.cfg.template" ; then
+      update-grub || cube_check_return
+      
+      # For some reason, a reboot is required to pick up the new config
+      # https://cloud.digitalocean.com/support/tickets/1349141
+      cube_error_echo "Updating grub requires a hard shutdown and reboot. Shutting down in 1 minute. Go into the console to power it back on."
+      shutdown -h +1
+      exit 0
+    fi
+  else
+    # https://docs.fedoraproject.org/en-US/Fedora/25/html/System_Administrators_Guide/sec-Making_Persistent_Changes_to_a_GRUB_2_Menu_Using_the_grubby_Tool.html
+    # https://docs.fedoraproject.org/en-US/Fedora/25/html/System_Administrators_Guide/sec-Customizing_the_GRUB_2_Configuration_File.html
+    # grubby --update-kernel=ALL "--args=no_timer_check console=hvc0 LANG=en_US.UTF-8 crashkernel=${cubevar_app_crashkernel_mem}M audit=0" || cube_check_return
+
+    if cube_set_file_contents "/etc/default/grub" "templates/grub2.template" ; then
+      /usr/sbin/grub2-mkconfig -o /boot/grub2/grub.cfg || cube_check_return
+    fi
   fi
 fi
 
