@@ -276,10 +276,12 @@ if cube_service_exists kdump ; then
   cube_service enable kdump
 fi
 
-cube_echo "Total memory (MB): $(cube_total_memory MB)"
+cube_echo "Total memory (MB): $(cube_total_memory MB), Required for crash kernel: ${cubevar_min_mem_crash_kernel}"
 
 # We can't afford a crash kernel on a tiny server
-if [ $(cube_total_memory MB) -gt 512 ]; then
+if [ $(cube_total_memory MB) -gt ${cubevar_min_mem_crash_kernel} ]; then
+  cube_echo "Ensuring crash kernel"
+  
   # https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/7/html-single/Kernel_Crash_Dump_Guide/index.html#sect-kdump-memory-requirements
   # 160 MB + 2 bits for every 4 KB of RAM. For a system with 1 TB of memory, 224 MB is the minimum (160 + 64 MB).
   cubevar_app_crashkernel_mem=$((161+($(cube_total_memory)/268435456)))
@@ -336,16 +338,18 @@ cube_set_file_contents "/etc/security/limits.conf" "templates/limits.conf"
 cube_set_file_contents ~/.toprc "templates/toprc"
 
 # crash is already in the debian repos
-if ! cube_operating_system_has_flavor ${POSIXCUBE_OS_FLAVOR_DEBIAN} ; then
-  if ! cube_file_exists /usr/local/src/crash/crash ; then
-    cube_pushd /usr/local/src/
-    rm -rf crash* || cube_check_return
-    git clone https://github.com/crash-utility/crash/ || cube_check_return
-    cd crash || cube_check_return
-    echo '-DLZO' > CFLAGS.extra || cube_check_return
-    echo '-llzo2' > LDFLAGS.extra || cube_check_return
-    make || cube_check_return
-    cube_popd
+if [ $(cube_total_memory MB) -gt ${cubevar_min_mem_crash_kernel} ]; then
+  if ! cube_operating_system_has_flavor ${POSIXCUBE_OS_FLAVOR_DEBIAN} ; then
+    if ! cube_file_exists /usr/local/src/crash/crash ; then
+      cube_pushd /usr/local/src/
+      rm -rf crash* || cube_check_return
+      git clone https://github.com/crash-utility/crash/ || cube_check_return
+      cd crash || cube_check_return
+      echo '-DLZO' > CFLAGS.extra || cube_check_return
+      echo '-llzo2' > LDFLAGS.extra || cube_check_return
+      make || cube_check_return
+      cube_popd
+    fi
   fi
 fi
 
