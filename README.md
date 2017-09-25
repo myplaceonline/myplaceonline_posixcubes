@@ -87,12 +87,13 @@ Add server to the other servers' whitelist:
 
     posixcube.sh -z firewall_whitelist
 
+Point floating IP of 138.68.192.106 to new frontend server
+
 Create frontend server:
 
     $(grep "^frontend=" cubespecs.ini | sed 's/^frontend=/posixcube.sh /g' | sed "s/\\-h frontend\\*/-h frontend${SERVER_NUMBER}/g")
+    # There will be certbot errors. Reboot and run again:
     ssh root@frontend${SERVER_NUMBER}.myplaceonline.com reboot
-
-* Point floating IP of 138.68.192.106 to new frontend server
 
 Update frontend server (to get TLS certificates):
 
