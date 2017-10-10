@@ -14,3 +14,5 @@ passenger_max_requests 0;
 passenger_instance_registry_dir /var/run/;
 passenger_pre_start http://127.0.0.1/;
 passenger_start_timeout 240;
+passenger_user root;
+passenger_group root;
