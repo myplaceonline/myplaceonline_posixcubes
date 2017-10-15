@@ -11,7 +11,7 @@ else
   cube_throw Not implemented
 fi
 
-cube_ensure_directory "${cubevar_app_nfs_server_directory}" 700
+cube_ensure_directory "${cubevar_app_nfs_server_directory}" 755
 
 if cube_operating_system_has_flavor ${POSIXCUBE_OS_FLAVOR_FEDORA}; then
   cube_set_file_contents "/etc/sysconfig/rpcbind" "templates/rpcbind"
