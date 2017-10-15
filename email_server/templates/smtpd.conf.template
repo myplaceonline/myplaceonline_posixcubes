@@ -2,6 +2,10 @@
 # https://man.openbsd.org/smtpd.conf
 # https://www.opensmtpd.org/faq/config.html
 
+# Configure Thunderbird:
+#   Incoming: {IMAP, Port: 993, SSL: SSL/TLS, Authentication: Normal password}
+#   Outgoing: {Port: 587, SSL: STARTTLS, Authentication: Normal password}
+
 table aliases file:/etc/mail/aliases
 table domains file:/etc/mail/domains
 table passwd passwd:/etc/mail/passwd
@@ -14,22 +18,27 @@ pki ${cubevar_app_email_host} key "/etc/letsencrypt/live/${cubevar_app_email_hos
 listen on lo   port  25 tls pki ${cubevar_app_email_host} auth-optional <passwd>
 listen on eth0 port  25 tls pki ${cubevar_app_email_host} auth-optional <passwd>
 
-# Only support 587/STARTTLS due to https://github.com/OpenSMTPD/OpenSMTPD/issues/451
-#listen on lo   port 465 tls-require pki ${cubevar_app_email_host} auth <passwd>
-#listen on eth0 port 465 tls-require pki ${cubevar_app_email_host} auth <passwd>
-
 listen on lo   port 587 tls-require pki ${cubevar_app_email_host} auth <passwd>
 listen on eth0 port 587 tls-require pki ${cubevar_app_email_host} auth <passwd>
+
+# Only support 587/STARTTLS due to a Thunderbird bug: https://github.com/OpenSMTPD/OpenSMTPD/issues/451
+#listen on lo   port 465 tls-require pki ${cubevar_app_email_host} auth <passwd>
+#listen on eth0 port 465 tls-require pki ${cubevar_app_email_host} auth <passwd>
 
 # DKIM
 listen on lo   port 10028 tag DKIM
 
+# Accept incoming mail to local users from the local machine:
 accept from local for local alias <aliases> deliver to lmtp "/run/dovecot/lmtp" rcpt-to
+
+# Accept incoming mail to users of domains we manage and put them in Dovecot. We don't bother with checking spam of
+# authenticated users relaying mail, so we only worry about incoming spam into Dovecot, so we only configure anti-spam
+# in Dovecot.
 accept from any for domain <domains> virtual <users> deliver to lmtp "/run/dovecot/lmtp" rcpt-to
 
 # MX incoming mail will always come in on port 25. We set it to auth-optional so that anybody can send email to the
 # domains specified in <domains> and a matching user specified in <users>; however, only those users that authenticate
-# (on port 25, 465, or 587) can send email through this server (to a relay) because once a user is authenticated, they
+# (on port 25 or 587) can send email through this server (to a relay) because once a user is authenticated, they
 # are treated as a local user:
 # 
 # "Any remote sender that passed SMTPAUTH is treated as if it was the server's local user that was sending the mail.
@@ -37,8 +46,12 @@ accept from any for domain <domains> virtual <users> deliver to lmtp "/run/dovec
 # https://man.openbsd.org/smtpd.conf
 
 # Authenticated outbound mails will come in and forward to the DKIM proxy on port 10027 which will sign with DKIM
-# and send back to us on port 10028 which we'll tag above and then process below to relay:
+# and send back to us on port 10028 which we'll tag above and then process below to relay.
+
+# Accept DKIM-processed mails for final relay:
 accept tagged DKIM for any relay via tls+auth://label@smtp.sendgrid.net auth <secrets>
+
+# Accept incoming mail from authenticating users who want to send email to domains we don't manage, and send it to DKIM:
 accept from local for any relay via smtp://127.0.0.1:10027
 
 # Old config without DKIM:

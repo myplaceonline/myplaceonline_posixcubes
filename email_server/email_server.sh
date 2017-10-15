@@ -80,12 +80,14 @@ if ! cube_file_exists /etc/letsencrypt/live/ ; then
   if [ ${cubevar_app_letsencrypt_result} -ne 0 ]; then
     cube_warning_echo "Letsencrypt failure: ${cubevar_app_letsencrypt_result}"
     rm -rf /etc/letsencrypt/live/ 2>/dev/null
+  else
+    chmod og-r /etc/letsencrypt/archive/*/privkey2.pem || cube_check_return
   fi
 fi
 
 # http://dkimproxy.sourceforge.net/download.html
-cube_package install certbot automake git libtool libevent-devel libasr-devel dovecot perl-Crypt-OpenSSL-RSA \
-                     perl-Digest-SHA perl-MailTools perl-Net-DNS perl-Net-Server perl-Mail-DKIM
+cube_package install certbot automake git libtool libevent-devel libasr-devel dovecot dovecot-pigeonhole \
+                     perl-Crypt-OpenSSL-RSA perl-Digest-SHA perl-MailTools perl-Net-DNS perl-Net-Server perl-Mail-DKIM
 
 # https://www.opensmtpd.org/faq/example1.html
 if ! cube_user_exists vmail; then
@@ -174,6 +176,26 @@ if cube_set_file_contents "/etc/dovecot/conf.d/15-mailboxes.conf" "templates/15-
 fi
 
 if cube_set_file_contents "/etc/dovecot/conf.d/10-master.conf" "templates/10-master.conf.template"; then
+  cube_service restart dovecot
+fi
+
+# Read global sieves
+chmod o+rx /var/lib/dovecot || cube_check_return
+
+if cube_set_file_contents "/var/lib/dovecot/10-global.sieve" "templates/10-global.sieve.template"; then
+  sievec /var/lib/dovecot/ || cube_check_return
+  cube_service restart dovecot
+fi
+
+if cube_set_file_contents "/etc/dovecot/conf.d/90-sieve.conf" "templates/90-sieve.conf.template"; then
+  cube_service restart dovecot
+fi
+
+if cube_set_file_contents "/etc/dovecot/conf.d/20-lmtp.conf" "templates/20-lmtp.conf.template"; then
+  cube_service restart dovecot
+fi
+
+if cube_set_file_contents "/etc/dovecot/conf.d/10-logging.conf" "templates/10-logging.conf.template"; then
   cube_service restart dovecot
 fi
 

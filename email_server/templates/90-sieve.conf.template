@@ -1,0 +1,11 @@
+# https://wiki2.dovecot.org/Pigeonhole/Sieve/Configuration
+
+plugin {
+  sieve_global = /var/lib/dovecot/
+  sieve_before = /var/lib/dovecot/
+  
+  # To turn on tracing, enable `mail_debug = yes` in 10-logging.conf.template
+  # Tracing actually goes to /var/log/maillog, but sieve_trace_dir is required to enable it
+  #sieve_trace_dir = /tmp/
+  #sieve_trace_level = matching
+}
