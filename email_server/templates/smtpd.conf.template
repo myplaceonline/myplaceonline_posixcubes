@@ -28,13 +28,17 @@ listen on eth0 port 587 tls-require pki ${cubevar_app_email_host} auth <passwd>
 # DKIM
 listen on lo   port 10028 tag DKIM
 
+# spampd/spamassassin
+listen on lo   port 10030 tag SPAMPD
+
 # Accept incoming mail to local users from the local machine:
 accept from local for local alias <aliases> deliver to lmtp "/run/dovecot/lmtp" rcpt-to
 
 # Accept incoming mail to users of domains we manage and put them in Dovecot. We don't bother with checking spam of
 # authenticated users relaying mail, so we only worry about incoming spam into Dovecot, so we only configure anti-spam
 # in Dovecot.
-accept from any for domain <domains> virtual <users> deliver to lmtp "/run/dovecot/lmtp" rcpt-to
+accept tagged SPAMPD for domain <domains> virtual <users> deliver to lmtp "/run/dovecot/lmtp" rcpt-to
+accept from any for domain <domains> relay via smtp://127.0.0.1:10029
 
 # MX incoming mail will always come in on port 25. We set it to auth-optional so that anybody can send email to the
 # domains specified in <domains> and a matching user specified in <users>; however, only those users that authenticate
@@ -51,7 +55,7 @@ accept from any for domain <domains> virtual <users> deliver to lmtp "/run/dovec
 # Accept DKIM-processed mails for final relay:
 accept tagged DKIM for any relay via tls+auth://label@smtp.sendgrid.net auth <secrets>
 
-# Accept incoming mail from authenticating users who want to send email to domains we don't manage, and send it to DKIM:
+# Accept incoming mail from authenticated users who want to send email to domains we don't manage, and send it to DKIM:
 accept from local for any relay via smtp://127.0.0.1:10027
 
 # Old config without DKIM:

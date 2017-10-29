@@ -87,7 +87,17 @@ fi
 
 # http://dkimproxy.sourceforge.net/download.html
 cube_package install certbot automake git libtool libevent-devel libasr-devel dovecot dovecot-pigeonhole \
-                     perl-Crypt-OpenSSL-RSA perl-Digest-SHA perl-MailTools perl-Net-DNS perl-Net-Server perl-Mail-DKIM
+                     perl-Crypt-OpenSSL-RSA perl-Digest-SHA perl-MailTools perl-Net-DNS perl-Net-Server perl-Mail-DKIM spamassassin spampd
+
+if cube_set_file_contents "/etc/mail/spamassassin/local.cf" "templates/local.cf.template"; then
+  cube_service enable spamassassin
+  cube_service start spamassassin
+fi
+
+if cube_set_file_contents "/etc/sysconfig/spampd" "templates/spampd.template"; then
+  cube_service enable spampd
+  cube_service start spampd
+fi
 
 # https://www.opensmtpd.org/faq/example1.html
 if ! cube_user_exists vmail; then
