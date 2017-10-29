@@ -1,4 +1,6 @@
+# https://spamassassin.apache.org/full/3.4.x/doc/Mail_SpamAssassin_Conf.html
 # https://spamassassin.apache.org/full/3.4.x/doc/spamassassin.html
+# https://spamassassin.apache.org/full/3.4.x/doc/sa-learn.html
 
 # These values can be overridden by editing ~/.spamassassin/user_prefs.cf 
 # (see spamassassin(1) for details)
@@ -6,7 +8,11 @@
 # These should be safe assumptions and allow for simple visual sifting
 # without risking lost emails.
 
-required_hits 5
+required_hits 10
 report_safe 0
 rewrite_header Subject [SPAM]
-always_add_headers 1
+
+add_header spam Flag _YESNOCAPS_
+add_header all Status _YESNO_, score=_SCORE_ required=_REQD_ tests=_TESTS_ autolearn=_AUTOLEARN_ version=_VERSION_
+add_header all Level _STARS(*)_
+add_header all Checker-Version SpamAssassin _VERSION_ (_SUBVERSION_) on _HOSTNAME_
