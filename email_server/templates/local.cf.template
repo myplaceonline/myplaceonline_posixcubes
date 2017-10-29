@@ -1,3 +1,5 @@
+# https://spamassassin.apache.org/full/3.4.x/doc/spamassassin.html
+
 # These values can be overridden by editing ~/.spamassassin/user_prefs.cf 
 # (see spamassassin(1) for details)
 
