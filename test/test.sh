@@ -16,3 +16,6 @@ cube_read_stdin cubevar_app_str <<'HEREDOC'
 HEREDOC
 
 echo "${cubevar_app_str}"
+
+cube_echo "Hello World"
+

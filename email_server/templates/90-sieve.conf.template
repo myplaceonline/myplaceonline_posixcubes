@@ -9,5 +9,5 @@ plugin {
   #sieve_trace_dir = /tmp/
   #sieve_trace_level = matching
   
-  sieve_extensions = +spamtest
+  sieve_extensions = +spamtest +spamtestplus
 }

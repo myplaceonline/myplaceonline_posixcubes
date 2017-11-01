@@ -1,6 +1,17 @@
 # https://spamassassin.apache.org/full/3.4.x/doc/Mail_SpamAssassin_Conf.html
 # https://spamassassin.apache.org/full/3.4.x/doc/spamassassin.html
 # https://spamassassin.apache.org/full/3.4.x/doc/sa-learn.html
+# https://wiki.apache.org/spamassassin/Rules
+# http://commons.oreilly.com/wiki/index.php/SpamAssassin/SpamAssassin_Rules
+# Tests in /usr/share/spamassassin/
+# Scores in /usr/share/spamassassin/50_scores.cf
+# http://commons.oreilly.com/wiki/index.php/SpamAssassin/SpamAssassin_as_a_Learning_System
+# http://spamassassin.apache.org/full/3.4.x/doc/sa-learn.html
+
+# List tests:
+# spamassassin --lint -D 2>&1 | grep "plugin: loading"
+
+
 
 # These values can be overridden by editing ~/.spamassassin/user_prefs.cf 
 # (see spamassassin(1) for details)
@@ -8,7 +19,7 @@
 # These should be safe assumptions and allow for simple visual sifting
 # without risking lost emails.
 
-required_hits 10
+required_score ${cubevar_app_spam_required_score}
 report_safe 0
 rewrite_header Subject [SPAM]
 
@@ -16,3 +27,24 @@ add_header spam Flag _YESNOCAPS_
 add_header all Status _YESNO_, score=_SCORE_ required=_REQD_ tests=_TESTS_ autolearn=_AUTOLEARN_ version=_VERSION_
 add_header all Level _STARS(*)_
 add_header all Checker-Version SpamAssassin _VERSION_ (_SUBVERSION_) on _HOSTNAME_
+add_header all Report _REPORT_
+
+# Learn spam and ham:
+# find /var/vmail -type f -not -path .imap -and -name TrainSpam | xargs sa-learn --mbox --spam --no-sync --dbpath /var/spool/spampd/.spamassassin/
+# find /var/vmail -type f -not -path .imap -and \( -name inbox -or -name Archives \) | xargs sa-learn --mbox --ham --no-sync --dbpath /var/spool/spampd/.spamassassin/
+# sa-learn --sync --dbpath /var/spool/spampd/.spamassassin/
+
+# Display stats:
+# sa-learn --dump magic
+
+# Display tokens:
+# (<spam probability> <occurrences in spam> <occurrences in ham> <last time used> <token>)
+# Token starting with H: is a header
+#
+# sa-learn --dump data | sort -n
+
+# Clear database:
+# sa-learn --clear
+
+# Test spam:
+# spamassassin -D < /usr/share/doc/spamassassin/sample-spam.txt

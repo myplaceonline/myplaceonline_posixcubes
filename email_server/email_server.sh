@@ -90,13 +90,13 @@ cube_package install certbot automake git libtool libevent-devel libasr-devel do
                      perl-Crypt-OpenSSL-RSA perl-Digest-SHA perl-MailTools perl-Net-DNS perl-Net-Server perl-Mail-DKIM spamassassin spampd
 
 if cube_set_file_contents "/etc/mail/spamassassin/local.cf" "templates/local.cf.template"; then
-  cube_service enable spamassassin
-  cube_service start spamassassin
+  cube_service enable spampd
+  cube_service restart spampd
 fi
 
 if cube_set_file_contents "/etc/sysconfig/spampd" "templates/spampd.template"; then
   cube_service enable spampd
-  cube_service start spampd
+  cube_service restart spampd
 fi
 
 # https://www.opensmtpd.org/faq/example1.html
@@ -194,6 +194,7 @@ chmod o+rx /var/lib/dovecot || cube_check_return
 
 if cube_set_file_contents "/var/lib/dovecot/10-global.sieve" "templates/10-global.sieve.template"; then
   sievec /var/lib/dovecot/ || cube_check_return
+  cube_echo "Recompiled sieves in /var/lib/dovecot/"
   cube_service restart dovecot
 fi
 

@@ -1,4 +1,3 @@
-# https://wiki2.dovecot.org/Pigeonhole/Sieve/Examples
 # https://en.wikipedia.org/wiki/Sieve_(mail_filtering_language)#Example
 # https://support.tigertech.net/sieve
 
@@ -11,13 +10,13 @@ if size :over 50000K {
   stop;
 }
 
-elsif anyof (
-        header :contains "subject" ["testspamtest"],
-        body :contains ["testspamtest"]
-      ) {
+elsif header :contains "subject" ["testspamtest", "spamtestspam"] {
+  addflag "\\Seen";
   fileinto "Spam";
   stop;
 }
+
+# https://wiki2.dovecot.org/Pigeonhole/Sieve/Examples
 
 #elsif anyof (
 #        body :contains ["firstcryptcoins.com"]
@@ -25,8 +24,16 @@ elsif anyof (
 #  discard;
 #  stop;
 #}
+#
+#elsif spamtest :value "ge" :comparator "i;ascii-numeric" "${cubevar_app_spam_required_score}" {
+#  fileinto "Spam";
+#  stop;
+#}
 
-elsif spamtest :value "ge" :comparator "i;ascii-numeric" "5" {
+elsif header :contains "X-Spam-Flag" "YES" {
+  addflag "\\Seen";
   fileinto "Spam";
   stop;
 }
+
+# https://stackoverflow.com/questions/19970938/postfix-and-save-to-sent-mail-dir
