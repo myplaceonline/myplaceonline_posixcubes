@@ -149,7 +149,7 @@ else
 
   cube_ensure_directory "${cubevar_app_nfs_client_mount_backup}" 777
   
-  if cube_set_file_contents_string "/var/spool/cron/root" "0 0 * * * rsync -avr /var/lib/remotenfs/ /var/lib/remotenfs_backup/ > /var/log/crontab.log 2>&1" ; then
+  if cube_set_file_contents_string "/var/spool/cron/root" "0 0 * * * date && rsync -avr ${cubevar_app_nfs_client_mount} ${cubevar_app_nfs_client_mount_backup} >> /var/log/crontab.log 2>&1" ; then
     chmod 600 "/var/spool/cron/root" || cube_check_return
   fi
 fi

@@ -266,3 +266,11 @@ if [ "$(firewall-cmd --zone=public --list-ports | grep -c 993)" = "0" ]; then
   firewall-cmd --zone=public --permanent --add-port=993/tcp
   cube_echo "Opened firewall port for port 993"
 fi
+
+if cube_user_ensure_private_key "${cubevar_app_backup_user_ssh_key_private}" "backup_user"; then
+  cube_user_authorize_known_host "${cubevar_app_backup_host}"
+fi
+
+if cube_set_file_contents_string "/etc/cron.d/backupmail" "0 0 * * * date && rsync -avr -e 'ssh -i /root/.ssh/backup_user' /var/vmail backup_user@${cubevar_app_backup_host}:/home/backup_user/ >> /var/log/backupmail.log 2>&1" ; then
+  chmod 600 /etc/cron.d/backupmail || cube_check_return
+fi
