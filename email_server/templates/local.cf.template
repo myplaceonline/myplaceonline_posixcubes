@@ -21,7 +21,7 @@
 
 required_score ${cubevar_app_spam_required_score}
 report_safe 0
-rewrite_header Subject [SPAM]
+#rewrite_header Subject [SPAM]
 
 add_header spam Flag _YESNOCAPS_
 add_header all Status _YESNO_, score=_SCORE_ required=_REQD_ tests=_TESTS_ autolearn=_AUTOLEARN_ version=_VERSION_
