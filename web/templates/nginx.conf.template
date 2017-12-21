@@ -29,6 +29,8 @@ server {
   passenger_env_var GOOGLE_MAPS_API_KEY "${cubevar_app_passwords_google_maps_api_key}";
   passenger_env_var GOOGLE_MAPS_API_SERVER_KEY "${cubevar_app_passwords_google_maps_api_server_key}";
   passenger_env_var SPAWN_MAX_VSIZE "${cubevar_app_spawn_max_vsize}";
+  passenger_env_var PAYPAL_CLIENT_ID "${cubevar_app_paypal_client_id}";
+  passenger_env_var PAYPAL_SECRET "${cubevar_app_paypal_secret}";
   
   location /assets/ {
     add_header Cache-Control "public, max-age=31536000";
