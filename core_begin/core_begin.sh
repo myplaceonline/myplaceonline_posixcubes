@@ -321,6 +321,7 @@ if cube_operating_system_has_flavor ${POSIXCUBE_OS_FLAVOR_FEDORA}; then
 elif cube_operating_system_has_flavor ${POSIXCUBE_OS_FLAVOR_DEBIAN}; then
   cube_package update
   cube_package upgrade
+  cube_package dist-upgrade
 else
   cube_throw Not implemented
 fi

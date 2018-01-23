@@ -17,7 +17,7 @@ Web server:
 
 * Create Droplet
   * Ubuntu or Fedora
-  * 2GB, SFO1
+  * 2GB/2CPU (flex plan), SFO1
   * Private networking, IPv6
   * Select SSH Key
   * Hostname: webX.myplaceonline.com

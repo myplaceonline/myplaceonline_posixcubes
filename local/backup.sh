@@ -30,6 +30,8 @@ time ssh root@${cubevar_app_backup_host_db_public} "systemctl stop elasticsearch
   ssh root@${cubevar_app_backup_host_db_public} "tar czvf ${LARGEFILES} /var/lib/remotenfs/" && \
   scp root@${cubevar_app_backup_host_db_public}:${LARGEFILES} ${OUTPUTDIR} && \
   ssh root@${cubevar_app_backup_host_db_public} "rm -f ${LARGEFILES};" && \
-  echo "Done. To encrypt: gpg --s2k-mode 3 --s2k-count 65536 --force-mdc --cipher-algo AES256 --s2k-digest-algo sha512 -o ${OUTPUTFILE}.pgp --symmetric ${OUTPUTFILE}; rm ${OUTPUTFILE}; gpg --s2k-mode 3 --s2k-count 65536 --force-mdc --cipher-algo AES256 --s2k-digest-algo sha512 -o ${LARGEFILES}.pgp --symmetric ${LARGEFILES}; rm ${LARGEFILES}"
+  echo "Done. To encrypt:"
+  echo "gpg --s2k-mode 3 --s2k-count 65536 --force-mdc --cipher-algo AES256 --s2k-digest-algo sha512 -o ${OUTPUTFILE#/}.pgp --symmetric ${OUTPUTFILE#/}; rm ${OUTPUTFILE#/};"
+  echo "gpg --s2k-mode 3 --s2k-count 65536 --force-mdc --cipher-algo AES256 --s2k-digest-algo sha512 -o ${LARGEFILES#/}.pgp --symmetric ${LARGEFILES#/}; rm ${LARGEFILES#/}"
 
 popd
