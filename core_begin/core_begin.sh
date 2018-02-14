@@ -236,7 +236,8 @@ if cube_operating_system_has_flavor ${POSIXCUBE_OS_FLAVOR_FEDORA}; then
                         postfix tcpdump cyrus-sasl-plain rsyslog gnupg \
                         kexec-tools lzo lzo-devel lzo-minilzo bison bison-devel \
                         ncurses ncurses-devel telegraf telnet iftop git \
-                        nmap-ncat java-1.8.0-openjdk grub2-tools libffi-devel
+                        nmap-ncat java-1.8.0-openjdk grub2-tools libffi-devel \
+                        file-devel
 elif cube_operating_system_has_flavor ${POSIXCUBE_OS_FLAVOR_DEBIAN}; then
   # https://wiki.ubuntu.com/Kernel/CrashdumpRecipe
   # https://help.ubuntu.com/lts/serverguide/kernel-crash-dump.html
@@ -246,7 +247,8 @@ elif cube_operating_system_has_flavor ${POSIXCUBE_OS_FLAVOR_DEBIAN}; then
                         postfix tcpdump rsyslog gnupg makedumpfile libsasl2-modules \
                         kexec-tools liblzo2-2 liblzo2-dev libbison-dev \
                         libncurses-dev telegraf telnet iftop git \
-                        netcat-openbsd default-jdk `uname -r`-dbg crash
+                        netcat-openbsd default-jdk `uname -r`-dbg crash \
+                        libmagic-dev
 
   cube_read_stdin cubevar_app_kdump_tools <<'HEREDOC'
 USE_KDUMP=1
