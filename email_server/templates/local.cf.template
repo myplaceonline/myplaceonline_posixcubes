@@ -29,10 +29,18 @@ add_header all Level _STARS(*)_
 add_header all Checker-Version SpamAssassin _VERSION_ (_SUBVERSION_) on _HOSTNAME_
 add_header all Report _REPORT_
 
+score URIBL_SBL 5
+score URIBL_ABUSE_SURBL 5
+
 # Learn spam and ham:
 # find /var/vmail -type f -not -path .imap -and -name TrainSpam | xargs sa-learn --mbox --spam --no-sync --dbpath /var/spool/spampd/.spamassassin/
 # find /var/vmail -type f -not -path .imap -and \( -name inbox -or -name Archives \) | xargs sa-learn --mbox --ham --no-sync --dbpath /var/spool/spampd/.spamassassin/
 # sa-learn --sync --dbpath /var/spool/spampd/.spamassassin/
+# chown spampd:spampd /var/spool/spampd/.spamassassin/bayes_*
+
+# find /var/vmail -type f -not -path .imap -and -name TrainSpam | xargs sa-learn --mbox --spam --no-sync --dbpath /root/.spamassassin/
+# find /var/vmail -type f -not -path .imap -and \( -name inbox -or -name Archives \) | xargs sa-learn --mbox --ham --no-sync --dbpath /root/.spamassassin/
+# sa-learn --sync --dbpath /root/.spamassassin/
 
 # Display stats:
 # sa-learn --dump magic
