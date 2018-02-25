@@ -29,8 +29,26 @@ add_header all Level _STARS(*)_
 add_header all Checker-Version SpamAssassin _VERSION_ (_SUBVERSION_) on _HOSTNAME_
 add_header all Report _REPORT_
 
+# If only one valid score is listed, then that score is always used for
+# a test.
+# 
+# If four valid scores are listed, then the score that is used depends
+# on how SpamAssassin is being used. The first score is used when both
+# Bayes and network tests are disabled (score set 0). The second score
+# is used when Bayes is disabled, but network tests are enabled (score
+# set 1). The third score is used when Bayes is enabled and network
+# tests are disabled (score set 2). The fourth score is used when Bayes
+# is enabled and network tests are enabled (score set 3).
+
 score URIBL_SBL 5
 score URIBL_ABUSE_SURBL 5
+
+score BAYES_999 1.1
+#score BAYES_999 0  0  0.2    0.2
+
+ifplugin Mail::SpamAssassin::Plugin::MIMEHeader
+score T_REMOTE_IMAGE 0.5
+endif
 
 # Learn spam and ham:
 # find /var/vmail -type f -not -path .imap -and -name TrainSpam | xargs sa-learn --mbox --spam --no-sync --dbpath /var/spool/spampd/.spamassassin/
