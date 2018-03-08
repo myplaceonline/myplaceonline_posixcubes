@@ -43,6 +43,8 @@ add_header all Report _REPORT_
 score URIBL_SBL 5
 score URIBL_ABUSE_SURBL 5
 
+score BAYES_80 1.0
+
 score BAYES_999 1.1
 #score BAYES_999 0  0  0.2    0.2
 

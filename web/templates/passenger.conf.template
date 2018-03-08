@@ -4,7 +4,7 @@ passenger_max_pool_size ${cubevar_app_rails_threads_per_node};
 passenger_min_instances ${cubevar_app_rails_threads_per_node};
 
 # https://www.phusionpassenger.com/library/indepth/ruby/spawn_methods/
-# Easier to reason about memory usage with direct
+# Copy-on-write doesn't seem to share pages for long with children
 passenger_spawn_method direct;
 
 passenger_buffer_response on;
