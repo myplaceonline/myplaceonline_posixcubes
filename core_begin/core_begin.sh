@@ -166,7 +166,7 @@ elif cube_operating_system_has_flavor ${POSIXCUBE_OS_FLAVOR_DEBIAN}; then
       echo "deb http://ddebs.ubuntu.com $(lsb_release -cs)-proposed main restricted universe multiverse" | tee -a /etc/apt/sources.list.d/ddebs.list
       apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 5FDFF622 || cube_check_return
       apt-key adv --keyserver keyserver.ubuntu.com --recv-keys ECDCAD72428D7C01 || cube_check_return
-      apt-get update || cube_check_return
+      cube_package update || cube_check_return
 
       # https://wiki.ubuntu.com/Kernel/Systemtap
       cube_package install linux-image-$(uname -r)-dbgsym linux-headers-$(uname -r) systemtap linux-tools-generic linux-crashdump
@@ -256,7 +256,7 @@ HEREDOC
 
   cube_set_file_contents_string /etc/default/kdump-tools "${cubevar_app_kdump_tools}"
   
-  apt -y autoremove || cube_check_return
+  cube_package autoremove || cube_check_return
 else
   cube_throw Not implemented
 fi
