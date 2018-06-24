@@ -5,10 +5,11 @@ After=syslog.target network-online.target
 [Service]
 Environment="CONFIG=/etc/haproxy/haproxy.cfg" "PIDFILE=/run/haproxy.pid"
 ExecStartPre=/usr/sbin/haproxy -f $CONFIG -f /etc/haproxy/haproxy_ssl.cfg -c -q
-ExecStart=/usr/sbin/haproxy-systemd-wrapper -f $CONFIG -f /etc/haproxy/haproxy_ssl.cfg -p $PIDFILE
+ExecStart=/usr/sbin/haproxy -Ws -f $CONFIG -f /etc/haproxy/haproxy_ssl.cfg -p $PIDFILE
 ExecReload=/usr/sbin/haproxy -f $CONFIG -f /etc/haproxy/haproxy_ssl.cfg -c -q
 ExecReload=/bin/kill -USR2 $MAINPID
 KillMode=mixed
+Type=notify
 
 [Install]
 WantedBy=multi-user.target

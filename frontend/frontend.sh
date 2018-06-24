@@ -90,6 +90,8 @@ if cube_set_file_contents "/etc/rsyslog.d/02-haproxy.conf" "templates/rsyslog_ha
   cube_service restart rsyslog
 fi
 
+cube_service start haproxy
+
 if ! cube_file_exists /etc/letsencrypt/live/ ; then
   # This could fail if we're rebuilding a frontend server, and we haven't pointed the main domain IPs to the new
   # frontend yet, so we don't raise on a bad return code.

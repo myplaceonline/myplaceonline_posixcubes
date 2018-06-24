@@ -1,5 +1,9 @@
 #!/bin/sh
 
+# smtpctl show queue
+# Fix error (e.g. systemctl start dkimproxy_out)
+# smtpctl schedule all
+
 # Create user
 # Generate password (no prompt; type password twice):
 #   ssh root@${HOST} doveadm pw -s SHA512-CRYPT

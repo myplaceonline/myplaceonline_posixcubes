@@ -68,7 +68,7 @@ Update web servers (to update trusted client list):
 
 * Create Droplet
   * Fedora
-  * 512MB, SFO1
+  * 1GB, SFO1
   * Private networking, IPv6
   * Select SSH Key
   * Hostname: frontendX.myplaceonline.com
@@ -81,6 +81,7 @@ Get eth1 IP:
     ssh root@frontend${SERVER_NUMBER}.myplaceonline.com ip -4 -o addr | grep eth1 | awk '{print $4}' | sed 's/\/.*//g'
 
 * Networking > Domains > myplaceonline.com
+  * Create A record for main IP and short hostname
   * Create A record for eth1 IP and short hostname with -internal
 
 Add server to the other servers' whitelist:
