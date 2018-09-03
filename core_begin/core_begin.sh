@@ -230,6 +230,14 @@ else
   cube_throw Not implemented
 fi
 
+# Commonly useful commands installed below and described here:
+
+# Test bandwidth:
+# * On target, run `firewall-cmd --zone=public --add-port=5001/tcp` and `iperf -s`
+# * On client, run `iperf -c ${HOST}`
+
+# Speedtest: `speedtest-cli`
+
 if cube_operating_system_has_flavor ${POSIXCUBE_OS_FLAVOR_FEDORA}; then
   cube_package install multitail strace htop mtr traceroute patch atop sysstat \
                         iotop gdb bind-utils ntp python sendmail make mailx \
@@ -237,7 +245,7 @@ if cube_operating_system_has_flavor ${POSIXCUBE_OS_FLAVOR_FEDORA}; then
                         kexec-tools lzo lzo-devel lzo-minilzo bison bison-devel \
                         ncurses ncurses-devel telegraf telnet iftop git \
                         nmap-ncat java-1.8.0-openjdk grub2-tools libffi-devel \
-                        file-devel
+                        file-devel iperf speedtest-cli cronie
 elif cube_operating_system_has_flavor ${POSIXCUBE_OS_FLAVOR_DEBIAN}; then
   # https://wiki.ubuntu.com/Kernel/CrashdumpRecipe
   # https://help.ubuntu.com/lts/serverguide/kernel-crash-dump.html
@@ -248,7 +256,7 @@ elif cube_operating_system_has_flavor ${POSIXCUBE_OS_FLAVOR_DEBIAN}; then
                         kexec-tools liblzo2-2 liblzo2-dev libbison-dev \
                         libncurses-dev telegraf telnet iftop git \
                         netcat-openbsd default-jdk `uname -r`-dbg crash \
-                        libmagic-dev
+                        libmagic-dev iperf speedtest-cli
 
   cube_read_stdin cubevar_app_kdump_tools <<'HEREDOC'
 USE_KDUMP=1
