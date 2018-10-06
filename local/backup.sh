@@ -24,7 +24,7 @@ LARGEFILES=/myplaceonline_backup_$(date +"%Y%m%d_%H%M")_files.tar.gz
 PRIMARYLARGEFILES=/myplaceonline_primary_backup_$(date +"%Y%m%d_%H%M")_files.tar.gz
 LOCALDBHOST="$(echo "${cubevar_app_backup_host_db_public}" | sed 's/\./-internal./')"
 
-time ssh root@${cubevar_app_primary_host_db_public} "tar czvf ${PRIMARYLARGEFILES} /var/lib/remotenfs/" && \
+time ssh root@${cubevar_app_primary_host_db_public} "tar czvf ${PRIMARYLARGEFILES} /var/vmail/" && \
   scp root@${cubevar_app_primary_host_db_public}:${PRIMARYLARGEFILES} ${OUTPUTDIR} && \
   ssh root@${cubevar_app_primary_host_db_public} "rm -f ${PRIMARYLARGEFILES};"
 
