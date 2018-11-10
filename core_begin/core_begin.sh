@@ -245,7 +245,7 @@ if cube_operating_system_has_flavor ${POSIXCUBE_OS_FLAVOR_FEDORA}; then
                         kexec-tools lzo lzo-devel lzo-minilzo bison bison-devel \
                         ncurses ncurses-devel telegraf telnet iftop git \
                         nmap-ncat java-1.8.0-openjdk grub2-tools libffi-devel \
-                        file-devel iperf speedtest-cli cronie
+                        file-devel iperf speedtest-cli cronie bc
 elif cube_operating_system_has_flavor ${POSIXCUBE_OS_FLAVOR_DEBIAN}; then
   # https://wiki.ubuntu.com/Kernel/CrashdumpRecipe
   # https://help.ubuntu.com/lts/serverguide/kernel-crash-dump.html
@@ -256,7 +256,12 @@ elif cube_operating_system_has_flavor ${POSIXCUBE_OS_FLAVOR_DEBIAN}; then
                         kexec-tools liblzo2-2 liblzo2-dev libbison-dev \
                         libncurses-dev telegraf telnet iftop git \
                         netcat-openbsd default-jdk `uname -r`-dbg crash \
-                        libmagic-dev iperf speedtest-cli
+                        libmagic-dev iperf speedtest-cli bc
+
+  # No need to get upgrade notifications
+  if cube_file_exists "/etc/cron.weekly/update-notifier-common"; then
+    cube_package_uninstall update-notifier-common
+  fi
 
   cube_read_stdin cubevar_app_kdump_tools <<'HEREDOC'
 USE_KDUMP=1

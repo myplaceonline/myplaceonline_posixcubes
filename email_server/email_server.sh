@@ -61,6 +61,9 @@
 # Hints
 # Don't append X-Originating-IP (https://major.io/2013/04/14/remove-sensitive-information-from-email-headers-with-postfix/)
 
+# When deleting emails from an IMAP client, they are only marked deleted. To expunge:
+# doveadm expunge -u $user@$host mailbox Trash all
+
 # For certbot
 if [ "$(firewall-cmd --zone=public --list-ports | grep -c 80)" = "0" ]; then
   firewall-cmd --zone=public --add-port=80/tcp
