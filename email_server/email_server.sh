@@ -82,7 +82,7 @@ if ! cube_file_exists /etc/letsencrypt/live/ ; then
   # This could fail if we're rebuilding a frontend server, and we haven't pointed the main domain IPs to the new
   # box yet, so we don't raise on a bad return code.
   cube_echo "Calling letsencrypt"
-  /usr/bin/certbot --non-interactive --agree-tos --renew-by-default --email contact@myplaceonline.com --standalone certonly -d ${cubevar_app_email_host}
+  /usr/bin/certbot certonly --non-interactive --agree-tos --email contact@myplaceonline.com --dns-digitalocean --dns-digitalocean-credentials ~/.digitalocean.ini --dns-digitalocean-propagation-seconds 10 -d ${cubevar_app_email_host}
   cubevar_app_letsencrypt_result=$?
   if [ ${cubevar_app_letsencrypt_result} -ne 0 ]; then
     cube_warning_echo "Letsencrypt failure: ${cubevar_app_letsencrypt_result}"

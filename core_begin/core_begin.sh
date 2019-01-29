@@ -115,6 +115,9 @@ echo "root:${cubevar_app_passwords_root}" | chpasswd || cube_check_return
 #passwd --stdin root < ~/.passwd || cube_check_return
 #rm -f ~/.passwd
 
+echo "dns_digitalocean_token=${cubevar_app_digital_ocean_api_token}" > ~/.digitalocean.ini || cube_check_return
+chmod 600 ~/.digitalocean.ini || cube_check_return
+
 cube_set_file_contents "/etc/profile" "templates/profile"
 
 if cube_set_file_contents "/etc/commonprofile.sh" "templates/commonprofile.sh" ; then
@@ -245,7 +248,8 @@ if cube_operating_system_has_flavor ${POSIXCUBE_OS_FLAVOR_FEDORA}; then
                         kexec-tools lzo lzo-devel lzo-minilzo bison bison-devel \
                         ncurses ncurses-devel telegraf telnet iftop git \
                         nmap-ncat java-1.8.0-openjdk grub2-tools libffi-devel \
-                        file-devel iperf speedtest-cli cronie bc
+                        file-devel iperf speedtest-cli cronie bc python3-devel \
+                        python3-pip
 elif cube_operating_system_has_flavor ${POSIXCUBE_OS_FLAVOR_DEBIAN}; then
   # https://wiki.ubuntu.com/Kernel/CrashdumpRecipe
   # https://help.ubuntu.com/lts/serverguide/kernel-crash-dump.html
@@ -256,7 +260,8 @@ elif cube_operating_system_has_flavor ${POSIXCUBE_OS_FLAVOR_DEBIAN}; then
                         kexec-tools liblzo2-2 liblzo2-dev libbison-dev \
                         libncurses-dev telegraf telnet iftop git \
                         netcat-openbsd default-jdk `uname -r`-dbg crash \
-                        libmagic-dev iperf speedtest-cli bc
+                        libmagic-dev iperf speedtest-cli bc python3-dev \
+                        python3-pip
 
   # No need to get upgrade notifications
   if cube_file_exists "/etc/cron.weekly/update-notifier-common"; then
@@ -272,6 +277,10 @@ HEREDOC
   cube_package autoremove || cube_check_return
 else
   cube_throw Not implemented
+fi
+
+if ! pip3 show certbot-dns-digitalocean &>/dev/null; then
+  pip3 install certbot-dns-digitalocean ndg-httpsclient || cube_check_return
 fi
 
 cube_service enable atop
