@@ -261,7 +261,8 @@ elif cube_operating_system_has_flavor ${POSIXCUBE_OS_FLAVOR_DEBIAN}; then
                         libncurses-dev telegraf telnet iftop git \
                         netcat-openbsd default-jdk `uname -r`-dbg crash \
                         libmagic-dev iperf speedtest-cli bc python3-dev \
-                        python3-pip
+                        python3-pip python3-lockfile python3-packaging \
+                        python3-progress python3-retrying python3-cachecontrol
 
   # No need to get upgrade notifications
   if cube_file_exists "/etc/cron.weekly/update-notifier-common"; then
