@@ -40,7 +40,7 @@ server {
   
   # nginx-upload-module returns HTTP 400 if there's no Content-Length header (e.g. chunked upload):
   # https://github.com/vkholodkov/nginx-upload-module/blob/70bee48f1811eecd255ed094ce9f0fb560c390c3/ngx_http_upload_module.c#L3105
-  # For exmaple, the PhoneGap FileUpload:
+  # For example, the PhoneGap FileUpload:
   # https://github.com/apache/cordova-plugin-file-transfer/blob/rel/1.6.3/src/android/FileTransfer.java#L433
 
   # Any locations with upload_pass will write any files in the request to the filesystem and then proxy the request back
