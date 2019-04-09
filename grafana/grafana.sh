@@ -40,7 +40,7 @@ if [ "$(firewall-cmd --zone=public --list-ports | grep -c 443)" = "0" ]; then
 fi
 
 if ! cube_file_exists "/etc/letsencrypt/live/${cubevar_app_grafana_host}/fullchain.pem" ; then
-  certbot certonly --non-interactive --agree-tos --email contact@myplaceonline.com --dns-digitalocean --dns-digitalocean-credentials ~/.digitalocean.ini --dns-digitalocean-propagation-seconds 10 -d ${cubevar_app_grafana_host} || cube_check_return
+  certbot certonly --non-interactive --agree-tos --email contact@myplaceonline.com --dns-digitalocean --dns-digitalocean-credentials ~/.digitalocean.ini --dns-digitalocean-propagation-seconds 120 -d ${cubevar_app_grafana_host} || cube_check_return
   cp "/etc/letsencrypt/live/${cubevar_app_grafana_host}/fullchain.pem" "/etc/letsencrypt/live/${cubevar_app_grafana_host}/privkey.pem" /etc/grafana/ || cube_check_return
   chown ${USER}:grafana /etc/grafana/*pem || cube_check_return
 fi
