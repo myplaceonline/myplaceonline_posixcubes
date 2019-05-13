@@ -334,6 +334,11 @@ if [ $(cube_total_memory MB) -gt ${cubevar_min_mem_crash_kernel} ]; then
     if cube_operating_system_has_flavor ${POSIXCUBE_OS_FLAVOR_FEDORA} && [ $(cube_operating_system_version_major) -gt 29 ]; then
       if cube_set_file_contents "/etc/default/grub" "templates/grub2.template" ; then
         /usr/sbin/grub2-mkconfig -o /boot/grub2/grub.cfg || cube_check_return
+        
+        # grubby --info=ALL
+        # grubby --default-index
+        # grubby --set-default /boot/vmlinuz...
+        # /usr/sbin/grub2-mkconfig -o /boot/grub2/grub.cfg
       fi
     fi
   fi

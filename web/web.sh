@@ -20,7 +20,8 @@ HEREDOC
                        ImageMagick ImageMagick-c++ ImageMagick-c++-devel \
                        ImageMagick-devel ImageMagick-libs golang git gcc \
                        gcc-c++ openssl-devel pcre-devel postgresql-devel \
-                       postgresql nodejs libcurl-devel httpd yarn libxml2-devel
+                       postgresql nodejs libcurl-devel httpd yarn libxml2-devel \
+                       dovecot
 elif cube_operating_system_has_flavor ${POSIXCUBE_OS_FLAVOR_DEBIAN}; then
 
   # https://yarnpkg.com/lang/en/docs/install/
@@ -35,7 +36,8 @@ elif cube_operating_system_has_flavor ${POSIXCUBE_OS_FLAVOR_DEBIAN}; then
                        imagemagick libmagickwand-dev \
                        golang git gcc build-essential \
                        g++ libssl-dev libpcre3-dev libpcre++-dev libpq-dev \
-                       postgresql nodejs libcurl4-openssl-dev apache2 yarn libxml2-dev
+                       postgresql nodejs libcurl4-openssl-dev apache2 yarn libxml2-dev \
+                       dovecot
   
   cube_service disable apache2
   cube_service stop apache2
