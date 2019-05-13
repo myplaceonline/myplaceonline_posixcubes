@@ -135,7 +135,7 @@ if cube_set_file_contents "/etc/systemd/journald.conf" "templates/journald.conf"
 fi
 
 if cube_operating_system_has_flavor ${POSIXCUBE_OS_FLAVOR_FEDORA}; then
-  cube_package install python python-dnf multitail htop lsof wget nfs-utils at
+  cube_package install python multitail htop lsof wget nfs-utils at
 elif cube_operating_system_has_flavor ${POSIXCUBE_OS_FLAVOR_DEBIAN}; then
   cube_package install python multitail htop lsof wget nfs-common at apt-transport-https
 else
@@ -331,8 +331,10 @@ if [ $(cube_total_memory MB) -gt ${cubevar_min_mem_crash_kernel} ]; then
     # https://docs.fedoraproject.org/en-US/Fedora/25/html/System_Administrators_Guide/sec-Customizing_the_GRUB_2_Configuration_File.html
     # grubby --update-kernel=ALL "--args=no_timer_check console=hvc0 LANG=en_US.UTF-8 crashkernel=${cubevar_app_crashkernel_mem}M audit=0" || cube_check_return
 
-    if cube_set_file_contents "/etc/default/grub" "templates/grub2.template" ; then
-      /usr/sbin/grub2-mkconfig -o /boot/grub2/grub.cfg || cube_check_return
+    if cube_operating_system_has_flavor ${POSIXCUBE_OS_FLAVOR_FEDORA} && [ $(cube_operating_system_version_major) -gt 29 ]; then
+      if cube_set_file_contents "/etc/default/grub" "templates/grub2.template" ; then
+        /usr/sbin/grub2-mkconfig -o /boot/grub2/grub.cfg || cube_check_return
+      fi
     fi
   fi
 fi

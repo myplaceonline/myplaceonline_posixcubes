@@ -18,12 +18,16 @@ cube_service start firewalld
 
 cube_service enable firewalld
 
+# Debug:
+#   firewall-cmd --get-active-zones
+#   firewall-cmd --list-all
+#   firewall-cmd --get-zones
+
 if [ "$(firewall-cmd --get-default-zone)" != "block" ]; then
   firewall-cmd --set-default-zone=block || cube_check_return
 fi
 
 if [ "$(firewall-cmd --get-zone-of-interface=eth0)" != "public" ]; then
-  firewall-cmd --zone=public --add-interface=eth0 || cube_check_return
   firewall-cmd --permanent --zone=public --add-interface=eth0 || cube_check_return
   cube_echo "Set firewall zone of eth0 to public"
 fi

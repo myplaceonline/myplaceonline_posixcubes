@@ -1,4 +1,4 @@
 GRUB_TIMEOUT=0
 # http://unix.stackexchange.com/q/241552
-GRUB_CMDLINE_LINUX="no_timer_check console=hvc0 LANG=en_US.UTF-8 crashkernel=${cubevar_app_crashkernel_mem}M audit=0"
+GRUB_CMDLINE_LINUX="no_timer_check net.ifnames=0 LANG=en_US.UTF-8 crashkernel=${cubevar_app_crashkernel_mem}M audit=0 console=tty1 console=ttyS0,115200n8"
 GRUB_DISABLE_RECOVERY="true"

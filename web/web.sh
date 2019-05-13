@@ -164,6 +164,10 @@ else
   git pull origin master || cube_check_return
 fi
 
+if cube_set_file_contents_string "${cubevar_app_web_dir}/config/oidcsigning.pem" "${cubevar_app_oidc_signing_key}" ; then
+  chmod 755 "${cubevar_app_web_dir}/config/oidcsigning.pem" || cube_check_return
+fi
+
 cube_popd
 
 cube_read_stdin cubevar_app_passenger_status <<HEREDOC
@@ -209,7 +213,7 @@ if cube_set_file_contents "${cubevar_app_web_dir}/config/database.yml" "template
 fi
 
 if [ "$(gem list bundler -i)" != "true" ]; then
-  gem install bundler -q --no-rdoc --no-ri || cube_check_return
+  gem install bundler:1.16.2 -q || cube_check_return
 fi
 
 if cube_set_file_contents ~/.pgpass "templates/pgpass.template" ; then

@@ -17,7 +17,7 @@ Web server:
 
 * Create Droplet
   * Ubuntu or Fedora
-  * 2GB/2CPU (flex plan), SFO1
+  * 4GB/2CPU, SFO1
   * Private networking, IPv6
   * Select SSH Key
   * Hostname: webX.myplaceonline.com
@@ -35,7 +35,7 @@ Get eth1 IP:
 Add server to the other servers' whitelist:
 
     posixcube.sh -z firewall_whitelist
-
+    
 Create web server:
 
     $(grep "^web=" cubespecs.ini | sed 's/^web=/posixcube.sh /g' | sed "s/\\-h web\\*/-h web${SERVER_NUMBER}/g")

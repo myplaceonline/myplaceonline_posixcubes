@@ -4,3 +4,5 @@
 # first setting up the box and the service doesn't exist)
 (cube_service stop nginx) 2>/dev/null
 (cube_service stop myplaceonline-delayedjobs) 2>/dev/null
+
+true
