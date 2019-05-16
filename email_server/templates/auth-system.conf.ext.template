@@ -51,8 +51,13 @@ passdb {
 ##
 
 userdb {
-    args = uid=vmail gid=vmail home=/var/vmail/%d/%n
-    driver = static
+    #args = uid=vmail gid=vmail home=/var/vmail/%d/%n
+    #driver = static
+    
+    # https://serverfault.com/a/967283
+    default_fields = uid=vmail gid=vmail home=/var/vmail/%d/%n
+    args = /etc/mail/passwd
+    driver = passwd-file
 }
 
 # System users (NSS, /etc/passwd, or similiar). In many systems nowadays this
