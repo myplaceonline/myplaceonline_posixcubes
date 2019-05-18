@@ -166,6 +166,34 @@ else
   git pull origin master || cube_check_return
 fi
 
+if ! cube_dir_exists "${cubevar_app_web_dir}/engines/" ; then
+  mkdir "${cubevar_app_web_dir}/engines/"
+fi
+
+for i in "${cubevar_app_gitlab_engine_paths}"; do
+  if [ "${i}" != "" ]; then
+    if ! cube_dir_exists "${cubevar_app_web_dir}/engines/$(basename "${i}")" ; then
+      git clone "https://oauth2:${cubevar_app_gitlab_token}@gitlab.com/${i}" "${cubevar_app_web_dir}/engines/$(basename "${i}")" || cube_check_return
+    fi
+    
+    cube_pushd "${cubevar_app_web_dir}/engines/$(basename "${i}")"
+    git pull || cube_check_return
+    cube_popd
+  fi
+done
+
+if [ "${cubevar_app_gitlab_engine_config_path}" != "" ]; then
+  if ! cube_dir_exists "${cubevar_app_web_dir}/engines_config/" ; then
+    mkdir "${cubevar_app_web_dir}/engines_config/"
+    git clone "https://oauth2:${cubevar_app_gitlab_token}@gitlab.com/${cubevar_app_gitlab_engine_config_path}" "${cubevar_app_web_dir}/engines_config/$(basename "${cubevar_app_gitlab_engine_config_path}")" || cube_check_return
+    ln -s "${cubevar_app_web_dir}/engines_config/$(basename "${cubevar_app_gitlab_engine_config_path}")/Gemfile_engines.lock" "${cubevar_app_web_dir}/Gemfile_engines.lock" || cube_check_return
+  fi
+  
+  cube_pushd "${cubevar_app_web_dir}/engines_config/$(basename "${cubevar_app_gitlab_engine_config_path}")/"
+  git pull || cube_check_return
+  cube_popd
+fi
+
 if cube_set_file_contents_string "${cubevar_app_web_dir}/config/oidcsigning.pem" "${cubevar_app_oidc_signing_key}" ; then
   chmod 755 "${cubevar_app_web_dir}/config/oidcsigning.pem" || cube_check_return
 fi
@@ -232,6 +260,7 @@ cube_pushd "${cubevar_app_web_dir}"
   export FTS_TARGET="${cubevar_app_full_text_search_target}"
   export RUBY_GC_MALLOC_LIMIT_MAX="${cubevar_app_rails_gc_max_newspace}"
   export RUBY_GC_OLDMALLOC_LIMIT_MAX="${cubevar_app_rails_gc_max_oldspace}"
+  export BUNDLE_GEMFILE="${cubevar_app_rails_gemfile}"
   
   cube_echo "Running bundle install"
 
