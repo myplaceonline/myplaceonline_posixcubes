@@ -276,6 +276,10 @@ cube_pushd "${cubevar_app_web_dir}"
     fi
   fi
   
+  cube_echo "Finding migrations from engines"
+  
+  bin/bundle exec rake railties:install:migrations || cube_check_return
+
   cube_echo "Running db:migrate"
   
   bin/bundle exec rake db:migrate || cube_check_return
