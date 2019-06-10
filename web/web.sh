@@ -278,7 +278,14 @@ cube_pushd "${cubevar_app_web_dir}"
   
   cube_echo "Finding migrations from engines"
   
-  bin/bundle exec rake railties:install:migrations || cube_check_return
+  #bin/bundle exec rake railties:install:migrations || cube_check_return
+  for i in "${cubevar_app_gitlab_engine_paths}"; do
+    if [ "${i}" != "" ]; then
+      for j in "${cubevar_app_web_dir}/engines/$(basename "${i}")/db/migrate/"*; do
+        cp -u "${j}" "${cubevar_app_web_dir}/db/migrate/$(basename "${j}" .rb)_$(basename "${i}").rb" || cube_check_return
+      done
+    fi
+  done
 
   cube_echo "Running db:migrate"
   
