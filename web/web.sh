@@ -282,7 +282,7 @@ cube_pushd "${cubevar_app_web_dir}"
   for i in "${cubevar_app_gitlab_engine_paths}"; do
     if [ "${i}" != "" ]; then
       for j in "${cubevar_app_web_dir}/engines/$(basename "${i}")/db/migrate/"*; do
-        cp -u "${j}" "${cubevar_app_web_dir}/db/migrate/$(basename "${j}" .rb)_$(basename "${i}").rb" || cube_check_return
+        cp -u "${j}" "${cubevar_app_web_dir}/db/migrate/$(basename "${j}" .rb).$(basename "${i}").rb" || cube_check_return
       done
     fi
   done
