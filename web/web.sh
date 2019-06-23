@@ -79,8 +79,8 @@ if ! cube_dir_exists "${cubevar_nginx_root}" ; then
                          linux-headers-$(uname -r)
   fi
 
-  rm -rf "$(cube_tmpdir)"/nginx-${cubevar_app_nginx_source_version}* 2>/dev/null
-  wget -O "$(cube_tmpdir)/nginx-${cubevar_app_nginx_source_version}.tar.gz" "https://nginx.org/download/nginx-${cubevar_app_nginx_source_version}.tar.gz" || cube_check_return
+  rm -rf /usr/local/src/nginx-${cubevar_app_nginx_source_version}* 2>/dev/null
+  wget -O "/usr/local/src/nginx-${cubevar_app_nginx_source_version}.tar.gz" "https://nginx.org/download/nginx-${cubevar_app_nginx_source_version}.tar.gz" || cube_check_return
   
   if ! cube_user_exists nginx ; then
     cube_create_user nginx /sbin/nologin
@@ -101,9 +101,9 @@ if ! cube_dir_exists "${cubevar_nginx_root}" ; then
     git checkout 2.255 || cube_check_return
   ) || cube_check_return
 
-  cube_pushd "$(cube_tmpdir)"
+  cube_pushd "/usr/local/src/"
 
-    tar xzvf "$(cube_tmpdir)/nginx-${cubevar_app_nginx_source_version}.tar.gz" || cube_check_return
+    tar xzvf "/usr/local/src/nginx-${cubevar_app_nginx_source_version}.tar.gz" || cube_check_return
 
     cube_pushd "nginx-${cubevar_app_nginx_source_version}"
 
@@ -137,7 +137,7 @@ if ! cube_dir_exists "${cubevar_nginx_root}" ; then
 
   cube_popd
 
-  rm -rf "$(cube_tmpdir)"/nginx-${cubevar_app_nginx_source_version}* 2>/dev/null
+  #rm -rf "$(cube_tmpdir)"/nginx-${cubevar_app_nginx_source_version}* 2>/dev/null
 fi
 
 cubevar_nginx_passenger_root="$(passenger-config about root)"

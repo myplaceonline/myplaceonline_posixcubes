@@ -7,9 +7,11 @@
 # Create user
 # Generate password (no prompt; type password twice):
 #   ssh root@${HOST} doveadm pw -s SHA512-CRYPT
+#   or
+#   https://myplaceonline.com/info/diagnostics/dovecot_password
 # Take everything from $6$ to the end and add a line to cubevar_app_email_passwords following the passwd format
 # Add a vmail line to cubevar_app_email_users for the user
-# Build email_server to update the files
+# Build email_server to update the files: posixcube.sh -h root@${SERVER} -c email_server
 
 # IMAP:
   # openssl s_client -connect ${HOST}:993 -crlf
