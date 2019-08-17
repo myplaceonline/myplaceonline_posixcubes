@@ -60,6 +60,19 @@ server {
     upload_cleanup 400 404 499 500-505;
   }
 
+  location /api/set_child_file2 {
+    upload_pass @upload_proxy;
+    upload_store "${cubevar_app_nfs_client_mount}/uploads/";
+    upload_store_access all:rw;
+    upload_set_form_field $upload_field_name[original_filename] "$upload_file_name";
+    upload_set_form_field $upload_field_name[content_type] "$upload_content_type";
+    upload_set_form_field $upload_field_name[path] "$upload_tmp_path";
+    upload_aggregate_form_field "$upload_field_name[md5]" "$upload_file_md5";
+    upload_aggregate_form_field "$upload_field_name[size]" "$upload_file_size";
+    upload_pass_form_field ".*";
+    upload_cleanup 400 404 499 500-505;
+  }
+
   location / {
     passenger_enabled on;
   }
