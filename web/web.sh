@@ -21,7 +21,7 @@ HEREDOC
                        ImageMagick-devel ImageMagick-libs golang git gcc \
                        gcc-c++ openssl-devel pcre-devel postgresql-devel \
                        postgresql nodejs libcurl-devel httpd yarn libxml2-devel \
-                       dovecot
+                       dovecot libsass-devel
 elif cube_operating_system_has_flavor ${POSIXCUBE_OS_FLAVOR_DEBIAN}; then
 
   # https://yarnpkg.com/lang/en/docs/install/
@@ -269,6 +269,12 @@ cube_pushd "${cubevar_app_web_dir}"
 
   # bin/bundle exec gem uninstall rmagick
   bin/bundle install --deployment || cube_check_return
+  
+  if cube_operating_system_has_flavor ${POSIXCUBE_OS_FLAVOR_FEDORA}; then
+    if ! cube_file_exists /var/www/html/myplaceonline/vendor/bundle/ruby/2.6.0/gems/sassc-2.2.0/lib/sassc/libsass.so ; then
+      sudo ln -s /var/www/html/myplaceonline/vendor/bundle/ruby/2.6.0/gems/sassc-2.2.0/ext/libsass.so /var/www/html/myplaceonline/vendor/bundle/ruby/2.6.0/gems/sassc-2.2.0/lib/sassc/libsass.so || cube_check_return
+    fi
+  fi
   
   cubevar_web_psql_output="$(psql -tA -U ${cubevar_app_db_dbuser} -h ${cubevar_app_db_host} -d ${cubevar_app_db_dbname} -c '\dt')" || cube_check_return
   
