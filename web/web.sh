@@ -114,8 +114,8 @@ if ! cube_dir_exists "${cubevar_nginx_root}" ; then
 
       gem install passenger -N || cube_check_return
       
-      # https://github.com/phusion/passenger/commit/7d4251bb4aec5cef6896f6d1905a30e99d21befe
-      cp /root/Configuration.c /usr/local/share/gems/gems/passenger-6.0.2/src/nginx_module/Configuration.c || cube_check_return
+      # https://github.com/phusion/passenger/issues/2189
+      #cp /root/Configuration.c /usr/local/share/gems/gems/passenger-6.0.2/src/nginx_module/Configuration.c || cube_check_return
       
       cubevar_app_nginx_srcdir="$(passenger-config --nginx-addon-dir)" || cube_check_return
       
@@ -235,6 +235,8 @@ fi
 cube_ensure_directory "${cubevar_app_web_dir}/tmp/"
 chmod -R 777 "${cubevar_app_web_dir}/tmp/" || cube_check_return
 cube_ensure_directory "${cubevar_app_web_dir}/tmp/myp/" 777
+cube_ensure_directory "${cubevar_app_web_dir}/tmp/cache/" 777
+chmod -R 777 "${cubevar_app_web_dir}/tmp/cache/bootsnap*"
 cube_ensure_directory "${cubevar_app_web_dir}/log/" 777
 cube_ensure_file "${cubevar_app_web_dir}/log/production.log"
 chmod 666 "${cubevar_app_web_dir}/log/production.log" || cube_check_return
