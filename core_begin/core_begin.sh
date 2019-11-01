@@ -156,6 +156,7 @@ if cube_operating_system_has_flavor ${POSIXCUBE_OS_FLAVOR_FEDORA}; then
   fi
   if [ "${cubevar_redundant_packages}" != "" ]; then
     cube_package remove ${cubevar_redundant_packages}
+    #true
   fi
 elif cube_operating_system_has_flavor ${POSIXCUBE_OS_FLAVOR_DEBIAN}; then
   # https://wiki.ubuntu.com/DebuggingProgramCrash#Debug_Symbol_Packages
