@@ -236,7 +236,7 @@ cube_ensure_directory "${cubevar_app_web_dir}/tmp/"
 chmod -R 777 "${cubevar_app_web_dir}/tmp/" || cube_check_return
 cube_ensure_directory "${cubevar_app_web_dir}/tmp/myp/" 777
 cube_ensure_directory "${cubevar_app_web_dir}/tmp/cache/" 777
-chmod -R 777 "${cubevar_app_web_dir}/tmp/cache/bootsnap*"
+chmod -R 777 "${cubevar_app_web_dir}/tmp/cache/bootsnap"*
 cube_ensure_directory "${cubevar_app_web_dir}/log/" 777
 cube_ensure_file "${cubevar_app_web_dir}/log/production.log"
 chmod 666 "${cubevar_app_web_dir}/log/production.log" || cube_check_return
