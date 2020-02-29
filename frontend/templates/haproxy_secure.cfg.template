@@ -14,5 +14,6 @@ frontend myplaceonline
     capture response header X-Request-Id len 38
     log-format             %ci:%cp\ [%t]\ %ft\ %b/%s\ %Th/%Ti/%TR/%Tw/%Tc/%Tr/%Tt\ %ST\ %B\ %U\ %ac/%fc/%bc/%sc/%rc\ %sq/%bq\ %{+Q}r\ %hr\ %hs
     acl static_rule path_beg -i /google
+    acl static_rule path_beg -i /frontend/
     use_backend static_backend if static_rule
     default_backend             servers

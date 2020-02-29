@@ -29,6 +29,10 @@ cube_package install haproxy socat nmap-ncat certbot nginx
 
 cube_set_file_contents "/usr/share/nginx/html/maintenance.html" "templates/maintenance.html"
 
+cube_ensure_directory "/usr/share/nginx/html/frontend"
+
+cube_set_file_contents_string "/usr/share/nginx/html/frontend/index.html" "Hello World"
+
 if cube_set_file_contents "/etc/nginx/nginx.conf" "templates/nginx.conf" ; then
   cube_service restart nginx
 fi

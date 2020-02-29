@@ -55,7 +55,7 @@ frontend myplaceonline_insecure
     capture response header X-Request-Id len 38
     log-format             %ci:%cp\ [%t]\ %ft\ %b/%s\ %Th/%Ti/%TR/%Tw/%Tc/%Tr/%Tt\ %ST\ %B\ %U\ %ac/%fc/%bc/%sc/%rc\ %sq/%bq\ %{+Q}r\ %hr\ %hs
     acl letsencrypt-request path_beg -i /.well-known/acme-challenge/
-    redirect scheme https if !{ ssl_fc } !{ path_beg /.well-known/acme-challenge/ }
+    redirect scheme https if !{ ssl_fc } !{ path_beg /.well-known/acme-challenge/ } !{ path_beg /frontend/ }
     use_backend letsencrypt if letsencrypt-request
     default_backend             static_backend
 
