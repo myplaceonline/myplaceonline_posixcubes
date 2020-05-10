@@ -209,6 +209,11 @@ type=rpm-md
 HEREDOC
 
   cube_set_file_contents_string "/etc/yum.repos.d/logstash.repo" "${cubevar_app_str}"
+  
+  if ! cube_file_exists /etc/yum.repos.d/rpmfusion-free.repo ; then
+    cube_package install https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
+  fi
+  
 elif cube_operating_system_has_flavor ${POSIXCUBE_OS_FLAVOR_DEBIAN}; then
   if ! cube_file_exists /etc/apt/sources.list.d/elastic-5.x.list ; then
     cube_app_tmp="$(wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch || cube_check_return)" || cube_check_return
@@ -250,7 +255,7 @@ if cube_operating_system_has_flavor ${POSIXCUBE_OS_FLAVOR_FEDORA}; then
                         ncurses ncurses-devel telegraf telnet iftop git \
                         nmap-ncat java-1.8.0-openjdk grub2-tools libffi-devel \
                         file-devel iperf speedtest-cli cronie bc python3-devel \
-                        python3-pip
+                        python3-pip ffmpeg
 elif cube_operating_system_has_flavor ${POSIXCUBE_OS_FLAVOR_DEBIAN}; then
   # https://wiki.ubuntu.com/Kernel/CrashdumpRecipe
   # https://help.ubuntu.com/lts/serverguide/kernel-crash-dump.html
@@ -263,7 +268,8 @@ elif cube_operating_system_has_flavor ${POSIXCUBE_OS_FLAVOR_DEBIAN}; then
                         netcat-openbsd default-jdk `uname -r`-dbg crash \
                         libmagic-dev iperf speedtest-cli bc python3-dev \
                         python3-pip python3-lockfile python3-packaging \
-                        python3-progress python3-retrying python3-cachecontrol
+                        python3-progress python3-retrying python3-cachecontrol \
+                        ffmpeg
 
   # No need to get upgrade notifications
   if cube_file_exists "/etc/cron.weekly/update-notifier-common"; then
