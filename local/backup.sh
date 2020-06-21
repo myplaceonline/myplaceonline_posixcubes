@@ -30,8 +30,9 @@ scp root@${cubevar_app_primary_host_db_public}:${PRIMARYLARGEFILES} ${OUTPUTDIR}
   ssh root@${cubevar_app_primary_host_db_public} "rm -f ${PRIMARYLARGEFILES};"
 
 # Stop elasticsearch temporarily because otherwise we might run out of memory
-time ssh root@${cubevar_app_backup_host_db_public} "systemctl stop elasticsearch; systemctl stop influxd; sudo -i -u postgres psql myplaceonline_production -c 'select pg_xlog_replay_pause();' && sudo -i -u postgres psql myplaceonline_production -c 'select  pg_is_xlog_replay_paused();' && PGPASSWORD=${cubevar_app_passwords_postgresql_myplaceonline} /usr/bin/pg_dump -U myplaceonline -h ${LOCALDBHOST} -d myplaceonline_production -Fc > ${OUTPUTFILE} && sudo -i -u postgres psql myplaceonline_production -c 'select pg_xlog_replay_resume();'; systemctl start elasticsearch; systemctl start influxd;" && \
-  scp root@${cubevar_app_backup_host_db_public}:${OUTPUTFILE} ${OUTPUTDIR} && \
+time ssh root@${cubevar_app_backup_host_db_public} "systemctl stop elasticsearch; systemctl stop influxd; sudo -i -u postgres psql myplaceonline_production -c 'select pg_xlog_replay_pause();' && sudo -i -u postgres psql myplaceonline_production -c 'select  pg_is_xlog_replay_paused();' && PGPASSWORD=${cubevar_app_passwords_postgresql_myplaceonline} /usr/bin/pg_dump -U myplaceonline -h ${LOCALDBHOST} -d myplaceonline_production -Fc > ${OUTPUTFILE} && sudo -i -u postgres psql myplaceonline_production -c 'select pg_xlog_replay_resume();'; systemctl start elasticsearch; systemctl start influxd;"
+
+time scp root@${cubevar_app_backup_host_db_public}:${OUTPUTFILE} ${OUTPUTDIR} && \
   ssh root@${cubevar_app_backup_host_db_public} "rm -f ${OUTPUTFILE}" && \
   ssh root@${cubevar_app_backup_host_db_public} "tar czvf ${LARGEFILES} /var/lib/remotenfs/" && \
   scp root@${cubevar_app_backup_host_db_public}:${LARGEFILES} ${OUTPUTDIR} && \
