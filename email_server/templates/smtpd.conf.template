@@ -53,10 +53,10 @@ accept from any for domain <domains> relay via smtp://127.0.0.1:10029
 # and send back to us on port 10028 which we'll tag above and then process below to relay.
 
 # Accept DKIM-processed mails for final relay:
-accept tagged DKIM for any relay via tls+auth://label@smtp.sendgrid.net auth <secrets>
+accept tagged DKIM for any relay via tls+auth://label@${cubevar_app_outbound_smtp} auth <secrets>
 
 # Accept incoming mail from authenticated users who want to send email to domains we don't manage, and send it to DKIM:
 accept from local for any relay via smtp://127.0.0.1:10027
 
 # Old config without DKIM:
-#accept from local for any relay via tls+auth://label@smtp.sendgrid.net auth <secrets>
+#accept from local for any relay via tls+auth://label@${cubevar_app_outbound_smtp} auth <secrets>

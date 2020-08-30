@@ -122,6 +122,13 @@ if ! cube_file_exists /etc/mail/aliases ; then
   cube_set_file_contents_string "/etc/mail/users" "${cubevar_app_email_users}"
 fi
 
+if ! cube_file_exists /etc/mail/secrets ; then
+  touch /etc/mail/secrets || cube_check_return
+  chmod 640 /etc/mail/secrets || cube_check_return
+  chown root:_smtpd /etc/mail/secrets || cube_check_return
+  cube_set_file_contents_string "/etc/mail/secrets" "label ${cubevar_app_passwords_smtp_user}:${cubevar_app_passwords_smtp_password}"
+fi
+
 if ! cube_dir_exists "/usr/local/src/dkimproxy-1.4.1" ; then
   (
     cd /usr/local/src/ || cube_check_return
@@ -244,6 +251,10 @@ if cube_set_file_contents_string "/etc/mail/passwd" "${cubevar_app_email_passwor
 fi
 
 if cube_set_file_contents_string "/etc/mail/users" "${cubevar_app_email_users}" ; then
+  cube_service restart opensmtpd
+fi
+
+if cube_set_file_contents_string "/etc/mail/secrets" "label ${cubevar_app_passwords_smtp_user}:${cubevar_app_passwords_smtp_password}" ; then
   cube_service restart opensmtpd
 fi
 
