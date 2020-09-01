@@ -7,8 +7,8 @@ server {
 
   passenger_env_var RAILS_ENV "${cubevar_app_rails_environment}";
   passenger_env_var SECRET_KEY_BASE "${cubevar_app_passwords_devise_secret}";
-  passenger_env_var SMTP_USER "${cubevar_app_smtp_user}";
-  passenger_env_var SMTP_PASSWORD "${cubevar_app_passwords_smtp}";
+  passenger_env_var SMTP_USER "${cubevar_app_passwords_smtp_user}";
+  passenger_env_var SMTP_PASSWORD "${cubevar_app_passwords_smtp_password}";
   passenger_env_var MAIL_FROM "${cubevar_app_mail_from}";
   passenger_env_var YELP_CONSUMER_KEY "${cubevar_app_passwords_yelp_consumer_key}";
   passenger_env_var YELP_CONSUMER_SECRET "${cubevar_app_passwords_yelp_consumer_secret}";

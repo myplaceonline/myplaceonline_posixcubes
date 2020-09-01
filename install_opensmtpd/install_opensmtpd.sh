@@ -28,7 +28,7 @@ if ! cube_file_exists /etc/mail/secrets ; then
   touch /etc/mail/secrets || cube_check_return
   chmod 640 /etc/mail/secrets || cube_check_return
   chown root:_smtpd /etc/mail/secrets || cube_check_return
-  cube_set_file_contents_string "/etc/mail/secrets" "label myplaceonline:${cubevar_app_passwords_smtp}"
+  cube_set_file_contents_string "/etc/mail/secrets" "label ${cubevar_app_passwords_smtp_user}:${cubevar_app_passwords_smtp_password}"
 fi
 
 if cube_set_file_contents "/usr/lib/systemd/system/opensmtpd.service" "templates/opensmtpd.service.template" ; then

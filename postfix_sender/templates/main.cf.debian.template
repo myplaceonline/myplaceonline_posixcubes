@@ -39,7 +39,7 @@ inet_interfaces = all
 inet_protocols = all
 
 smtp_sasl_auth_enable = yes 
-smtp_sasl_password_maps = static:myplaceonline:${cubevar_app_passwords_smtp}
+smtp_sasl_password_maps = static:${cubevar_app_passwords_smtp_user}:${cubevar_app_passwords_smtp_password}
 smtp_sasl_security_options = noanonymous 
 smtp_tls_security_level = encrypt
 header_size_limit = 4096000
