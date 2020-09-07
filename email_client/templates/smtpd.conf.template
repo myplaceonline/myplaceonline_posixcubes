@@ -1,4 +1,4 @@
 table secrets file:/etc/mail/secrets
 listen on lo
 accept from local for local deliver to mbox
-accept from local for any relay via tls+auth://label@smtp.sendgrid.net auth <secrets>
+accept from local for any relay via tls+auth://label@${cubevar_app_outbound_smtp} auth <secrets>
