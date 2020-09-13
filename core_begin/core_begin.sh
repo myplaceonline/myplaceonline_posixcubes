@@ -421,4 +421,12 @@ fi
 
 cube_set_file_contents "/etc/hosts" "templates/hosts.template"
 
+if cube_set_file_contents "/opt/basics.sh" "templates/basics.sh" ; then
+  chmod a+x /opt/basics.sh || cube_check_return
+fi
+
+if cube_set_file_contents "/etc/cron.daily/basics" "templates/dailycron_basics" ; then
+  chmod a+x /etc/cron.daily/basics || cube_check_return
+fi
+
 true
