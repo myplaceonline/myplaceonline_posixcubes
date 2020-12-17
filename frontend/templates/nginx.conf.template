@@ -32,6 +32,8 @@ http {
     # for more information.
     include /etc/nginx/conf.d/*.conf;
 
+    ${cubevar_app_nginx_rules}
+    
     server {
         listen       127.0.0.1:81 default_server;
         #listen       [::]:80 default_server;

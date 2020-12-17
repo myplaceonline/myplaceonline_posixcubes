@@ -16,4 +16,7 @@ frontend myplaceonline
     acl static_rule path_beg -i /google
     acl static_rule path_beg -i /frontend/
     use_backend static_backend if static_rule
+    
+    ${cubevar_app_haproxy_secure_rules}
+    
     default_backend             servers

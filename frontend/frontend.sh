@@ -33,7 +33,7 @@ cube_ensure_directory "/usr/share/nginx/html/frontend"
 
 cube_set_file_contents_string "/usr/share/nginx/html/frontend/index.html" "Hello World"
 
-if cube_set_file_contents "/etc/nginx/nginx.conf" "templates/nginx.conf" ; then
+if cube_set_file_contents "/etc/nginx/nginx.conf" "templates/nginx.conf.template" ; then
   cube_service restart nginx
 fi
 
