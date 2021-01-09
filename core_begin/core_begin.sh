@@ -415,8 +415,8 @@ cube_ensure_directory "${cubevar_app_nfs_client_mount}" 777
 
 if cube_set_file_contents "/etc/systemd/system/tcpdump.service" "templates/tcpdump.service.template" ; then
   cube_service daemon-reload
-  cube_service enable tcpdump
-  cube_service restart tcpdump
+  #cube_service enable tcpdump
+  #cube_service restart tcpdump
 fi
 
 cube_set_file_contents "/etc/hosts" "templates/hosts.template"
