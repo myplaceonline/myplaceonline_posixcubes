@@ -27,11 +27,11 @@ defaults
     option forwardfor       except 127.0.0.0/8
     option                  redispatch
     retries                 1
-    timeout http-request    120s
+    timeout http-request    360s
     timeout queue           5s
     timeout connect         5s
-    timeout client          120s
-    timeout server          120s
+    timeout client          360s
+    timeout server          360s
     timeout http-keep-alive 10s
     timeout check           10s
     maxconn                 3000
