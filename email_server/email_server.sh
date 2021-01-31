@@ -13,6 +13,15 @@
 # Add a vmail line to cubevar_app_email_users for the user
 # Build email_server to update the files: posixcube.sh -h root@${SERVER} -c email_server
 
+# User: user@domain
+# Type: IMAP
+# Incoming Port: 993
+# Incoming Encryption: SSL/TLS
+# Incoming Authentication: Normal Password
+# Outgoing Port: 587
+# Outgoing Encryption: STARTTLS
+# Outgoing Authentication: Normal Password
+
 # IMAP:
   # openssl s_client -connect ${HOST}:993 -crlf
   # tag login ${USER} "${PASSWORD}"
