@@ -190,3 +190,18 @@ Create backup database server:
   should bind on the eth1 interface. Even though they could instead bind on every interface and just use the firewall
   to block access, there could be a case where for example, we whitelist an IP on the public interface which gets
   too much access to internal services.
+
+## spamassassin
+
+1. Add [rule](https://cwiki.apache.org/confluence/display/spamassassin/WritingRules) at the top of `/etc/mail/spamassassin/local.cf`; for example:
+   ```
+   body LOCAL_BLACKLIST1_RULE /Some spammy subject/
+   score LOCAL_BLACKLIST1_RULE 10
+   describe LOCAL_BLACKLIST1_RULE BLACKLIST1
+   ```
+1. Restart `spampd` and `opensmtpd`:
+   ```
+   systemctl restart spampd
+   systemctl restart opensmtpd
+   ```
+1. Test sending an email that matches and make sure it goes into the Spam folder.
