@@ -94,6 +94,11 @@ if cube_set_file_contents "/etc/rsyslog.d/02-haproxy.conf" "templates/rsyslog_ha
   cube_service restart rsyslog
 fi
 
+if cube_set_file_contents "/etc/haproxy/haproxy.cfg" "templates/haproxy.cfg.template" ; then
+  chmod 644 /etc/haproxy/haproxy.cfg
+  cube_service restart haproxy
+fi
+
 cube_service start haproxy
 
 if ! cube_file_exists /etc/letsencrypt/live/ ; then
@@ -130,13 +135,6 @@ fi
 
 if cube_set_file_contents "/etc/cron.d/letsencrypt" "templates/crontab_letsencrypt.template" ; then
   chmod 600 /etc/cron.d/letsencrypt
-fi
-
-cube_service start haproxy
-
-if cube_set_file_contents "/etc/haproxy/haproxy.cfg" "templates/haproxy.cfg.template" ; then
-  chmod 644 /etc/haproxy/haproxy.cfg
-  cube_service reload haproxy
 fi
 
 cube_service enable haproxy
