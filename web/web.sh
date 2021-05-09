@@ -236,6 +236,7 @@ cube_ensure_directory "${cubevar_app_web_dir}/tmp/"
 chmod -R 777 "${cubevar_app_web_dir}/tmp/" || cube_check_return
 cube_ensure_directory "${cubevar_app_web_dir}/tmp/myp/" 777
 cube_ensure_directory "${cubevar_app_web_dir}/tmp/cache/" 777
+cube_ensure_directory "${cubevar_app_web_dir}/tmp/cache/bootsnap/" 777
 chmod -R 777 "${cubevar_app_web_dir}/tmp/cache/bootsnap"*
 cube_ensure_directory "${cubevar_app_web_dir}/log/" 777
 cube_ensure_file "${cubevar_app_web_dir}/log/production.log"
@@ -247,8 +248,8 @@ if cube_set_file_contents "${cubevar_app_web_dir}/config/database.yml" "template
   chown nobody "${cubevar_app_web_dir}/config/database.yml" || cube_check_return
 fi
 
-if [ "$(gem list bundler -i)" != "true" ]; then
-  gem install bundler:1.16.2 -q || cube_check_return
+if [ "$(gem list bundler -i -v 1.17.2)" != "true" ]; then
+  gem install bundler:1.17.2 -q || cube_check_return
 fi
 
 if cube_set_file_contents ~/.pgpass "templates/pgpass.template" ; then
@@ -273,11 +274,17 @@ cube_pushd "${cubevar_app_web_dir}"
   bin/bundle install --deployment || cube_check_return
   
   if cube_operating_system_has_flavor ${POSIXCUBE_OS_FLAVOR_FEDORA}; then
-    if ! cube_file_exists /var/www/html/myplaceonline/vendor/bundle/ruby/2.6.0/gems/sassc-2.2.0/lib/sassc/libsass.so ; then
-      sudo ln -s /var/www/html/myplaceonline/vendor/bundle/ruby/2.6.0/gems/sassc-2.2.0/ext/libsass.so /var/www/html/myplaceonline/vendor/bundle/ruby/2.6.0/gems/sassc-2.2.0/lib/sassc/libsass.so || cube_check_return
+    if cube_file_exists /var/www/html/myplaceonline/vendor/bundle/ruby/2.6.0/gems/sassc-2.2.0/ext/libsass.so ; then
+      if ! cube_file_exists /var/www/html/myplaceonline/vendor/bundle/ruby/2.6.0/gems/sassc-2.2.0/lib/sassc/libsass.so ; then
+        sudo ln -s /var/www/html/myplaceonline/vendor/bundle/ruby/2.6.0/gems/sassc-2.2.0/ext/libsass.so /var/www/html/myplaceonline/vendor/bundle/ruby/2.6.0/gems/sassc-2.2.0/lib/sassc/libsass.so || cube_check_return
+      fi
+    elif cube_file_exists /var/www/html/myplaceonline/vendor/bundle/ruby/3.0.0/extensions/x86_64-linux/3.0.0/sassc-2.4.0/sassc/libsass.so ; then
+      if ! cube_file_exists /var/www/html/myplaceonline/vendor/bundle/ruby/3.0.0/gems/sassc-2.4.0/lib/sassc/libsass.so ; then
+        sudo ln -s /var/www/html/myplaceonline/vendor/bundle/ruby/3.0.0/extensions/x86_64-linux/3.0.0/sassc-2.4.0/sassc/libsass.so /var/www/html/myplaceonline/vendor/bundle/ruby/3.0.0/gems/sassc-2.4.0/lib/sassc/libsass.so || cube_check_return
+      fi
     fi
   fi
-  
+
   cubevar_web_psql_output="$(psql -tA -U ${cubevar_app_db_dbuser} -h ${cubevar_app_db_host} -d ${cubevar_app_db_dbname} -c '\dt')" || cube_check_return
   
   if [ "$(echo "${cubevar_web_psql_output}" | grep -c "No relations found.")" != "0" ]; then
@@ -300,11 +307,11 @@ cube_pushd "${cubevar_app_web_dir}"
 
   cube_echo "Running db:migrate"
   
-  bin/bundle exec rake db:migrate || cube_check_return
+  bin/rails db:migrate || cube_check_return
 
   cube_echo "Running assets:precompile"
   
-  bin/bundle exec rake assets:precompile || cube_check_return
+  bin/rails assets:precompile || cube_check_return
   
 ) || cube_check_return
 
