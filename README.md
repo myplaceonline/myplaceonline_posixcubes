@@ -40,7 +40,6 @@ Add server to the other servers' whitelist:
 Create web server:
 
     $(grep "^web=" cubespecs.ini | sed 's/^web=/posixcube.sh /g' | sed "s/\\-h web\\*/-h web${SERVER_NUMBER}/g")
-    ssh root@web${SERVER_NUMBER}.myplaceonline.com reboot
 
 Update frontend servers (to update available web servers list):
 
