@@ -145,12 +145,12 @@ fi
 
 cubevar_nginx_passenger_root="$(passenger-config about root)"
 
-if cube_set_file_contents "/etc/telegraf/telegraf.conf" "templates/telegraf.conf.template" ; then
-  cube_service restart telegraf
-fi
-
-cube_service enable telegraf
-cube_service start telegraf
+# if cube_set_file_contents "/etc/telegraf/telegraf.conf" "templates/telegraf.conf.template" ; then
+#   cube_service restart telegraf
+# fi
+# 
+# cube_service enable telegraf
+# cube_service start telegraf
 
 if ! cube_group_exists webgrp ; then
   cube_create_group webgrp
@@ -248,8 +248,8 @@ if cube_set_file_contents "${cubevar_app_web_dir}/config/database.yml" "template
   chown nobody "${cubevar_app_web_dir}/config/database.yml" || cube_check_return
 fi
 
-if [ "$(gem list bundler -i -v 1.17.2)" != "true" ]; then
-  gem install bundler:1.17.2 -q || cube_check_return
+if [ "$(gem list bundler -i -v 2.2.17)" != "true" ]; then
+  gem install bundler:2.2.17 -q || cube_check_return
 fi
 
 if cube_set_file_contents ~/.pgpass "templates/pgpass.template" ; then
@@ -285,7 +285,7 @@ cube_pushd "${cubevar_app_web_dir}"
     fi
   fi
 
-  cubevar_web_psql_output="$(psql -tA -U ${cubevar_app_db_dbuser} -h ${cubevar_app_db_host} -d ${cubevar_app_db_dbname} -c '\dt')" || cube_check_return
+  cubevar_web_psql_output="$(psql -tA -U ${cubevar_app_db_dbuser} -h ${cubevar_app_db_host} -p ${cubevar_app_db_port} -d ${cubevar_app_db_dbname} -c '\dt')" || cube_check_return
   
   if [ "$(echo "${cubevar_web_psql_output}" | grep -c "No relations found.")" != "0" ]; then
     # This is a major operation, so just in case there's some freak reason the previous command didn't work, prompt

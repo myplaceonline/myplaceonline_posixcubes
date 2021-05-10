@@ -14,9 +14,11 @@ HEREDOC
 
 cube_set_file_contents_string "/etc/yum.repos.d/elasticsearch.repo" "${cubevar_app_str}"
 
-cube_package install elastic-curator elasticdump elasticsearch
+cube_package install elasticsearch chkconfig
 
 if cube_set_file_contents "/etc/elasticsearch/jvm.options" "templates/elasticsearch_jvm.options.yml" ; then
+  mv /usr/lib/systemd/system/elasticsearch.service /etc/systemd/system/
+  cube_service daemon-reload
   cube_service restart elasticsearch
 fi
 
@@ -46,13 +48,13 @@ cube_service start elasticsearch
 #cube_service enable logstash
 #cube_service start logstash
 
-if cube_set_file_contents "/etc/rsyslog.conf" "templates/rsyslog.conf.template" ; then
-  cube_service restart rsyslog
-fi
+#if cube_set_file_contents "/etc/rsyslog.conf" "templates/rsyslog.conf.template" ; then
+#  cube_service restart rsyslog
+#fi
 
-if cube_set_file_contents "/etc/rsyslog.d/01-server.conf" "templates/rsyslog_server.conf" ; then
-  cube_service restart rsyslog
-fi
+#if cube_set_file_contents "/etc/rsyslog.d/01-server.conf" "templates/rsyslog_server.conf" ; then
+#  cube_service restart rsyslog
+#fi
 
 #if cube_set_file_contents "/etc/rsyslog.d/60-logstash.conf" "templates/rsyslog_logstash.conf.template" ; then
 #  cube_service restart rsyslog

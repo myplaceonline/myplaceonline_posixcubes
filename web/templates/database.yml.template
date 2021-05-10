@@ -4,5 +4,6 @@ production:
   pool: 5
   host: ${cubevar_app_db_host}
   database: ${cubevar_app_db_dbname}
+  port: ${cubevar_app_db_port}
   username: ${cubevar_app_db_dbuser}
   password: ${cubevar_app_passwords_postgresql_myplaceonline}

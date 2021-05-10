@@ -1,1 +1,1 @@
-${cubevar_app_db_host}:*:*:${cubevar_app_db_dbuser}:${cubevar_app_passwords_postgresql_myplaceonline}
+${cubevar_app_db_host}:${cubevar_app_db_port}:*:${cubevar_app_db_dbuser}:${cubevar_app_passwords_postgresql_myplaceonline}

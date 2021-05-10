@@ -18,12 +18,12 @@ if [ "$(firewall-cmd --zone=public --list-ports | grep -c 9443)" = "0" ]; then
   cube_echo "Opened firewall port for port 9443"
 fi
 
-if cube_set_file_contents "/etc/telegraf/telegraf.conf" "templates/telegraf.conf.template" ; then
-  cube_service restart telegraf
-fi
-
-cube_service enable telegraf
-cube_service start telegraf
+# if cube_set_file_contents "/etc/telegraf/telegraf.conf" "templates/telegraf.conf.template" ; then
+#   cube_service restart telegraf
+# fi
+# 
+# cube_service enable telegraf
+# cube_service start telegraf
 
 cube_package install haproxy socat nmap-ncat certbot nginx
 

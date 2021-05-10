@@ -21,6 +21,7 @@ Web server:
   * Private networking, IPv6
   * Select SSH Key
   * Hostname: webX.myplaceonline.com
+* Add to database trusted sources
 * Networking > Domains > myplaceonline.com
   * Create A record for short hostname and droplet
 

@@ -81,9 +81,9 @@ fi
 if cube_service_exists elasticsearch ; then
   cube_service stop elasticsearch
 fi
-if cube_service_exists influx ; then
-  cube_service stop influxd
-fi
+#if cube_service_exists influx ; then
+#  cube_service stop influxd
+#fi
 
 cubevar_app_fullhostname="$(cube_hostname true).${cubevar_app_server_name}"
 cubevar_app_shorthostname="$(cube_hostname true)"
@@ -186,29 +186,29 @@ fi
 # https://www.elastic.co/guide/en/logstash/current/installing-logstash.html
 # https://docs.influxdata.com/telegraf/v1.1/introduction/installation/
 if cube_operating_system_has_flavor ${POSIXCUBE_OS_FLAVOR_FEDORA}; then
-  cube_read_stdin cubevar_app_str <<'HEREDOC'
-[influxdb]
-name = InfluxDB Repository - RHEL $releasever
-baseurl = https://repos.influxdata.com/rhel/7Server/$basearch/stable
-enabled = 1
-gpgcheck = 0
-gpgkey = https://repos.influxdata.com/influxdb.key
-HEREDOC
-
-  cube_set_file_contents_string "/etc/yum.repos.d/influxdb.repo" "${cubevar_app_str}"
-
-  cube_read_stdin cubevar_app_str <<'HEREDOC'
-[logstash-5.x]
-name=Elastic repository for 5.x packages
-baseurl=https://artifacts.elastic.co/packages/5.x/yum
-gpgcheck=0
-gpgkey=https://artifacts.elastic.co/GPG-KEY-elasticsearch
-enabled=1
-autorefresh=1
-type=rpm-md
-HEREDOC
-
-  cube_set_file_contents_string "/etc/yum.repos.d/logstash.repo" "${cubevar_app_str}"
+#   cube_read_stdin cubevar_app_str <<'HEREDOC'
+# [influxdb]
+# name = InfluxDB Repository - RHEL $releasever
+# baseurl = https://repos.influxdata.com/rhel/7Server/$basearch/stable
+# enabled = 1
+# gpgcheck = 0
+# gpgkey = https://repos.influxdata.com/influxdb.key
+# HEREDOC
+# 
+#   cube_set_file_contents_string "/etc/yum.repos.d/influxdb.repo" "${cubevar_app_str}"
+# 
+#   cube_read_stdin cubevar_app_str <<'HEREDOC'
+# [logstash-5.x]
+# name=Elastic repository for 5.x packages
+# baseurl=https://artifacts.elastic.co/packages/5.x/yum
+# gpgcheck=0
+# gpgkey=https://artifacts.elastic.co/GPG-KEY-elasticsearch
+# enabled=1
+# autorefresh=1
+# type=rpm-md
+# HEREDOC
+# 
+#   cube_set_file_contents_string "/etc/yum.repos.d/logstash.repo" "${cubevar_app_str}"
   
   if ! cube_file_exists /etc/yum.repos.d/rpmfusion-free.repo ; then
     cube_package install https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
@@ -222,19 +222,19 @@ elif cube_operating_system_has_flavor ${POSIXCUBE_OS_FLAVOR_DEBIAN}; then
     cube_package update
   fi
   
-  if ! cube_file_exists /etc/apt/sources.list.d/influxdb.list ; then
-    cube_app_tmp="$(curl -sL https://repos.influxdata.com/influxdb.key || cube_check_return)" || cube_check_return
-    printf '%s' "${cube_app_tmp}" | apt-key add - || cube_check_return
-    if cube_operating_system_has_flavor ${POSIXCUBE_OS_FLAVOR_UBUNTU}; then
-      . /etc/lsb-release || cube_check_return
-      echo "deb https://repos.influxdata.com/${DISTRIB_ID,,} ${DISTRIB_CODENAME} stable" | tee /etc/apt/sources.list.d/influxdb.list || cube_check_return
-    elif cube_operating_system_has_flavor ${POSIXCUBE_OS_FLAVOR_DEBIAN}; then
-      . /etc/os-release || cube_check_return
-      test $VERSION_ID = "7" && echo "deb https://repos.influxdata.com/debian wheezy stable" | tee /etc/apt/sources.list.d/influxdb.list || cube_check_return
-      test $VERSION_ID = "8" && echo "deb https://repos.influxdata.com/debian jessie stable" | tee /etc/apt/sources.list.d/influxdb.list || cube_check_return
-    fi
-    cube_package update
-  fi
+#   if ! cube_file_exists /etc/apt/sources.list.d/influxdb.list ; then
+#     cube_app_tmp="$(curl -sL https://repos.influxdata.com/influxdb.key || cube_check_return)" || cube_check_return
+#     printf '%s' "${cube_app_tmp}" | apt-key add - || cube_check_return
+#     if cube_operating_system_has_flavor ${POSIXCUBE_OS_FLAVOR_UBUNTU}; then
+#       . /etc/lsb-release || cube_check_return
+#       echo "deb https://repos.influxdata.com/${DISTRIB_ID,,} ${DISTRIB_CODENAME} stable" | tee /etc/apt/sources.list.d/influxdb.list || cube_check_return
+#     elif cube_operating_system_has_flavor ${POSIXCUBE_OS_FLAVOR_DEBIAN}; then
+#       . /etc/os-release || cube_check_return
+#       test $VERSION_ID = "7" && echo "deb https://repos.influxdata.com/debian wheezy stable" | tee /etc/apt/sources.list.d/influxdb.list || cube_check_return
+#       test $VERSION_ID = "8" && echo "deb https://repos.influxdata.com/debian jessie stable" | tee /etc/apt/sources.list.d/influxdb.list || cube_check_return
+#     fi
+#     cube_package update
+#   fi
 else
   cube_throw Not implemented
 fi
@@ -252,10 +252,10 @@ if cube_operating_system_has_flavor ${POSIXCUBE_OS_FLAVOR_FEDORA}; then
                         iotop gdb bind-utils python sendmail make mailx \
                         postfix tcpdump cyrus-sasl-plain rsyslog gnupg \
                         kexec-tools lzo lzo-devel lzo-minilzo bison bison-devel \
-                        ncurses ncurses-devel telegraf telnet iftop git \
+                        ncurses ncurses-devel telnet iftop git \
                         nmap-ncat java-1.8.0-openjdk grub2-tools libffi-devel \
                         file-devel iperf speedtest-cli cronie bc python3-devel \
-                        python3-pip ffmpeg chrony
+                        python3-pip ffmpeg chrony p7zip
 elif cube_operating_system_has_flavor ${POSIXCUBE_OS_FLAVOR_DEBIAN}; then
   # https://wiki.ubuntu.com/Kernel/CrashdumpRecipe
   # https://help.ubuntu.com/lts/serverguide/kernel-crash-dump.html
@@ -264,7 +264,7 @@ elif cube_operating_system_has_flavor ${POSIXCUBE_OS_FLAVOR_DEBIAN}; then
                         iotop gdb ldap-utils ntp python make mailutils \
                         postfix tcpdump rsyslog gnupg makedumpfile libsasl2-modules \
                         kexec-tools liblzo2-2 liblzo2-dev libbison-dev \
-                        libncurses-dev telegraf telnet iftop git \
+                        libncurses-dev telnet iftop git \
                         netcat-openbsd default-jdk `uname -r`-dbg crash \
                         libmagic-dev iperf speedtest-cli bc python3-dev \
                         python3-pip python3-lockfile python3-packaging \
@@ -305,7 +305,7 @@ if cube_service_exists kdump ; then
   cube_set_file_contents "/etc/kdump.conf" "templates/kdump.conf"
 
   # Don't auto-start because we may not have crashkernel yet
-  cube_service enable kdump
+  #cube_service enable kdump
 fi
 
 cube_echo "Total memory (MB): $(cube_total_memory MB), Required for crash kernel: ${cubevar_min_mem_crash_kernel}"
@@ -322,7 +322,7 @@ if [ $(cube_total_memory MB) -gt ${cubevar_min_mem_crash_kernel} ]; then
     cube_echo "Checking for crashkernel"
     if ! ( grubby --info=ALL | cube_stdin_contains "crashkernel" ) ; then
       cube_echo "crashkernel not found"
-      grubby --update-kernel=ALL "--args=no_timer_check console=hvc0 LANG=en_US.UTF-8 crashkernel=${cubevar_app_crashkernel_mem}M audit=0" || cube_check_return
+      #grubby --update-kernel=ALL "--args=no_timer_check console=hvc0 LANG=en_US.UTF-8 crashkernel=${cubevar_app_crashkernel_mem}M audit=0" || cube_check_return
     fi
   elif cube_operating_system_has_flavor ${POSIXCUBE_OS_FLAVOR_FEDORA} && [ $(cube_operating_system_version_major) -gt 29 ]; then
     if cube_set_file_contents "/etc/default/grub" "templates/grub2.template" ; then
@@ -400,12 +400,12 @@ if [ $(cube_total_memory MB) -gt ${cubevar_min_mem_crash_kernel} ]; then
   fi
 fi
 
-if ! cube_has_role "syslog_server" ; then
+#if ! cube_has_role "syslog_server" ; then
   # tcpdump -Xvi any port 514
-  if cube_set_file_contents "/etc/rsyslog.d/01-client.conf" "templates/rsyslog_client.conf.template" ; then
-    cube_service restart rsyslog
-  fi
-fi
+  #if cube_set_file_contents "/etc/rsyslog.d/01-client.conf" "templates/rsyslog_client.conf.template" ; then
+  #  cube_service restart rsyslog
+  #fi
+#fi
 
 cube_ensure_directory "${cubevar_app_nfs_client_mount}" 777
 

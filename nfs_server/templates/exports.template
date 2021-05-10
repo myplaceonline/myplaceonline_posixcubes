@@ -1,1 +1,1 @@
-${cubevar_app_nfs_server_directory} 10.134.0.0/16(rw,sync,no_root_squash)
+${cubevar_app_nfs_server_directory} ${cubevar_app_vpc}/16(rw,sync,no_root_squash)
