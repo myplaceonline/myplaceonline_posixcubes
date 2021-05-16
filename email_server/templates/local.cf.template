@@ -11,7 +11,9 @@
 # List tests:
 # spamassassin --lint -D 2>&1 | grep "plugin: loading"
 
-
+# Explicit blacklist
+header BLACKLIST1 Subject =~ /Предложение/i
+score BLACKLIST1 5
 
 # These values can be overridden by editing ~/.spamassassin/user_prefs.cf 
 # (see spamassassin(1) for details)
