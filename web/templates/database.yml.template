@@ -9,3 +9,4 @@ production:
   password: ${cubevar_app_passwords_postgresql_myplaceonline}
   idle_timeout: 30
   reaping_frequency: 30
+  sslmode: disable
