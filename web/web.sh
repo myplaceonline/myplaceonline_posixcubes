@@ -346,6 +346,10 @@ fi
 cube_service enable nginx
 cube_service start nginx
 
+if cube_set_file_contents "/etc/cron.daily/webstats" "templates/dailycron_webstats" ; then
+  chmod a+x /etc/cron.daily/webstats || cube_check_return
+fi
+
 # Wait for Passenger to initialize all of the handler processes
 cube_echo "Waiting ${cubevar_app_nginx_start_wait} seconds for Rails to start"
 sleep ${cubevar_app_nginx_start_wait}
@@ -355,3 +359,5 @@ app_haproxy_result="$(curl -s -S -u "admin:${cubevar_app_passwords_haproxy_stats
 app_haproxy_result="$(echo "${app_haproxy_result}" | sed 's/.*;st=//g')"
 
 cube_echo "Disabling maintenance mode on $(cube_hostname "true") result: ${app_haproxy_result}"
+
+true
