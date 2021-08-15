@@ -15,6 +15,18 @@
 header BLACKLIST1 Subject =~ /Предложение/i
 score BLACKLIST1 5
 
+header BLACKLIST2 Subject =~ /World Business List/i
+score BLACKLIST2 5
+
+header BLACKLIST3 Subject =~ /World Company Registration/i
+score BLACKLIST3 5
+
+header BLACKLIST4 Subject =~ /Michael Kors Handbags/i
+score BLACKLIST4 5
+
+header BLACKLIST5 Subject =~ /Revolve Sunglasses/i
+score BLACKLIST5 5
+
 # These values can be overridden by editing ~/.spamassassin/user_prefs.cf 
 # (see spamassassin(1) for details)
 
