@@ -16,9 +16,9 @@ Update all servers:
 Web server:
 
 * Create Droplet
-  * Ubuntu or Fedora
-  * 4GB/2CPU, SFO1
-  * Private networking, IPv6
+  * Fedora on SFO3
+  * Basic, 4GB/2CPU
+  * IPv6, Monitoring
   * Select SSH Key
   * Hostname: webX.myplaceonline.com
 * Add to database trusted sources
