@@ -27,6 +27,24 @@ score BLACKLIST4 5
 header BLACKLIST5 Subject =~ /Revolve Sunglasses/i
 score BLACKLIST5 5
 
+header BLACKLIST6 Subject =~ /Сотрудничество/i
+score BLACKLIST6 5
+
+header BLACKLIST7 Subject =~ /Get The Best Deals At The Lowest Prices/i
+score BLACKLIST7 5
+
+header BLACKLIST8 Subject =~ /Financial freedom to expand and grow your business/i
+score BLACKLIST8 5
+
+header BLACKLIST9 Subject =~ /Michael Kors Sale/i
+score BLACKLIST9 5
+
+header BLACKLIST10 Subject =~ /Revolve Sunglasses/i
+score BLACKLIST10 5
+
+header BLACKLIST11 Subject =~ /World Company Registration/i
+score BLACKLIST11 5
+
 # These values can be overridden by editing ~/.spamassassin/user_prefs.cf 
 # (see spamassassin(1) for details)
 
