@@ -5,7 +5,7 @@ After=network-online.target
 
 [Service]
 WorkingDirectory=/var/log/
-ExecStart=/usr/sbin/tcpdump -nn -i any -B 4096 -s 0 -C 500 -W 2 -Z root -w tcpdump_%H.pcap
+ExecStart=/usr/sbin/tcpdump -nn -i any -B 4096 -s 128 -C 2048 -W 2 -Z root -w tcpdump_%H.pcap
 ExecStop=/usr/bin/pkill -INT tcpdump
 
 [Install]
