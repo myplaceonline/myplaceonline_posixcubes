@@ -325,13 +325,17 @@ if cube_set_file_contents "/var/spool/cron/root" "templates/crontab.template" ; 
   chmod 600 "/var/spool/cron/root"
 fi
 
+# !! No longer using this service !!
 #if cube_set_file_contents "/etc/systemd/system/myplaceonline-delayedjobs.service" "templates/myplaceonline-delayedjobs.service.template" ; then
 #  cube_service daemon-reload
 #  cube_service enable myplaceonline-delayedjobs
 #fi
+# !! No longer using this service !!
 
+# !! No longer using this service !!
 # Always restart the job to pick up the latest rails source code
 #cube_service restart myplaceonline-delayedjobs
+# !! No longer using this service !!
 
 if cube_set_file_contents "/opt/myplaceonline/myplaceonline-nginx-ready.sh" "templates/myplaceonline-nginx-ready.sh.template" ; then
   chmod 755 /opt/myplaceonline/myplaceonline-nginx-ready.sh
