@@ -436,4 +436,6 @@ if cube_set_file_contents "/etc/cron.daily/basics" "templates/dailycron_basics" 
   chmod a+x /etc/cron.daily/basics || cube_check_return
 fi
 
+systemctl disable dnf-makecache
+
 true
