@@ -185,6 +185,15 @@ for i in "${cubevar_app_gitlab_engine_paths}"; do
   fi
 done
 
+for i in ${cubevar_app_web_dir}/engines/*; do
+  (
+    cube_echo "Updating engine ${i}"
+    cube_pushd ${i}
+    git pull || cube_check_return
+    cube_popd
+  )
+done
+
 if [ "${cubevar_app_gitlab_engine_config_path}" != "" ]; then
   if ! cube_dir_exists "${cubevar_app_web_dir}/engines_config/" ; then
     mkdir "${cubevar_app_web_dir}/engines_config/"
