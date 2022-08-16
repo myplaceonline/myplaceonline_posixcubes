@@ -96,9 +96,7 @@ if ! cube_dir_exists "${cubevar_nginx_root}" ; then
   (
     cd /usr/local/src/ || cube_check_return
     rm -rf /usr/local/src/nginx-upload-module 2>/dev/null
-    git clone https://github.com/myplaceonline/nginx-upload-module || cube_check_return
-    cd nginx-upload-module || cube_check_return
-    git checkout 2.255 || cube_check_return
+    git clone -b passformfieldsissue https://github.com/myplaceonline/nginx-upload-module || cube_check_return
   ) || cube_check_return
 
   cube_pushd "/usr/local/src/"
