@@ -25,7 +25,7 @@ fi
 # cube_service enable telegraf
 # cube_service start telegraf
 
-cube_package install haproxy socat nmap-ncat certbot nginx fcgiwrap
+cube_package install haproxy socat nmap-ncat certbot nginx fcgiwrap httpd
 
 cube_set_file_contents "/usr/share/nginx/html/maintenance.html" "templates/maintenance.html"
 
