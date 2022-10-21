@@ -25,13 +25,28 @@ fi
 # cube_service enable telegraf
 # cube_service start telegraf
 
-cube_package install haproxy socat nmap-ncat certbot nginx
+cube_package install haproxy socat nmap-ncat certbot nginx fcgiwrap
 
 cube_set_file_contents "/usr/share/nginx/html/maintenance.html" "templates/maintenance.html"
 
 cube_ensure_directory "/usr/share/nginx/html/frontend"
 
 cube_set_file_contents_string "/usr/share/nginx/html/frontend/index.html" "Hello World"
+
+if cube_set_file_contents "/usr/lib/systemd/system/fcgiwrap.service" "templates/fcgiwrap.service" ; then
+  cube_set_file_contents "/usr/lib/systemd/system/fcgiwrap.socket" "templates/fcgiwrap.socket"
+  cube_service daemon-reload
+  cube_service enable fcgiwrap
+  cube_service start fcgiwrap
+fi
+
+cube_ensure_directory "/var/www/" "a+rx"
+cube_ensure_directory "/var/www/cgi-bin/" "a+rx"
+cube_ensure_directory "/var/www/cgi-bin/api/" "a+rx"
+
+if cube_set_file_contents "/var/www/cgi-bin/api/write_marker" "templates/writer_marker.template" ; then
+  chmod a+rx /var/www/cgi-bin/api/write_marker
+fi
 
 if cube_set_file_contents "/etc/nginx/nginx.conf" "templates/nginx.conf.template" ; then
   cube_service restart nginx
