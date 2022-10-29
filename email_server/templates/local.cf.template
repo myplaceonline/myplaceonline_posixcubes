@@ -45,6 +45,9 @@ score BLACKLIST10 5
 header BLACKLIST11 Subject =~ /World Company Registration/i
 score BLACKLIST11 5
 
+header   FH_DATE_PAST_2023      Date =~ /202[3-9]/ [if-unset: 2006]
+score FH_DATE_PAST_2023 5
+
 # These values can be overridden by editing ~/.spamassassin/user_prefs.cf 
 # (see spamassassin(1) for details)
 
