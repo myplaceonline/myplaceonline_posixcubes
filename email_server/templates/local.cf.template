@@ -13,40 +13,40 @@
 
 # Explicit blacklist
 header BLACKLIST1 Subject =~ /Предложение/i
-score BLACKLIST1 5
+score BLACKLIST1 10
 
 header BLACKLIST2 Subject =~ /World Business List/i
-score BLACKLIST2 5
+score BLACKLIST2 10
 
 header BLACKLIST3 Subject =~ /World Company Registration/i
-score BLACKLIST3 5
+score BLACKLIST3 10
 
 header BLACKLIST4 Subject =~ /Michael Kors Handbags/i
-score BLACKLIST4 5
+score BLACKLIST4 10
 
 header BLACKLIST5 Subject =~ /Revolve Sunglasses/i
-score BLACKLIST5 5
+score BLACKLIST5 10
 
 header BLACKLIST6 Subject =~ /Сотрудничество/i
-score BLACKLIST6 5
+score BLACKLIST6 10
 
 header BLACKLIST7 Subject =~ /Get The Best Deals At The Lowest Prices/i
-score BLACKLIST7 5
+score BLACKLIST7 10
 
 header BLACKLIST8 Subject =~ /Financial freedom to expand and grow your business/i
-score BLACKLIST8 5
+score BLACKLIST8 10
 
 header BLACKLIST9 Subject =~ /Michael Kors Sale/i
-score BLACKLIST9 5
+score BLACKLIST9 10
 
 header BLACKLIST10 Subject =~ /Revolve Sunglasses/i
-score BLACKLIST10 5
+score BLACKLIST10 10
 
 header BLACKLIST11 Subject =~ /World Company Registration/i
-score BLACKLIST11 5
+score BLACKLIST11 10
 
 header   FH_DATE_PAST_2023      Date =~ /202[3-9]/ [if-unset: 2006]
-score FH_DATE_PAST_2023 5
+score FH_DATE_PAST_2023 10
 
 # These values can be overridden by editing ~/.spamassassin/user_prefs.cf 
 # (see spamassassin(1) for details)
