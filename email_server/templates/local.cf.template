@@ -48,7 +48,10 @@ score BLACKLIST11 10
 header   FH_DATE_PAST_2023      Date =~ /202[3-9]/ [if-unset: 2006]
 score FH_DATE_PAST_2023 10
 
-# These values can be overridden by editing ~/.spamassassin/user_prefs.cf 
+header   FH_DATE_PAST_2030      Date =~ /20[3-9]/ [if-unset: 2006]
+score FH_DATE_PAST_2030 10
+
+# These values can be overridden by editing ~/.spamassassin/user_prefs.cf
 # (see spamassassin(1) for details)
 
 # These should be safe assumptions and allow for simple visual sifting

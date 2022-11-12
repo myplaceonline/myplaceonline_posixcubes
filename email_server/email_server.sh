@@ -100,7 +100,7 @@ if ! cube_file_exists /etc/letsencrypt/live/ ; then
     cube_warning_echo "Letsencrypt failure: ${cubevar_app_letsencrypt_result}"
     rm -rf /etc/letsencrypt/live/ 2>/dev/null
   else
-    chmod og-r /etc/letsencrypt/archive/*/privkey2.pem || cube_check_return
+    chmod og-r /etc/letsencrypt/archive/*/privkey.pem || cube_check_return
   fi
 fi
 
