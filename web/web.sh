@@ -274,6 +274,7 @@ cube_pushd "${cubevar_app_web_dir}"
   export RUBY_GC_MALLOC_LIMIT_MAX="${cubevar_app_rails_gc_max_newspace}"
   export RUBY_GC_OLDMALLOC_LIMIT_MAX="${cubevar_app_rails_gc_max_oldspace}"
   export BUNDLE_GEMFILE="${cubevar_app_rails_gemfile}"
+  export MIGRATING=true
   
   cube_echo "Running bundle install"
 
