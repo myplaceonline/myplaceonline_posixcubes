@@ -45,8 +45,8 @@ score BLACKLIST10 10
 header BLACKLIST11 Subject =~ /World Company Registration/i
 score BLACKLIST11 10
 
-header   FH_DATE_PAST_2023      Date =~ /202[3-9]/ [if-unset: 2006]
-score FH_DATE_PAST_2023 10
+header   FH_DATE_PAST_2024      Date =~ /202[4-9]/ [if-unset: 2006]
+score FH_DATE_PAST_2024 10
 
 header   FH_DATE_PAST_2030      Date =~ /20[3-9]/ [if-unset: 2006]
 score FH_DATE_PAST_2030 10
