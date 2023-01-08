@@ -21,7 +21,7 @@ HEREDOC
                        ImageMagick-devel ImageMagick-libs golang git gcc \
                        gcc-c++ openssl-devel pcre-devel postgresql-devel \
                        postgresql nodejs libcurl-devel httpd yarn libxml2-devel \
-                       dovecot libsass-devel
+                       dovecot libsass-devel libyaml-devel
 elif cube_operating_system_has_flavor ${POSIXCUBE_OS_FLAVOR_DEBIAN}; then
 
   # https://yarnpkg.com/lang/en/docs/install/
@@ -37,7 +37,7 @@ elif cube_operating_system_has_flavor ${POSIXCUBE_OS_FLAVOR_DEBIAN}; then
                        golang git gcc build-essential \
                        g++ libssl-dev libpcre3-dev libpcre++-dev libpq-dev \
                        postgresql nodejs libcurl4-openssl-dev apache2 yarn libxml2-dev \
-                       dovecot
+                       dovecot libyaml-dev
   
   cube_service disable apache2
   cube_service stop apache2
@@ -171,26 +171,30 @@ if ! cube_dir_exists "${cubevar_app_web_dir}/engines/" ; then
   mkdir "${cubevar_app_web_dir}/engines/"
 fi
 
-for i in "${cubevar_app_gitlab_engine_paths}"; do
-  if [ "${i}" != "" ]; then
-    if ! cube_dir_exists "${cubevar_app_web_dir}/engines/$(basename "${i}")" ; then
-      git clone "https://oauth2:${cubevar_app_gitlab_token}@gitlab.com/${i}" "${cubevar_app_web_dir}/engines/$(basename "${i}")" || cube_check_return
+clone_update_engine() {
+  if [ "$1" != "" ]; then
+    if ! cube_dir_exists "${cubevar_app_web_dir}/engines/$2" ; then
+      git clone "https://oauth2:${cubevar_app_gitlab_token}@gitlab.com/$1" "${cubevar_app_web_dir}/engines/$2" || cube_check_return
     fi
-    
-    cube_pushd "${cubevar_app_web_dir}/engines/$(basename "${i}")"
+
+    cube_pushd "${cubevar_app_web_dir}/engines/$2"
     git pull || cube_check_return
     cube_popd
   fi
-done
+}
 
-for i in ${cubevar_app_web_dir}/engines/*; do
-  (
-    cube_echo "Updating engine ${i}"
-    cube_pushd ${i}
-    git pull || cube_check_return
-    cube_popd
-  )
-done
+clone_update_engine "${cubevar_app_gitlab_engine_path1_repo}" "${cubevar_app_gitlab_engine_path1_dir}"
+clone_update_engine "${cubevar_app_gitlab_engine_path2_repo}" "${cubevar_app_gitlab_engine_path2_dir}"
+clone_update_engine "${cubevar_app_gitlab_engine_path3_repo}" "${cubevar_app_gitlab_engine_path3_dir}"
+
+# for i in ${cubevar_app_web_dir}/engines/*; do
+#   (
+#     cube_echo "Updating engine ${i}"
+#     cube_pushd ${i}
+#     git pull || cube_check_return
+#     cube_popd
+#   )
+# done
 
 if [ "${cubevar_app_gitlab_engine_config_path}" != "" ]; then
   if ! cube_dir_exists "${cubevar_app_web_dir}/engines_config/" ; then
@@ -255,9 +259,9 @@ if cube_set_file_contents "${cubevar_app_web_dir}/config/database.yml" "template
   chown nobody "${cubevar_app_web_dir}/config/database.yml" || cube_check_return
 fi
 
-if [ "$(gem list bundler -i -v 2.2.17)" != "true" ]; then
-  gem install bundler:2.2.17 -q || cube_check_return
-fi
+# if [ "$(gem list bundler -i -v 2.2.17)" != "true" ]; then
+#   gem install bundler:2.2.17 -q || cube_check_return
+# fi
 
 if cube_set_file_contents ~/.pgpass "templates/pgpass.template" ; then
   chmod 700 ~/.pgpass
@@ -279,7 +283,12 @@ cube_pushd "${cubevar_app_web_dir}"
   cube_echo "Running bundle install"
 
   # bin/bundle exec gem uninstall rmagick
-  bin/bundle install --deployment || cube_check_return
+  #bin/bundle config set --local deployment 'false' || cube_check_return
+  bin/bundle install || cube_check_return
+
+  if [ -d "/usr/share/gems/gems/mail-2.8.0" ]; then
+    chmod -R a+r /usr/share/gems/gems/mail-2.8.0
+  fi
   
   if cube_operating_system_has_flavor ${POSIXCUBE_OS_FLAVOR_FEDORA}; then
     if cube_file_exists /var/www/html/myplaceonline/vendor/bundle/ruby/2.6.0/gems/sassc-2.2.0/ext/libsass.so ; then

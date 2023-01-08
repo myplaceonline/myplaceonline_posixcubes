@@ -146,7 +146,7 @@ cube_service enable atd
 cube_service start atd
 
 if cube_operating_system_has_flavor ${POSIXCUBE_OS_FLAVOR_FEDORA}; then
-  cube_package --enablerepo fedora-debuginfo --enablerepo updates-debuginfo install kernel-debuginfo-common-x86_64 kernel-debuginfo glibc-debuginfo-common glibc-debuginfo systemtap perf
+  cube_package --enablerepo fedora-debuginfo --enablerepo updates-debuginfo install kernel-debuginfo-common-x86_64 kernel-debuginfo glibc-common-debuginfo glibc-debuginfo systemtap perf
   
   # https://fedoraproject.org/wiki/Yum_to_DNF_Cheatsheet
   if [ $(cube_operating_system_version_major) -lt 26 ]; then
@@ -301,57 +301,57 @@ if cube_set_file_contents "/etc/rsyslog.conf" "templates/rsyslog.conf" ; then
   cubevar_api_post_restart=$(cube_append_str "${cubevar_api_post_restart}" "rsyslog")
 fi
 
-if cube_service_exists kdump ; then
-  cube_set_file_contents "/etc/kdump.conf" "templates/kdump.conf"
-
-  # Don't auto-start because we may not have crashkernel yet
-  #cube_service enable kdump
-fi
-
-cube_echo "Total memory (MB): $(cube_total_memory MB), Required for crash kernel: ${cubevar_min_mem_crash_kernel}"
-
-# We can't afford a crash kernel on a tiny server
-if [ $(cube_total_memory MB) -gt ${cubevar_min_mem_crash_kernel} ]; then
-  cube_echo "Ensuring crash kernel"
-  
-  # https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/7/html-single/Kernel_Crash_Dump_Guide/index.html#sect-kdump-memory-requirements
-  # 160 MB + 2 bits for every 4 KB of RAM. For a system with 1 TB of memory, 224 MB is the minimum (160 + 64 MB).
-  cubevar_app_crashkernel_mem=$((161+($(cube_total_memory)/268435456)))
-
-  if cube_operating_system_has_flavor ${POSIXCUBE_OS_FLAVOR_FEDORA} && [ $(cube_operating_system_version_major) -gt 33 ]; then
-    cube_echo "Checking for crashkernel"
-    if ! ( grubby --info=ALL | cube_stdin_contains "crashkernel" ) ; then
-      cube_echo "crashkernel not found"
-      #grubby --update-kernel=ALL "--args=no_timer_check console=hvc0 LANG=en_US.UTF-8 crashkernel=${cubevar_app_crashkernel_mem}M audit=0" || cube_check_return
-    fi
-  elif cube_operating_system_has_flavor ${POSIXCUBE_OS_FLAVOR_FEDORA} && [ $(cube_operating_system_version_major) -gt 29 ]; then
-    if cube_set_file_contents "/etc/default/grub" "templates/grub2.template" ; then
-      /usr/sbin/grub2-mkconfig -o /boot/grub2/grub.cfg || cube_check_return
-      
-      # https://docs.fedoraproject.org/en-US/Fedora/25/html/System_Administrators_Guide/sec-Making_Persistent_Changes_to_a_GRUB_2_Menu_Using_the_grubby_Tool.html
-      # https://docs.fedoraproject.org/en-US/Fedora/25/html/System_Administrators_Guide/sec-Customizing_the_GRUB_2_Configuration_File.html
-      # grubby --info=ALL
-      # grubby --default-index
-      # grubby --set-default /boot/vmlinuz...
-      # /usr/sbin/grub2-mkconfig -o /boot/grub2/grub.cfg
-    fi
-  elif cube_file_exists /boot/extlinux/extlinux.conf ; then
-    sed -i "s/UTF-8\$/UTF-8 crashkernel=${cubevar_app_crashkernel_mem}M audit=0/g" /boot/extlinux/extlinux.conf || cube_check_return
-  elif cube_file_exists /boot/grub/grub.cfg ; then
-    if cube_set_file_contents "/etc/default/grub" "templates/grub1.template" ; then
-      update-grub || cube_check_return
-    fi
-    if cube_set_file_contents "/etc/default/grub.d/kexec-tools.cfg" "templates/kexec-tools.cfg.template" ; then
-      update-grub || cube_check_return
-      
-      # For some reason, a reboot is required to pick up the new config
-      # https://cloud.digitalocean.com/support/tickets/1349141
-      cube_error_echo "Updating grub requires a hard shutdown and reboot. Shutting down in 1 minute. Go into the console to power it back on."
-      shutdown -h +1
-      exit 0
-    fi
-  fi
-fi
+# if cube_service_exists kdump ; then
+#   cube_set_file_contents "/etc/kdump.conf" "templates/kdump.conf"
+#
+#   # Don't auto-start because we may not have crashkernel yet
+#   #cube_service enable kdump
+# fi
+#
+# cube_echo "Total memory (MB): $(cube_total_memory MB), Required for crash kernel: ${cubevar_min_mem_crash_kernel}"
+#
+# # We can't afford a crash kernel on a tiny server
+# if [ $(cube_total_memory MB) -gt ${cubevar_min_mem_crash_kernel} ]; then
+#   cube_echo "Ensuring crash kernel"
+#
+#   # https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/7/html-single/Kernel_Crash_Dump_Guide/index.html#sect-kdump-memory-requirements
+#   # 160 MB + 2 bits for every 4 KB of RAM. For a system with 1 TB of memory, 224 MB is the minimum (160 + 64 MB).
+#   cubevar_app_crashkernel_mem=$((161+($(cube_total_memory)/268435456)))
+#
+#   if cube_operating_system_has_flavor ${POSIXCUBE_OS_FLAVOR_FEDORA} && [ $(cube_operating_system_version_major) -gt 33 ]; then
+#     cube_echo "Checking for crashkernel"
+#     if ! ( grubby --info=ALL | cube_stdin_contains "crashkernel" ) ; then
+#       cube_echo "crashkernel not found"
+#       #grubby --update-kernel=ALL "--args=no_timer_check console=hvc0 LANG=en_US.UTF-8 crashkernel=${cubevar_app_crashkernel_mem}M audit=0" || cube_check_return
+#     fi
+#   elif cube_operating_system_has_flavor ${POSIXCUBE_OS_FLAVOR_FEDORA} && [ $(cube_operating_system_version_major) -gt 29 ]; then
+#     if cube_set_file_contents "/etc/default/grub" "templates/grub2.template" ; then
+#       /usr/sbin/grub2-mkconfig -o /boot/grub2/grub.cfg || cube_check_return
+#
+#       # https://docs.fedoraproject.org/en-US/Fedora/25/html/System_Administrators_Guide/sec-Making_Persistent_Changes_to_a_GRUB_2_Menu_Using_the_grubby_Tool.html
+#       # https://docs.fedoraproject.org/en-US/Fedora/25/html/System_Administrators_Guide/sec-Customizing_the_GRUB_2_Configuration_File.html
+#       # grubby --info=ALL
+#       # grubby --default-index
+#       # grubby --set-default /boot/vmlinuz...
+#       # /usr/sbin/grub2-mkconfig -o /boot/grub2/grub.cfg
+#     fi
+#   elif cube_file_exists /boot/extlinux/extlinux.conf ; then
+#     sed -i "s/UTF-8\$/UTF-8 crashkernel=${cubevar_app_crashkernel_mem}M audit=0/g" /boot/extlinux/extlinux.conf || cube_check_return
+#   elif cube_file_exists /boot/grub/grub.cfg ; then
+#     if cube_set_file_contents "/etc/default/grub" "templates/grub1.template" ; then
+#       update-grub || cube_check_return
+#     fi
+#     if cube_set_file_contents "/etc/default/grub.d/kexec-tools.cfg" "templates/kexec-tools.cfg.template" ; then
+#       update-grub || cube_check_return
+#
+#       # For some reason, a reboot is required to pick up the new config
+#       # https://cloud.digitalocean.com/support/tickets/1349141
+#       cube_error_echo "Updating grub requires a hard shutdown and reboot. Shutting down in 1 minute. Go into the console to power it back on."
+#       shutdown -h +1
+#       exit 0
+#     fi
+#   fi
+# fi
 
 cube_ensure_directory ~/.ssh/ 700
 cube_ensure_file ~/.ssh/authorized_keys 700
@@ -384,21 +384,21 @@ cube_set_file_contents "/etc/security/limits.conf" "templates/limits.conf"
 
 cube_set_file_contents ~/.toprc "templates/toprc"
 
-# crash is already in the debian repos
-if [ $(cube_total_memory MB) -gt ${cubevar_min_mem_crash_kernel} ]; then
-  if ! cube_operating_system_has_flavor ${POSIXCUBE_OS_FLAVOR_DEBIAN} ; then
-    if ! cube_file_exists /usr/local/src/crash/crash ; then
-      cube_pushd /usr/local/src/
-      rm -rf crash* || cube_check_return
-      git clone https://github.com/crash-utility/crash/ || cube_check_return
-      cd crash || cube_check_return
-      echo '-DLZO' > CFLAGS.extra || cube_check_return
-      echo '-llzo2' > LDFLAGS.extra || cube_check_return
-      make || cube_check_return
-      cube_popd
-    fi
-  fi
-fi
+# # crash is already in the debian repos
+# if [ $(cube_total_memory MB) -gt ${cubevar_min_mem_crash_kernel} ]; then
+#   if ! cube_operating_system_has_flavor ${POSIXCUBE_OS_FLAVOR_DEBIAN} ; then
+#     if ! cube_file_exists /usr/local/src/crash/crash ; then
+#       cube_pushd /usr/local/src/
+#       rm -rf crash* || cube_check_return
+#       git clone https://github.com/crash-utility/crash/ || cube_check_return
+#       cd crash || cube_check_return
+#       echo '-DLZO' > CFLAGS.extra || cube_check_return
+#       echo '-llzo2' > LDFLAGS.extra || cube_check_return
+#       make || cube_check_return
+#       cube_popd
+#     fi
+#   fi
+# fi
 
 #if ! cube_has_role "syslog_server" ; then
   # tcpdump -Xvi any port 514
@@ -422,8 +422,8 @@ cube_ensure_directory "${cubevar_app_nfs_client_mount}" 777
 
 if cube_set_file_contents "/etc/systemd/system/tcpdump.service" "templates/tcpdump.service.template" ; then
   cube_service daemon-reload
-  cube_service enable tcpdump
-  cube_service restart tcpdump
+  #cube_service enable tcpdump
+  #cube_service restart tcpdump
 fi
 
 cube_set_file_contents "/etc/hosts" "templates/hosts.template"

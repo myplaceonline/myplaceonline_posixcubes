@@ -68,7 +68,7 @@ Update web servers (to update trusted client list):
 
 * Create Droplet
   * Fedora
-  * 1GB, SFO1
+  * 1GB, SFO3
   * Private networking, IPv6
   * Select SSH Key
   * Hostname: frontendX.myplaceonline.com
