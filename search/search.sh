@@ -14,7 +14,7 @@ HEREDOC
 
 cube_set_file_contents_string "/etc/yum.repos.d/elasticsearch.repo" "${cubevar_app_str}"
 
-cube_package install elasticsearch chkconfig
+cube_package install elasticsearch
 
 if cube_set_file_contents "/etc/elasticsearch/jvm.options" "templates/elasticsearch_jvm.options.yml" ; then
   mv /usr/lib/systemd/system/elasticsearch.service /etc/systemd/system/
@@ -61,17 +61,17 @@ cube_service start elasticsearch
 #fi
 
 # https://www.elastic.co/guide/en/kibana/current/setup.html
-cube_read_stdin cubevar_app_str <<'HEREDOC'
-[kibana-5.x]
-name=Kibana repository for 5.x packages
-baseurl=https://artifacts.elastic.co/packages/5.x/yum
-gpgcheck=0
-gpgkey=https://artifacts.elastic.co/GPG-KEY-elasticsearch
-enabled=1
-autorefresh=1
-type=rpm-md
-HEREDOC
-
-cube_set_file_contents_string "/etc/yum.repos.d/kibana.repo" "${cubevar_app_str}"
-
-cube_package install kibana
+# cube_read_stdin cubevar_app_str <<'HEREDOC'
+# [kibana-5.x]
+# name=Kibana repository for 5.x packages
+# baseurl=https://artifacts.elastic.co/packages/5.x/yum
+# gpgcheck=0
+# gpgkey=https://artifacts.elastic.co/GPG-KEY-elasticsearch
+# enabled=1
+# autorefresh=1
+# type=rpm-md
+# HEREDOC
+#
+# cube_set_file_contents_string "/etc/yum.repos.d/kibana.repo" "${cubevar_app_str}"
+#
+# cube_package install kibana

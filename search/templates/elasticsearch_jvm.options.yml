@@ -19,8 +19,8 @@
 # Xms represents the initial size of total heap space
 # Xmx represents the maximum size of total heap space
 
--Xms512m
--Xmx512m
+-Xms768m
+-Xmx768m
 
 ################################################################
 ## Expert settings
@@ -33,9 +33,9 @@
 ################################################################
 
 ## GC configuration
--XX:+UseConcMarkSweepGC
--XX:CMSInitiatingOccupancyFraction=75
--XX:+UseCMSInitiatingOccupancyOnly
+#-XX:+UseConcMarkSweepGC
+#-XX:CMSInitiatingOccupancyFraction=75
+#-XX:+UseCMSInitiatingOccupancyOnly
 
 ## optimizations
 
@@ -43,7 +43,7 @@
 -XX:+DisableExplicitGC
 
 # pre-touch memory pages used by the JVM during initialization
--XX:+AlwaysPreTouch
+#-XX:+AlwaysPreTouch
 
 ## basic
 
