@@ -7,10 +7,6 @@ using [posixcube.sh](https://github.com/myplaceonline/posixcube).
 
 See execution parameters in [cubespecs.ini](cubespecs.ini)
 
-Update all servers:
-
-    for spec in database_backup database_primary web frontend; do posixcube.sh -z $spec || break; done
-
 ## Create Web Server
 
 Web server:
@@ -18,7 +14,7 @@ Web server:
 * Create Droplet
   * Fedora on SFO3
   * Basic, 4GB/2CPU
-  * IPv6, Monitoring
+  * Advanced Options } IPv6
   * Select SSH Key
   * Hostname: webX.myplaceonline.com
 * Add to database trusted sources
@@ -69,7 +65,7 @@ Update web servers (to update trusted client list):
 * Create Droplet
   * Fedora
   * 1GB, SFO3
-  * Private networking, IPv6
+  * Advanced Options } IPv6
   * Select SSH Key
   * Hostname: frontendX.myplaceonline.com
 * Networking > Domains > myplaceonline.com
@@ -81,93 +77,29 @@ Get eth1 IP:
     ssh root@frontend${SERVER_NUMBER}.myplaceonline.com ip -4 -o addr | grep eth1 | awk '{print $4}' | sed 's/\/.*//g'
 
 * Networking > Domains > myplaceonline.com
-  * Create A record for main IP and short hostname
   * Create A record for eth1 IP and short hostname with -internal
 
 Add server to the other servers' whitelist:
 
     posixcube.sh -z firewall_whitelist
-
-Point floating IP of 138.68.192.106 to new frontend server
 
 Create frontend server:
 
     $(grep "^frontend=" cubespecs.ini | sed 's/^frontend=/posixcube.sh /g' | sed "s/\\-h frontend\\*/-h frontend${SERVER_NUMBER}/g")
-    # There will be certbot errors. Reboot and run again:
+
+There will be certbot errors. Reboot.
+
+rsync any necessary static files:
+
+    rsync -azP $DIR/ root@frontend${SERVER_NUMBER}.myplaceonline.com:/usr/share/nginx/$DIR
+
     ssh root@frontend${SERVER_NUMBER}.myplaceonline.com reboot
 
-Update frontend server (to get TLS certificates):
+Run again:
 
     $(grep "^frontend=" cubespecs.ini | sed 's/^frontend=/posixcube.sh /g' | sed "s/\\-h frontend\\*/-h frontend${SERVER_NUMBER}/g")
 
-## Create Primary Database Server
-
-* Create Droplet
-  * Fedora
-  * 2GB, SFO1
-  * Private networking, IPv6
-  * Select SSH Key
-  * Hostname: dbX.myplaceonline.com
-* Networking > Domains > myplaceonline.com
-  * Create A record for public IP and short hostname
-
-Get eth1 IP:
-
-    SERVER_NUMBER=X
-    ssh root@db${SERVER_NUMBER}.myplaceonline.com ip -4 -o addr | grep eth1 | awk '{print $4}' | sed 's/\/.*//g'
-
-* Networking > Domains > myplaceonline.com
-  * Create A record for eth1 IP and short hostname with -internal
-
-Add server to the other servers' whitelist:
-
-    posixcube.sh -z firewall_whitelist
-
-Create primary database server:
-
-    # If creating while older DB servers exist, echo without the $() and replace the -O options with an explicit set
-    $(grep "^database_primary=" cubespecs.ini | sed 's/^database_primary=/posixcube.sh /g' | sed "s/\\-h db./-h db${SERVER_NUMBER}/g")
-
-## Destroy Primary Database Server
-
-Remember to copy over the NFS share
-
-## Create Backup Database Server
-
-* Create Droplet
-  * Fedora
-  * 2GB, SFO1
-  * Private networking, IPv6
-  * Select SSH Key
-  * Hostname: dbX.myplaceonline.com
-* Networking > Domains > myplaceonline.com
-  * Create A record for public IP and short hostname
-
-Get eth1 IP:
-
-    SERVER_NUMBER=X
-    ssh root@db${SERVER_NUMBER}.myplaceonline.com ip -4 -o addr | grep eth1 | awk '{print $4}' | sed 's/\/.*//g'
-
-* Networking > Domains > myplaceonline.com
-  * Create A record for eth1 IP and short hostname with -internal
-
-Add server to the other servers' whitelist:
-
-    posixcube.sh -z firewall_whitelist
-
-Create backup database server:
-
-    # If creating while older DB servers exist, echo without the $() and replace the -O options with an explicit set
-    $(grep "^database_backup=" cubespecs.ini | sed 's/^database_backup=/posixcube.sh /g' | sed "s/\\-h db./-h db${SERVER_NUMBER}/g")
-
-## Check Replication Status
-
-    # On the master database
-    posixcube.sh -u root -h db5.myplaceonline.com "sudo -i -u postgres psql -xc 'SELECT * FROM pg_stat_replication;'"
-
-## Quiesce Database Activity
-
-    posixcube.sh -u root -h web*.myplaceonline.com "cube_service stop nginx; cube_service stop myplaceonline-delayedjobs; cube_service stop crond;"
+Point floating IP of 143.198.245.8 to new frontend server
 
 ## Backup Database
 
@@ -177,11 +109,6 @@ Create backup database server:
 ## Restore Database
 
     sudo -i -u postgres pg_restore -U myplaceonline -d myplaceonline_production /tmp/pgdump_myplaceonline*.sql.bin
-
-## Promote Backup Database
-
-    # https://github.com/2ndQuadrant/repmgr#promoting-a-standby-server-with-repmgr
-    repmgr -f /etc/repmgr.conf standby promote
 
 ## Architecture Notes
 
