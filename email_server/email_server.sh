@@ -77,32 +77,32 @@
 # doveadm expunge -u $user@$host mailbox Trash all
 
 # For certbot
-if [ "$(firewall-cmd --zone=public --list-ports | grep -c 80)" = "0" ]; then
-  firewall-cmd --zone=public --add-port=80/tcp
-  firewall-cmd --zone=public --permanent --add-port=80/tcp
-  cube_echo "Opened firewall port for port 80"
-fi
-
-# For certbot
-if [ "$(firewall-cmd --zone=public --list-ports | grep -c 443)" = "0" ]; then
-  firewall-cmd --zone=public --add-port=443/tcp
-  firewall-cmd --zone=public --permanent --add-port=443/tcp
-  cube_echo "Opened firewall port for port 443"
-fi
-
-if ! cube_file_exists /etc/letsencrypt/live/ ; then
-  # This could fail if we're rebuilding a frontend server, and we haven't pointed the main domain IPs to the new
-  # box yet, so we don't raise on a bad return code.
-  cube_echo "Calling letsencrypt"
-  /usr/bin/certbot certonly --non-interactive --expand --agree-tos --email contact@myplaceonline.com --dns-digitalocean --dns-digitalocean-credentials ~/.digitalocean.ini --dns-digitalocean-propagation-seconds 120 -d ${cubevar_app_email_host}
-  cubevar_app_letsencrypt_result=$?
-  if [ ${cubevar_app_letsencrypt_result} -ne 0 ]; then
-    cube_warning_echo "Letsencrypt failure: ${cubevar_app_letsencrypt_result}"
-    rm -rf /etc/letsencrypt/live/ 2>/dev/null
-  else
-    chmod og-r /etc/letsencrypt/archive/*/privkey.pem || cube_check_return
-  fi
-fi
+# if [ "$(firewall-cmd --zone=public --list-ports | grep -c 80)" = "0" ]; then
+#   firewall-cmd --zone=public --add-port=80/tcp
+#   firewall-cmd --zone=public --permanent --add-port=80/tcp
+#   cube_echo "Opened firewall port for port 80"
+# fi
+#
+# # For certbot
+# if [ "$(firewall-cmd --zone=public --list-ports | grep -c 443)" = "0" ]; then
+#   firewall-cmd --zone=public --add-port=443/tcp
+#   firewall-cmd --zone=public --permanent --add-port=443/tcp
+#   cube_echo "Opened firewall port for port 443"
+# fi
+#
+# if ! cube_file_exists /etc/letsencrypt/live/ ; then
+#   # This could fail if we're rebuilding a frontend server, and we haven't pointed the main domain IPs to the new
+#   # box yet, so we don't raise on a bad return code.
+#   cube_echo "Calling letsencrypt"
+#   /usr/bin/certbot certonly --non-interactive --expand --agree-tos --email contact@myplaceonline.com --dns-digitalocean --dns-digitalocean-credentials ~/.digitalocean.ini --dns-digitalocean-propagation-seconds 120 -d ${cubevar_app_email_host}
+#   cubevar_app_letsencrypt_result=$?
+#   if [ ${cubevar_app_letsencrypt_result} -ne 0 ]; then
+#     cube_warning_echo "Letsencrypt failure: ${cubevar_app_letsencrypt_result}"
+#     rm -rf /etc/letsencrypt/live/ 2>/dev/null
+#   else
+#     chmod og-r /etc/letsencrypt/archive/*/privkey.pem || cube_check_return
+#   fi
+# fi
 
 # http://dkimproxy.sourceforge.net/download.html
 cube_package install certbot automake git libtool libevent-devel libasr-devel dovecot dovecot-pigeonhole \
@@ -297,10 +297,10 @@ if [ "$(firewall-cmd --zone=public --list-ports | grep -c 993)" = "0" ]; then
   cube_echo "Opened firewall port for port 993"
 fi
 
-if cube_user_ensure_private_key "${cubevar_app_backup_user_ssh_key_private}" "backup_user"; then
-  cube_user_authorize_known_host "${cubevar_app_backup_host}"
-fi
-
-if cube_set_file_contents_string "/etc/cron.d/backupmail" "0 0 * * * date >> /var/log/backupmail.log 2>&1 && rsync -ar -e 'ssh -i /root/.ssh/backup_user' /var/vmail backup_user@${cubevar_app_backup_host}:/home/backup_user/ >> /var/log/backupmail.log 2>&1" ; then
-  chmod 600 /etc/cron.d/backupmail || cube_check_return
-fi
+# if cube_user_ensure_private_key "${cubevar_app_backup_user_ssh_key_private}" "backup_user"; then
+#   cube_user_authorize_known_host "${cubevar_app_backup_host}"
+# fi
+#
+# if cube_set_file_contents_string "/etc/cron.d/backupmail" "0 0 * * * date >> /var/log/backupmail.log 2>&1 && rsync -ar -e 'ssh -i /root/.ssh/backup_user' /var/vmail backup_user@${cubevar_app_backup_host}:/home/backup_user/ >> /var/log/backupmail.log 2>&1" ; then
+#   chmod 600 /etc/cron.d/backupmail || cube_check_return
+# fi
