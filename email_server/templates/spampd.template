@@ -1,2 +1,2 @@
 # http://www.worlddesign.com/Content/rd/mta/spampd/spampd.html
-SPAMPD_OPTIONS="--a --L --maxsize=500 --host=127.0.0.1:10029 --relayhost=127.0.0.1:10030"
+SPAMPD_OPTIONS="-a -L --maxsize 500 --host 127.0.0.1:10029 --relayhost 127.0.0.1:10030"

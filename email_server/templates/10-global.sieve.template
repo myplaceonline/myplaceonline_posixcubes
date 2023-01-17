@@ -5,8 +5,8 @@ require ["body", "envelope", "fileinto", "imap4flags", "regex", "reject", "spamt
 
 # :contains is case-insensitive
 
-if size :over 50000K {
-  reject "We don't accept mail over 50MB in size.";
+if size :over 100000K {
+  reject "We don't accept mail over 100MB in size.";
   stop;
 }
 

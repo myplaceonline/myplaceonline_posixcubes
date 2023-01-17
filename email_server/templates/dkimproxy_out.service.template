@@ -5,8 +5,8 @@ After=opensmtpd.service
 [Service]
 Type=simple
 PIDFile=/usr/local/dkimproxy/var/run/dkimproxy_out.pid
-ExecStart=/usr/lib/systemd/scripts/dkimproxy.sh start-out
-ExecStop=/usr/lib/systemd/scripts/dkimproxy.sh stop-out
+ExecStart=/usr/local/dkimproxy/bin/dkimproxy.sh start-out
+ExecStop=/usr/local/dkimproxy/bin/dkimproxy.sh stop-out
 
 [Install]
 WantedBy=multi-user.target

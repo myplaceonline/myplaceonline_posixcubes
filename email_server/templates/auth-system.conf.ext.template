@@ -51,11 +51,11 @@ passdb {
 ##
 
 userdb {
-    #args = uid=vmail gid=vmail home=/var/vmail/%d/%n
+    #args = uid=vmail gid=vmail home=${cubevar_app_mail_dir}/%d/%n
     #driver = static
     
     # https://serverfault.com/a/967283
-    default_fields = uid=vmail gid=vmail home=/var/vmail/%d/%n
+    default_fields = uid=vmail gid=vmail home=${cubevar_app_mail_dir}/%d/%n
     args = /etc/mail/passwd
     driver = passwd-file
 }

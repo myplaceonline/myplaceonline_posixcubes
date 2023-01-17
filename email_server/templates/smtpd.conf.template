@@ -1,6 +1,4 @@
-# https://www.opensmtpd.org/faq/example1.html
 # https://man.openbsd.org/smtpd.conf
-# https://www.opensmtpd.org/faq/config.html
 
 # Configure Thunderbird:
 #   Incoming: {IMAP, Port: 993, SSL: SSL/TLS, Authentication: Normal password}
@@ -12,7 +10,7 @@ table passwd passwd:/etc/mail/passwd
 table users file:/etc/mail/users
 table secrets file:/etc/mail/secrets
 
-pki ${cubevar_app_email_host} certificate "/etc/letsencrypt/live/${cubevar_app_email_host}/fullchain.pem"
+pki ${cubevar_app_email_host} cert "/etc/letsencrypt/live/${cubevar_app_email_host}/fullchain.pem"
 pki ${cubevar_app_email_host} key "/etc/letsencrypt/live/${cubevar_app_email_host}/privkey.pem"
 
 listen on lo   port  25 tls pki ${cubevar_app_email_host} auth-optional <passwd>
@@ -28,17 +26,22 @@ listen on eth0 port 587 tls-require pki ${cubevar_app_email_host} auth <passwd>
 # DKIM
 listen on lo   port 10028 tag DKIM
 
-# spampd/spamassassin
+# spampd/spamassassin will relay back and we'll tag it with SPAMPD to note it has been processed by SPAMPD
 listen on lo   port 10030 tag SPAMPD
 
 # Accept incoming mail to local users from the local machine:
-accept from local for local alias <aliases> deliver to lmtp "/run/dovecot/lmtp" rcpt-to
+action "process_local_mail" lmtp "/run/dovecot/lmtp" rcpt-to alias <aliases>
+match from local for local action "process_local_mail"
 
-# Accept incoming mail to users of domains we manage and put them in Dovecot. We don't bother with checking spam of
+# Accept external mail tagged after processing by SPAMPD and put in Dovecot. We don't bother with checking spam of
 # authenticated users relaying mail, so we only worry about incoming spam into Dovecot, so we only configure anti-spam
 # in Dovecot.
-accept tagged SPAMPD for domain <domains> virtual <users> deliver to lmtp "/run/dovecot/lmtp" rcpt-to
-accept from any for domain <domains> relay via smtp://127.0.0.1:10029
+action "process_spampd" lmtp "/run/dovecot/lmtp" rcpt-to virtual <users>
+match tag SPAMPD for domain <domains> action "process_spampd"
+
+# Accept external mail and forward to spampd on port 10029 which will relay it back into us on port 10030
+action "process_relay" relay host smtp://127.0.0.1:10029
+match from any for domain <domains> action "process_relay"
 
 # MX incoming mail will always come in on port 25. We set it to auth-optional so that anybody can send email to the
 # domains specified in <domains> and a matching user specified in <users>; however, only those users that authenticate
@@ -53,10 +56,13 @@ accept from any for domain <domains> relay via smtp://127.0.0.1:10029
 # and send back to us on port 10028 which we'll tag above and then process below to relay.
 
 # Accept DKIM-processed mails for final relay:
-accept tagged DKIM for any relay via tls+auth://label@${cubevar_app_outbound_smtp} auth <secrets>
+action "process_outbound" relay host tls+auth://label@${cubevar_app_outbound_smtp} auth <secrets>
+match tag DKIM for any action "process_outbound"
 
 # Accept incoming mail from authenticated users who want to send email to domains we don't manage, and send it to DKIM:
-accept from local for any relay via smtp://127.0.0.1:10027
+action "process_dkim" relay host smtp://127.0.0.1:10027
+match from local for any action "process_dkim"
 
 # Old config without DKIM:
-#accept from local for any relay via tls+auth://label@${cubevar_app_outbound_smtp} auth <secrets>
+#action "process_nonkim" relay host tls+auth://label@${cubevar_app_outbound_smtp} auth <secrets>
+#match from local for any action "process_nonkim"

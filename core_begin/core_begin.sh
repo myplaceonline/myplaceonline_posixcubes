@@ -96,7 +96,7 @@ if cube_set_file_contents_string "/etc/hostname" "${cubevar_app_str}"; then
   hostname ${cubevar_app_fullhostname} || cube_check_return
 fi
 
-cube_include firewall_whitelist
+cube_include firewall_whitelist false
 
 if cube_operating_system_has_flavor ${POSIXCUBE_OS_FLAVOR_DEBIAN} ; then
   cube_package update
@@ -255,7 +255,7 @@ if cube_operating_system_has_flavor ${POSIXCUBE_OS_FLAVOR_FEDORA}; then
                         ncurses ncurses-devel telnet iftop git \
                         nmap-ncat java-1.8.0-openjdk grub2-tools libffi-devel \
                         file-devel iperf speedtest-cli cronie bc python3-devel \
-                        python3-pip ffmpeg chrony p7zip
+                        python3-pip ffmpeg chrony p7zip tree ncdu
 elif cube_operating_system_has_flavor ${POSIXCUBE_OS_FLAVOR_DEBIAN}; then
   # https://wiki.ubuntu.com/Kernel/CrashdumpRecipe
   # https://help.ubuntu.com/lts/serverguide/kernel-crash-dump.html
@@ -287,9 +287,9 @@ else
   cube_throw Not implemented
 fi
 
-if ! pip3 show certbot-dns-digitalocean &>/dev/null; then
-  pip3 install certbot-dns-digitalocean ndg-httpsclient || cube_check_return
-fi
+#if ! pip3 show certbot-dns-digitalocean &>/dev/null; then
+#  pip3 install certbot-dns-digitalocean ndg-httpsclient || cube_check_return
+#fi
 
 cube_service enable atop
 cube_service start atop
@@ -407,18 +407,7 @@ cube_set_file_contents ~/.toprc "templates/toprc"
   #fi
 #fi
 
-cube_ensure_directory "${cubevar_app_nfs_client_mount}" 777
-
-if ! cube_file_contains /etc/fstab "${cubevar_app_nfs_client_host}" ; then
-  echo "${cubevar_app_nfs_client_host}:${cubevar_app_nfs_server_directory} ${cubevar_app_nfs_client_mount} nfs defaults,timeo=5,intr" >> /etc/fstab || cube_check_return
-fi
-
-if [ "$(df -h "${cubevar_app_nfs_client_mount}" | grep "${cubevar_app_nfs_client_host}" | wc -l)" = "0" ]; then
-  mount -a || cube_check_return
-  chmod a+x "${cubevar_app_nfs_client_mount}" || cube_check_return
-fi
-
-cube_ensure_directory "${cubevar_app_nfs_client_mount}" 777
+cube_include nfs_client false
 
 if cube_set_file_contents "/etc/systemd/system/tcpdump.service" "templates/tcpdump.service.template" ; then
   cube_service daemon-reload

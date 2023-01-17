@@ -57,7 +57,7 @@ score FH_DATE_PAST_2030 10
 # These should be safe assumptions and allow for simple visual sifting
 # without risking lost emails.
 
-required_score ${cubevar_app_spam_required_score}
+required_hits ${cubevar_app_spam_required_score}
 report_safe 0
 #rewrite_header Subject [SPAM]
 
