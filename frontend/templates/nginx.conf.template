@@ -53,6 +53,9 @@ http {
           #auth_basic_user_file /etc/nginx/simple.pwd;
         }
 
+        location /static/ {
+        }
+
         location / {
           add_header Cache-Control "no-cache";
           if ($request_method = POST ) {

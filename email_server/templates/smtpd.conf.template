@@ -56,13 +56,13 @@ match from any for domain <domains> action "process_relay"
 # and send back to us on port 10028 which we'll tag above and then process below to relay.
 
 # Accept DKIM-processed mails for final relay:
-action "process_outbound" relay host tls+auth://label@${cubevar_app_outbound_smtp} auth <secrets>
+action "process_outbound" relay host smtp+tls://label@${cubevar_app_outbound_smtp} auth <secrets>
 match tag DKIM for any action "process_outbound"
 
 # Accept incoming mail from authenticated users who want to send email to domains we don't manage, and send it to DKIM:
 action "process_dkim" relay host smtp://127.0.0.1:10027
-match from local for any action "process_dkim"
+match from auth for any action "process_dkim"
 
 # Old config without DKIM:
-#action "process_nonkim" relay host tls+auth://label@${cubevar_app_outbound_smtp} auth <secrets>
+#action "process_nonkim" relay host smtp+tls://label@${cubevar_app_outbound_smtp} auth <secrets>
 #match from local for any action "process_nonkim"
