@@ -51,6 +51,9 @@ score FH_DATE_PAST_2024 10
 header   FH_DATE_PAST_2030      Date =~ /20[3-9]/ [if-unset: 2006]
 score FH_DATE_PAST_2030 10
 
+header ANNOYING_FROM1	From =~ /endgameseries\.com/i
+score ANNOYING_FROM1 10
+
 # These values can be overridden by editing ~/.spamassassin/user_prefs.cf
 # (see spamassassin(1) for details)
 
