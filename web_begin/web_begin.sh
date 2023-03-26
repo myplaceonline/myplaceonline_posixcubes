@@ -21,8 +21,6 @@ sleep ${cubevar_app_passwords_haproxy_maintseconds}
 # first setting up the box and the service doesn't exist)
 (cube_service stop nginx) 2>/dev/null
 
-# !! No longer using this service !!
-#(cube_service stop myplaceonline-delayedjobs) 2>/dev/null
-# !! No longer using this service !!
+(cube_service stop myplaceonline-delayedjobs) 2>/dev/null
 
 true
