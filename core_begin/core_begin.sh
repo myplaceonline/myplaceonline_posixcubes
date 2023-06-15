@@ -148,7 +148,7 @@ cube_service start atd
 if cube_operating_system_has_flavor ${POSIXCUBE_OS_FLAVOR_FEDORA}; then
 
   #cube_package --enablerepo fedora-debuginfo --enablerepo updates-debuginfo install kernel-debuginfo-common-x86_64 kernel-debuginfo glibc-common-debuginfo glibc-debuginfo systemtap perf
-  cube_package --enablerepo fedora-debuginfo --enablerepo updates-debuginfo install systemtap perf
+  #cube_package --enablerepo fedora-debuginfo --enablerepo updates-debuginfo install systemtap perf
 
   # https://fedoraproject.org/wiki/Yum_to_DNF_Cheatsheet
   if [ $(cube_operating_system_version_major) -lt 26 ]; then
