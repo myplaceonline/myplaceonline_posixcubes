@@ -54,7 +54,6 @@ fi
 
 cube_ensure_directory /etc/haproxy/ssl/ 700 haproxy haproxy
 cube_ensure_directory /etc/haproxy/ssl/dh/ 700 haproxy haproxy
-cube_ensure_file /etc/haproxy/conf.d/haproxy_ssl.cfg 700 haproxy haproxy
 cube_ensure_file /etc/haproxy/haproxy_ssl.cfg 700 haproxy haproxy
 
 # Use multiple `-f` options for HAProxy for the SSL config file:
