@@ -13,7 +13,7 @@ Web server:
 
 * Create Droplet
   * Fedora on SFO3
-  * Basic, 4GB/2CPU
+  * Basic, 8GB/4CPU
   * Advanced Options } IPv6
   * Select SSH Key
   * Hostname: webX.myplaceonline.com

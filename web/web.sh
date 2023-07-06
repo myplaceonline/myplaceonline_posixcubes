@@ -321,6 +321,21 @@ cube_pushd "${cubevar_app_web_dir}"
   )
   done
 
+  # Unknown Fedora 38 issue:
+  #
+  # LoadError: Could not open library '/usr/share/gems/gems/sassc-2.4.0/ext/libsass.so': /usr/share/gems/gems/sassc-2.4.0/ext/libsass.so: cannot open shared object file: No such file or directory
+  # /usr/share/gems/gems/ffi-1.15.5/lib/ffi/library.rb:145:in `block in ffi_lib'
+  # /usr/share/gems/gems/ffi-1.15.5/lib/ffi/library.rb:99:in `map'
+  # /usr/share/gems/gems/ffi-1.15.5/lib/ffi/library.rb:99:in `ffi_lib'
+  # /usr/share/gems/gems/sassc-2.4.0/lib/sassc/native.rb:13:in `rescue in <module:Native>' [...]
+
+  if ! [ -f "/usr/share/gems/gems/sassc-2.4.0/lib/sassc/libsass.so" ]; then
+    if cube_operating_system_has_flavor ${POSIXCUBE_OS_FLAVOR_FEDORA}; then
+      cube_package install rubygem-sassc
+      ln -s /usr/lib64/gems/ruby/sassc-2.4.0/sassc/libsass.so /usr/share/gems/gems/sassc-2.4.0/lib/sassc/libsass.so || cube_check_return
+    fi
+  fi
+
   cube_echo "Running db:migrate"
   
   bin/rails db:migrate || cube_check_return
