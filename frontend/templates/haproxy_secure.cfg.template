@@ -19,6 +19,8 @@ frontend myplaceonline
     acl static_rule path_beg -i /google
     acl static_rule path_beg -i /frontend/
     acl static_rule path_beg -i /static/
+    acl static_rule path -i /api/categories.js
+    acl static_rule path -i /api/search.js
     use_backend static_backend if static_rule
     
     ${cubevar_app_haproxy_secure_rules}
