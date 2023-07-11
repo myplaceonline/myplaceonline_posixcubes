@@ -37,6 +37,12 @@ Create web server:
 
     $(grep "^web=" cubespecs.ini | sed 's/^web=/posixcube.sh /g' | sed "s/\\-h web\\*/-h web${SERVER_NUMBER}/g")
 
+Restart the server:
+
+    ssh root@web${SERVER_NUMBER}.myplaceonline.com reboot
+
+Wait about 5 minutes for the server to start up
+
 Update frontend servers (to update available web servers list):
 
     posixcube.sh -z frontend
