@@ -10,7 +10,7 @@ table passwd passwd:/etc/mail/passwd
 table users file:/etc/mail/users
 table secrets file:/etc/mail/secrets
 
-smtp max-message-size 50M
+smtp max-message-size 100M
 
 pki ${cubevar_app_email_host} cert "/etc/letsencrypt/live/${cubevar_app_email_host}/fullchain.pem"
 pki ${cubevar_app_email_host} key "/etc/letsencrypt/live/${cubevar_app_email_host}/privkey.pem"
