@@ -144,13 +144,11 @@ if cube_file_exists /etc/letsencrypt/live/ ; then
 fi
 
 if cube_file_exists /etc/letsencrypt/live/ ; then
-  if cube_set_file_contents "/etc/haproxy/conf.d/haproxy_ssl.cfg" "templates/haproxy_secure.cfg.template" ; then
-    cube_service restart haproxy
-  fi
-  if cube_set_file_contents "/etc/haproxy/haproxy_ssl.cfg" "templates/haproxy_secure.cfg.template" ; then
-    cube_service restart haproxy
-  fi
+  cube_set_file_contents "/etc/haproxy/haproxy_ssl.cfg" "templates/haproxy_secure.cfg.template"
+  cube_set_file_contents "/etc/haproxy/conf.d/haproxy_ssl.cfg" "templates/haproxy_secure.cfg.template"
 fi
+
+cube_service reload haproxy
 
 if cube_set_file_contents "/etc/cron.d/letsencrypt" "templates/crontab_letsencrypt.template" ; then
   chmod 600 /etc/cron.d/letsencrypt
