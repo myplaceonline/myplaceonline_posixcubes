@@ -54,6 +54,7 @@ fi
 
 cube_ensure_directory /etc/haproxy/ssl/ 700 haproxy haproxy
 cube_ensure_directory /etc/haproxy/ssl/dh/ 700 haproxy haproxy
+cube_ensure_file /etc/haproxy/haproxy_ssl.cfg 700 haproxy haproxy
 cube_ensure_file /etc/haproxy/conf.d/haproxy_ssl.cfg 700 haproxy haproxy
 
 # Use multiple `-f` options for HAProxy for the SSL config file:
@@ -144,6 +145,9 @@ fi
 
 if cube_file_exists /etc/letsencrypt/live/ ; then
   if cube_set_file_contents "/etc/haproxy/conf.d/haproxy_ssl.cfg" "templates/haproxy_secure.cfg.template" ; then
+    cube_service restart haproxy
+  fi
+  if cube_set_file_contents "/etc/haproxy/haproxy_ssl.cfg" "templates/haproxy_secure.cfg.template" ; then
     cube_service restart haproxy
   fi
 fi
