@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Turn maintenance on at haproxy
-app_haproxy_result="$(curl -s -S -u "admin:${cubevar_app_passwords_haproxy_stats}" -d "s=$(cube_hostname "true")" -d "action=drain" -d "b=#4" -w "%{redirect_url}" "${cubevar_app_passwords_haproxy_url}")" || cube_check_return
+app_haproxy_result="$(curl -s -S -u "admin:${cubevar_app_passwords_haproxy_stats}" -d "s=$(cube_hostname "true")" -d "action=drain" -d "b=#3" -w "%{redirect_url}" "${cubevar_app_passwords_haproxy_url}")" || cube_check_return
 
 app_haproxy_result="$(echo "${app_haproxy_result}" | sed 's/.*;st=//g')"
 
@@ -9,7 +9,7 @@ cube_echo "Draining $(cube_hostname "true") result: ${app_haproxy_result}. Waiti
 
 sleep ${cubevar_app_passwords_haproxy_drainseconds}
 
-app_haproxy_result="$(curl -s -S -u "admin:${cubevar_app_passwords_haproxy_stats}" -d "s=$(cube_hostname "true")" -d "action=maint" -d "b=#4" -w "%{redirect_url}" "${cubevar_app_passwords_haproxy_url}")" || cube_check_return
+app_haproxy_result="$(curl -s -S -u "admin:${cubevar_app_passwords_haproxy_stats}" -d "s=$(cube_hostname "true")" -d "action=maint" -d "b=#3" -w "%{redirect_url}" "${cubevar_app_passwords_haproxy_url}")" || cube_check_return
 
 app_haproxy_result="$(echo "${app_haproxy_result}" | sed 's/.*;st=//g')"
 
