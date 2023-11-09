@@ -10,6 +10,7 @@
 #   or
 #   https://myplaceonline.com/info/diagnostics/dovecot_password
 # Take everything from $6$ to the end and add a line to cubevar_app_email_passwords following the passwd format
+# If it's a new domain, add to cubevar_app_email_domains and cubevar_app_email_dkim_domains
 # Add a vmail line to cubevar_app_email_users for the user
 # Build email_server to update the files: posixcube.sh -h root@${SERVER} -c email_server
 
