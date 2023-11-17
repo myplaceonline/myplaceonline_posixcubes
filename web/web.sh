@@ -382,7 +382,7 @@ if cube_set_file_contents "/etc/cron.daily/webstats" "templates/dailycron_websta
 fi
 
 # Wait for Passenger to initialize all of the handler processes
-cube_echo "Waiting ${cubevar_app_nginx_start_wait} seconds for Rails to start"
+cube_echo "Waiting ${cubevar_app_nginx_start_wait} seconds for Rails to start ($(date --date="${cubevar_app_nginx_start_wait} seconds"))"
 sleep ${cubevar_app_nginx_start_wait}
 
 app_haproxy_result="$(curl -s -S -u "admin:${cubevar_app_passwords_haproxy_stats}" -d "s=$(cube_hostname "true")" -d "action=ready" -d "b=#3" -w "%{redirect_url}" "${cubevar_app_passwords_haproxy_url}")" || cube_check_return
