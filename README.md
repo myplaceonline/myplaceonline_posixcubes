@@ -12,7 +12,7 @@ See execution parameters in [cubespecs.ini](cubespecs.ini)
 Web server:
 
 * Create Droplet
-  * Fedora on SFO3
+  * Fedora on NYC3
   * Basic, 8GB/4CPU
   * Advanced Options } IPv6
   * Select SSH Key
@@ -70,7 +70,7 @@ Update web servers (to update trusted client list):
 
 * Create Droplet
   * Fedora
-  * 1GB, SFO3
+  * 1GB, NYC3
   * Advanced Options } IPv6
   * Select SSH Key
   * Hostname: frontendX.myplaceonline.com
