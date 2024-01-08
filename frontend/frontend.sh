@@ -148,6 +148,8 @@ if cube_file_exists /etc/letsencrypt/live/ ; then
   cube_set_file_contents "/etc/haproxy/conf.d/haproxy_ssl.cfg" "templates/haproxy_secure.cfg.template"
 fi
 
+cube_set_file_contents_string "/etc/nginx/docs.htpasswd" "${cubevar_app_nginx_docs_passwords}"
+
 cube_service reload haproxy
 
 if cube_set_file_contents "/etc/cron.d/letsencrypt" "templates/crontab_letsencrypt.template" ; then

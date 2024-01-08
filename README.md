@@ -32,16 +32,12 @@ Get eth1 IP:
 Add server to the other servers' whitelist:
 
     posixcube.sh -z firewall_whitelist
-    
+
+Log into the server, update all packages and reboot
+
 Create web server:
 
     $(grep "^web=" cubespecs.ini | sed 's/^web=/posixcube.sh /g' | sed "s/\\-h web\\*/-h web${SERVER_NUMBER}/g")
-
-Restart the server:
-
-    ssh root@web${SERVER_NUMBER}.myplaceonline.com reboot
-
-Wait about 5 minutes for the server to start up
 
 Update frontend servers (to update available web servers list):
 
