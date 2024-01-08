@@ -348,9 +348,7 @@ cube_pushd "${cubevar_app_web_dir}"
 
 cube_popd
 
-if cube_set_file_contents_string ~/.irbrc "IRB.conf[:PROMPT_MODE] = :SIMPLE" ; then
-  chmod 700 ~/.irbrc
-fi
+cube_set_file_contents ~/.irbrc "templates/irbrc"
 
 if cube_set_file_contents "/var/spool/cron/root" "templates/crontab.template" ; then
   chmod 600 "/var/spool/cron/root"

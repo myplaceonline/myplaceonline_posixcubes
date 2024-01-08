@@ -70,7 +70,7 @@ Update web servers (to update trusted client list):
 
 * Create Droplet
   * Fedora
-  * 1GB, NYC3
+  * Basic 1GB / 1CPU, NYC3
   * Advanced Options } IPv6
   * Select SSH Key
   * Hostname: frontendX.myplaceonline.com
@@ -93,28 +93,11 @@ Create frontend server:
 
     $(grep "^frontend=" cubespecs.ini | sed 's/^frontend=/posixcube.sh /g' | sed "s/\\-h frontend\\*/-h frontend${SERVER_NUMBER}/g")
 
-There will be certbot errors. Reboot.
-
 rsync any necessary static files:
 
     rsync -azP $DIR/ root@frontend${SERVER_NUMBER}.myplaceonline.com:/usr/share/nginx/$DIR
 
-    ssh root@frontend${SERVER_NUMBER}.myplaceonline.com reboot
-
-Run again:
-
-    $(grep "^frontend=" cubespecs.ini | sed 's/^frontend=/posixcube.sh /g' | sed "s/\\-h frontend\\*/-h frontend${SERVER_NUMBER}/g")
-
-Point floating IP of 143.198.245.8 to new frontend server
-
-## Backup Database
-
-    # The output file is compressed
-    sudo -i -u postgres pg_dump -U myplaceonline -d myplaceonline_production -Fc > /tmp/pgdump_myplaceonline_`date +"%Y%m%d_%H%M"`.sql.bin
-
-## Restore Database
-
-    sudo -i -u postgres pg_restore -U myplaceonline -d myplaceonline_production /tmp/pgdump_myplaceonline*.sql.bin
+Point floating IP to new frontend server
 
 ## Architecture Notes
 
