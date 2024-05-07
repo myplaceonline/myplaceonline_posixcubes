@@ -93,8 +93,8 @@ for cubevar_app_web_server in ${cubevar_app_web_servers}; do
   cube_echo "Using web server ${cubevar_app_server_internal}"
   
   cube_read_stdin cubevar_app_line <<HEREDOC
-    #server  ${cubevar_app_server_name} ${cubevar_app_server_internal}:80 check
-    server  ${cubevar_app_server_name} ${cubevar_app_server_internal}:80 check cookie ${cubevar_app_server_name}
+    server  ${cubevar_app_server_name} ${cubevar_app_server_internal}:80 check
+    #server  ${cubevar_app_server_name} ${cubevar_app_server_internal}:80 check cookie ${cubevar_app_server_name}
 HEREDOC
 
   cubevar_app_haproxy_servers=$(cube_append_str "${cubevar_app_haproxy_servers}" "${cubevar_app_line}" "${POSIXCUBE_NEWLINE}")
