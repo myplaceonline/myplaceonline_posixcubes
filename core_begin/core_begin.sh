@@ -118,6 +118,9 @@ echo "root:${cubevar_app_passwords_root}" | chpasswd || cube_check_return
 echo "dns_digitalocean_token=${cubevar_app_digital_ocean_api_token}" > ~/.digitalocean.ini || cube_check_return
 chmod 600 ~/.digitalocean.ini || cube_check_return
 
+echo "dns_cloudflare_api_token=${cubevar_app_cloudflare_api_token}" > ~/.cloudflare.ini || cube_check_return
+chmod 600 ~/.cloudflare.ini || cube_check_return
+
 cube_set_file_contents "/etc/profile" "templates/profile"
 
 if cube_set_file_contents "/etc/commonprofile.sh" "templates/commonprofile.sh" ; then

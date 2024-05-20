@@ -9,11 +9,12 @@ listen admin
 frontend myplaceonline
     bind *:80
     bind *:443 ssl crt /etc/haproxy/ssl/ alpn h2,http/1.1,http/1.0
+    capture request header CF-Connecting-IP len 16
     capture request header Host len 50
     capture request header User-Agent len 128
     capture request header Referer len 128
     capture response header X-Request-Id len 38
-    log-format             %ci:%cp\ [%t]\ %ft\ %b/%s\ %Th/%Ti/%TR/%Tw/%Tc/%Tr/%Tt\ %ST\ %B\ %U\ %ac/%fc/%bc/%sc/%rc\ %sq/%bq\ %{+Q}r\ %hr\ %hs
+    log-format             %ci:%cp\ %si:%sp\ [%t]\ %ft\ %b/%s\ %Th/%Ti/%TR/%Tw/%Tc/%Tr/%Tt\ %ST\ %B\ %U\ %ac/%fc/%bc/%sc/%rc\ %sq/%bq\ %{+Q}r\ %hr\ %hs
 
     ${cubevar_app_haproxy_redirect_rules}
 

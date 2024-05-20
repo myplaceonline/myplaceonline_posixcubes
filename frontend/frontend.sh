@@ -25,7 +25,7 @@ fi
 # cube_service enable telegraf
 # cube_service start telegraf
 
-cube_package install haproxy socat nmap-ncat certbot nginx fcgiwrap httpd python3-certbot-dns-digitalocean
+cube_package install haproxy socat nmap-ncat certbot nginx fcgiwrap httpd certbot python3-certbot-dns-digitalocean python3-certbot-dns-cloudflare
 
 cube_set_file_contents "/usr/share/nginx/html/maintenance.html" "templates/maintenance.html"
 
@@ -66,10 +66,7 @@ fi
 cube_service enable nginx
 cube_service start nginx
 
-cubevar_app_letsencrypt_tls_domain=""
 for cubevar_app_tls_domain in ${cubevar_app_tls_domains}; do
-  cubevar_app_letsencrypt_tls_domain="${cubevar_app_letsencrypt_tls_domain} -d ${cubevar_app_tls_domain} -d *.${cubevar_app_tls_domain}"
-
   # https://weakdh.org/sysadmin.html#haproxy
   if ! cube_file_exists /etc/haproxy/ssl/dh/${cubevar_app_tls_domain}.dh ; then
     (
@@ -127,20 +124,25 @@ if ! cube_file_exists /etc/letsencrypt/live/ ; then
     cube_warning_echo "Letsencrypt failure: ${cubevar_app_letsencrypt_result}"
     rm -rf /etc/letsencrypt/live/ 2>/dev/null
   fi
+
+  #cube_echo "Calling letsencrypt with ${cubevar_app_letsencrypt_tls_domains2}"
+  #/usr/bin/certbot certonly --non-interactive --agree-tos --expand --email contact@${cubevar_app_tls_second_domain} --dns-cloudflare --dns-cloudflare-credentials ~/.cloudflare.ini --dns-cloudflare-propagation-seconds 30 ${cubevar_app_letsencrypt_tls_domains2}
+  #cubevar_app_letsencrypt_result=$?
+  #if [ ${cubevar_app_letsencrypt_result} -ne 0 ]; then
+  #  cube_warning_echo "Letsencrypt failure: ${cubevar_app_letsencrypt_result}"
+  #  rm -rf /etc/letsencrypt/live/ 2>/dev/null
+  #fi
 fi
 
 if cube_file_exists /etc/letsencrypt/live/ ; then
-  # certbot will only create a single certificate.
-  #   for cubevar_app_tls_domain in ${cubevar_app_tls_domains}; do
-  #     if ! cube_file_exists /etc/haproxy/ssl/${cubevar_app_tls_domain}.pem ; then
-  #       cat /etc/letsencrypt/live/${cubevar_app_tls_domain}/{fullchain.pem,privkey.pem} > /etc/haproxy/ssl/${cubevar_app_tls_domain}.pem || cube_check_return
-  #       cat /etc/haproxy/ssl/dh/${cubevar_app_tls_domain}.dh >> /etc/haproxy/ssl/${cubevar_app_tls_domain}.pem || cube_check_return
-  #     fi
-  #   done
   if ! cube_file_exists /etc/haproxy/ssl/myplaceonline.com.pem ; then
-    cat /etc/letsencrypt/live/myplaceonline.com/{fullchain.pem,privkey.pem} > /etc/haproxy/ssl/myplaceonline.com.pem || cube_check_return
+    cat /etc/letsencrypt/live/myplaceonline.com*/{fullchain.pem,privkey.pem} > /etc/haproxy/ssl/myplaceonline.com.pem || cube_check_return
     cat /etc/haproxy/ssl/dh/myplaceonline.com.dh >> /etc/haproxy/ssl/myplaceonline.com.pem || cube_check_return
   fi
+  #if ! cube_file_exists /etc/haproxy/ssl/${cubevar_app_tls_second_domain}.pem ; then
+  #  cat /etc/letsencrypt/live/${cubevar_app_tls_second_domain}/{fullchain.pem,privkey.pem} >> /etc/haproxy/ssl/myplaceonline.com.pem || cube_check_return
+  #  cat /etc/haproxy/ssl/dh/${cubevar_app_tls_second_domain}.dh >> /etc/haproxy/ssl/myplaceonline.com.pem || cube_check_return
+  #fi
 fi
 
 if cube_file_exists /etc/letsencrypt/live/ ; then
