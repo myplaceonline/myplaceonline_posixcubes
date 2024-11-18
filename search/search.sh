@@ -1,11 +1,11 @@
 #!/bin/sh
 
-# https://www.elastic.co/guide/en/elasticsearch/reference/current/setup-repositories.html
+# https://www.elastic.co/guide/en/elasticsearch/reference/current/rpm.html
 cube_read_stdin cubevar_app_str <<'HEREDOC'
-[elasticsearch-5.x]
-name=Elasticsearch repository for 5.x packages
-baseurl=https://artifacts.elastic.co/packages/5.x/yum
-gpgcheck=0
+[elasticsearch]
+name=Elasticsearch repository for 8.x packages
+baseurl=https://artifacts.elastic.co/packages/8.x/yum
+gpgcheck=1
 gpgkey=https://artifacts.elastic.co/GPG-KEY-elasticsearch
 enabled=1
 autorefresh=1
@@ -14,21 +14,19 @@ HEREDOC
 
 cube_set_file_contents_string "/etc/yum.repos.d/elasticsearch.repo" "${cubevar_app_str}"
 
+rpm --import https://artifacts.elastic.co/GPG-KEY-elasticsearch || cube_check_return
+
 cube_package install elasticsearch
 
-if cube_set_file_contents "/etc/elasticsearch/jvm.options" "templates/elasticsearch_jvm.options.yml" ; then
-  mv /usr/lib/systemd/system/elasticsearch.service /etc/systemd/system/
+# TODO: use this for network.host
+#cubevar_app_eth1=$(cube_interface_ipv4_address eth1) || cube_check_return
+if cube_set_file_contents "/etc/elasticsearch/elasticsearch.yml" "templates/elasticsearchV8.yml" ; then
   cube_service daemon-reload
   cube_service restart elasticsearch
 fi
 
-cubevar_app_eth1=$(cube_interface_ipv4_address eth1) || cube_check_return
-
-if cube_set_file_contents "/etc/elasticsearch/elasticsearch.yml" "templates/elasticsearch.yml.template" ; then
-  cube_service restart elasticsearch
-fi
-
-if cube_set_file_contents "/etc/elasticsearch/log4j2.properties" "templates/elasticsearch_log4j2.properties" ; then
+if cube_set_file_contents "/etc/sysconfig/elasticsearch" "templates/elasticsearchV8.options" ; then
+  cube_service daemon-reload
   cube_service restart elasticsearch
 fi
 
