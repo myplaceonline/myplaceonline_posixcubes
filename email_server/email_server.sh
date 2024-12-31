@@ -189,7 +189,7 @@ fi
 cube_service enable dovecot
 cube_service restart dovecot
 
-cube_package install opensmtpd mysql-devel
+cube_package install opensmtpd mariadb-devel
 
 if ! cube_dir_exists "/usr/local/src/OpenSMTPD-extras" ; then
   (
