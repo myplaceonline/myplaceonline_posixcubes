@@ -45,6 +45,9 @@ score BLACKLIST10 10
 header BLACKLIST11 Subject =~ /World Company Registration/i
 score BLACKLIST11 10
 
+header BLACKLIST12 Subject =~ /Your time is almost up./i
+score BLACKLIST12 10
+
 header   FH_DATE_PAST_202X      Date =~ /202[6-9]/ [if-unset: 2006]
 score FH_DATE_PAST_202X 10
 
