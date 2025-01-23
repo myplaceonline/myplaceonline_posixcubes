@@ -124,14 +124,6 @@ if ! cube_file_exists /etc/letsencrypt/live/ ; then
     cube_warning_echo "Letsencrypt failure: ${cubevar_app_letsencrypt_result}"
     rm -rf /etc/letsencrypt/live/ 2>/dev/null
   fi
-
-  #cube_echo "Calling letsencrypt with ${cubevar_app_letsencrypt_tls_domains2}"
-  #/usr/bin/certbot certonly --non-interactive --agree-tos --expand --email contact@${cubevar_app_tls_second_domain} --dns-cloudflare --dns-cloudflare-credentials ~/.cloudflare.ini --dns-cloudflare-propagation-seconds 30 ${cubevar_app_letsencrypt_tls_domains2}
-  #cubevar_app_letsencrypt_result=$?
-  #if [ ${cubevar_app_letsencrypt_result} -ne 0 ]; then
-  #  cube_warning_echo "Letsencrypt failure: ${cubevar_app_letsencrypt_result}"
-  #  rm -rf /etc/letsencrypt/live/ 2>/dev/null
-  #fi
 fi
 
 if cube_file_exists /etc/letsencrypt/live/ ; then
@@ -139,10 +131,6 @@ if cube_file_exists /etc/letsencrypt/live/ ; then
     cat /etc/letsencrypt/live/myplaceonline.com*/{fullchain.pem,privkey.pem} > /etc/haproxy/ssl/myplaceonline.com.pem || cube_check_return
     cat /etc/haproxy/ssl/dh/myplaceonline.com.dh >> /etc/haproxy/ssl/myplaceonline.com.pem || cube_check_return
   fi
-  #if ! cube_file_exists /etc/haproxy/ssl/${cubevar_app_tls_second_domain}.pem ; then
-  #  cat /etc/letsencrypt/live/${cubevar_app_tls_second_domain}/{fullchain.pem,privkey.pem} >> /etc/haproxy/ssl/myplaceonline.com.pem || cube_check_return
-  #  cat /etc/haproxy/ssl/dh/${cubevar_app_tls_second_domain}.dh >> /etc/haproxy/ssl/myplaceonline.com.pem || cube_check_return
-  #fi
 fi
 
 if cube_file_exists /etc/letsencrypt/live/ ; then
