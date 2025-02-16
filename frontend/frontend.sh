@@ -126,12 +126,12 @@ if ! cube_file_exists /etc/letsencrypt/live/ ; then
   fi
 fi
 
-if cube_file_exists /etc/letsencrypt/live/ ; then
-  if ! cube_file_exists /etc/haproxy/ssl/myplaceonline.com.pem ; then
-    cat /etc/letsencrypt/live/myplaceonline.com*/{fullchain.pem,privkey.pem} > /etc/haproxy/ssl/myplaceonline.com.pem || cube_check_return
-    cat /etc/haproxy/ssl/dh/myplaceonline.com.dh >> /etc/haproxy/ssl/myplaceonline.com.pem || cube_check_return
-  fi
-fi
+#if cube_file_exists /etc/letsencrypt/live/ ; then
+#  if ! cube_file_exists /etc/haproxy/ssl/myplaceonline.com.pem ; then
+#    cat /etc/letsencrypt/live/myplaceonline.com*/{fullchain.pem,privkey.pem} > /etc/haproxy/ssl/myplaceonline.com.pem || cube_check_return
+#    cat /etc/haproxy/ssl/dh/myplaceonline.com.dh >> /etc/haproxy/ssl/myplaceonline.com.pem || cube_check_return
+#  fi
+#fi
 
 if cube_file_exists /etc/letsencrypt/live/ ; then
   cube_set_file_contents "/etc/haproxy/haproxy_ssl.cfg" "templates/haproxy_secure.cfg.template"
