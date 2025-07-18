@@ -258,7 +258,7 @@ if cube_operating_system_has_flavor ${POSIXCUBE_OS_FLAVOR_FEDORA}; then
                         postfix tcpdump cyrus-sasl-plain rsyslog gnupg \
                         kexec-tools lzo lzo-devel lzo-minilzo bison bison-devel \
                         ncurses ncurses-devel telnet iftop git \
-                        nmap-ncat java-1.8.0-openjdk grub2-tools libffi-devel \
+                        nmap-ncat java-latest-openjdk grub2-tools libffi-devel \
                         file-devel iperf speedtest-cli cronie bc python3-devel \
                         python3-pip ffmpeg chrony p7zip tree ncdu
 elif cube_operating_system_has_flavor ${POSIXCUBE_OS_FLAVOR_DEBIAN}; then

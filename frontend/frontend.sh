@@ -142,9 +142,9 @@ cube_set_file_contents_string "/etc/nginx/docs.htpasswd" "${cubevar_app_nginx_do
 
 cube_service reload haproxy
 
-if cube_set_file_contents "/etc/cron.d/letsencrypt" "templates/crontab_letsencrypt.template" ; then
-  chmod 600 /etc/cron.d/letsencrypt
-fi
+#if cube_set_file_contents "/etc/cron.d/letsencrypt" "templates/crontab_letsencrypt.template" ; then
+#  chmod 600 /etc/cron.d/letsencrypt
+#fi
 
 cube_service enable haproxy
 cube_service start haproxy
