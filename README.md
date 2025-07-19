@@ -13,21 +13,24 @@ Web server:
 
 * Create Droplet
   * Fedora on NYC3
-  * Basic, 8GB/4CPU
+  * Basic
+  * Regular
+  * 8GB/4CPU
   * Advanced Options } IPv6
+  * Add improved metrics monitoring and alerting (free)
   * Select SSH Key
   * Hostname: webX.myplaceonline.com
-* Add to database trusted sources
+* Add to Digital Ocean database trusted sources
 * Networking > Domains > myplaceonline.com
   * Create A record for short hostname and droplet
 
 Get eth1 IP:
 
     SERVER_NUMBER=X
-    ssh root@web${SERVER_NUMBER}.myplaceonline.com ip -4 -o addr | grep eth1 | awk '{print $4}' | sed 's/\/.*//g'
+    ssh root@web${SERVER_NUMBER}.myplaceonline.com ip -4 -o addr | grep -e eth1 -e ens4 | awk '{print $4}' | sed 's/\/.*//g'
 
 * Networking > Domains > myplaceonline.com
-  * Create A record for eth1 IP and short hostname with -internal
+  * Create A record for eth1/ens4 IP and short hostname with -internal
 
 Add server to the other servers' whitelist:
 

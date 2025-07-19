@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# eth0 goes into the public zone (basically just http, https, and ssh access), we set the default zone to block,
+# eth0/ens3 goes into the public zone (basically just http, https, and ssh access), we set the default zone to block,
 # and then whitelist every eth1 IP address into the trusted zone
 #
 # firewall-cmd --get-default-zone
@@ -23,13 +23,15 @@ cube_service enable firewalld
 #   firewall-cmd --list-all
 #   firewall-cmd --get-zones
 
+INTERFACE="$(ip -oneline address | awk '!/^[0-9]+: lo/ && !found {print $2; found=1;}')"
+
 if [ "$(firewall-cmd --get-default-zone)" != "block" ]; then
   firewall-cmd --set-default-zone=block || cube_check_return
 fi
 
-if [ "$(firewall-cmd --get-zone-of-interface=eth0)" != "public" ]; then
-  firewall-cmd --permanent --zone=public --add-interface=eth0 || cube_check_return
-  cube_echo "Set firewall zone of eth0 to public"
+if [ "$(firewall-cmd --get-zone-of-interface=${INTERFACE})" != "public" ]; then
+  firewall-cmd --permanent --zone=public --add-interface=${INTERFACE} || cube_check_return
+  cube_echo "Set firewall zone of ${INTERFACE} to public"
 fi
 
 for cubevar_app_server in ${cubevar_app_servers}; do
