@@ -174,7 +174,7 @@ fi
 clone_update_engine() {
   if [ "$1" != "" ]; then
     if ! cube_dir_exists "${cubevar_app_web_dir}/engines/$2" ; then
-      git clone "https://oauth2:${cubevar_app_gitlab_token}@gitlab.com/$1" "${cubevar_app_web_dir}/engines/$2" || cube_check_return
+      git clone "https://oauth2:${3}@gitlab.com/$1" "${cubevar_app_web_dir}/engines/$2" || cube_check_return
     fi
 
     cube_pushd "${cubevar_app_web_dir}/engines/$2"
@@ -183,9 +183,9 @@ clone_update_engine() {
   fi
 }
 
-clone_update_engine "${cubevar_app_gitlab_engine_path1_repo}" "${cubevar_app_gitlab_engine_path1_dir}"
-clone_update_engine "${cubevar_app_gitlab_engine_path2_repo}" "${cubevar_app_gitlab_engine_path2_dir}"
-clone_update_engine "${cubevar_app_gitlab_engine_path3_repo}" "${cubevar_app_gitlab_engine_path3_dir}"
+clone_update_engine "${cubevar_app_gitlab_engine_path1_repo}" "${cubevar_app_gitlab_engine_path1_dir}" "${cubevar_app_gitlab_engine_path1_gitlab_token}"
+clone_update_engine "${cubevar_app_gitlab_engine_path2_repo}" "${cubevar_app_gitlab_engine_path2_dir}" "${cubevar_app_gitlab_engine_path2_gitlab_token}"
+clone_update_engine "${cubevar_app_gitlab_engine_path3_repo}" "${cubevar_app_gitlab_engine_path3_dir}" "${cubevar_app_gitlab_engine_path3_gitlab_token}"
 
 # for i in ${cubevar_app_web_dir}/engines/*; do
 #   (
@@ -197,13 +197,13 @@ clone_update_engine "${cubevar_app_gitlab_engine_path3_repo}" "${cubevar_app_git
 # done
 
 if [ "${cubevar_app_gitlab_engine_config_path}" != "" ]; then
-  if ! cube_dir_exists "${cubevar_app_web_dir}/engines_config/" ; then
+  if ! cube_dir_exists "${cubevar_app_web_dir}/engines_config/${cubevar_app_gitlab_engine_config_dir}" ; then
     mkdir "${cubevar_app_web_dir}/engines_config/"
-    git clone "https://oauth2:${cubevar_app_gitlab_token}@gitlab.com/${cubevar_app_gitlab_engine_config_path}" "${cubevar_app_web_dir}/engines_config/$(basename "${cubevar_app_gitlab_engine_config_path}")" || cube_check_return
-    ln -s "${cubevar_app_web_dir}/engines_config/$(basename "${cubevar_app_gitlab_engine_config_path}")/Gemfile_engines.lock" "${cubevar_app_web_dir}/Gemfile_engines.lock" || cube_check_return
+    git clone "https://oauth2:${cubevar_app_gitlab_engine_config_gitlab_token}@gitlab.com/${cubevar_app_gitlab_engine_config_path}" "${cubevar_app_web_dir}/engines_config/${cubevar_app_gitlab_engine_config_dir}" || cube_check_return
+    ln -s "${cubevar_app_web_dir}/engines_config/${cubevar_app_gitlab_engine_config_dir}/Gemfile_engines.lock" "${cubevar_app_web_dir}/Gemfile_engines.lock" || cube_check_return
   fi
   
-  cube_pushd "${cubevar_app_web_dir}/engines_config/$(basename "${cubevar_app_gitlab_engine_config_path}")/"
+  cube_pushd "${cubevar_app_web_dir}/engines_config/${cubevar_app_gitlab_engine_config_dir}/"
   git pull || cube_check_return
   cube_popd
 fi
@@ -332,7 +332,7 @@ cube_pushd "${cubevar_app_web_dir}"
   if ! [ -f "/usr/share/gems/gems/sassc-2.4.0/lib/sassc/libsass.so" ]; then
     if cube_operating_system_has_flavor ${POSIXCUBE_OS_FLAVOR_FEDORA}; then
       cube_package install rubygem-sassc
-      ln -s /usr/lib64/gems/ruby/sassc-2.4.0/sassc/libsass.so /usr/share/gems/gems/sassc-2.4.0/lib/sassc/libsass.so || cube_check_return
+      ln -s /usr/lib64/gems/ruby/sassc-2.4.0/sassc/libsass.so /usr/share/gems/gems/sassc-2.4.0/lib/sassc/libsass.so
     fi
   fi
 
