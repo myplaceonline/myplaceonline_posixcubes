@@ -204,6 +204,7 @@ if [ "${cubevar_app_gitlab_engine_config_path}" != "" ]; then
   fi
   
   cube_pushd "${cubevar_app_web_dir}/engines_config/${cubevar_app_gitlab_engine_config_dir}/"
+  git restore .
   git pull || cube_check_return
   cube_popd
 fi
