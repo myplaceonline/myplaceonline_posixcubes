@@ -39,6 +39,7 @@ server {
   passenger_env_var BITCOIN_ADDRESS "${cubevar_app_bitcoin_address}";
   passenger_env_var BUNDLE_GEMFILE "${cubevar_app_rails_gemfile}";
   passenger_env_var MINCACHE "${cubevar_app_web_mincache}";
+  passenger_env_var BROWSER_PATH "${cubevar_app_chrome_path}";
   
   location /assets/ {
     add_header Cache-Control "public, max-age=31536000";

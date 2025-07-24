@@ -21,7 +21,12 @@ HEREDOC
                        ImageMagick-devel ImageMagick-libs golang git gcc \
                        gcc-c++ openssl-devel pcre-devel postgresql-devel \
                        postgresql nodejs libcurl-devel httpd yarn libxml2-devel \
-                       dovecot libsass-devel libyaml-devel chromium
+                       dovecot libsass-devel libyaml-devel chromium \
+                       fontconfig dejavu-sans-fonts dejavu-sans-mono-fonts \
+                       dejavu-serif-fonts liberation-mono-fonts \
+                       liberation-sans-fonts liberation-serif-fonts \
+                       google-noto-emoji-fonts google-noto-fonts-common \
+                       google-noto-sans-fonts google-noto-serif-fonts
 elif cube_operating_system_has_flavor ${POSIXCUBE_OS_FLAVOR_DEBIAN}; then
 
   # https://yarnpkg.com/lang/en/docs/install/
