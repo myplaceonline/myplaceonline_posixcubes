@@ -378,6 +378,12 @@ fi
 #   cube_service start myplaceonline-nginx-ready
 # fi
 
+# https://github.com/rubycdp/ferrum/issues/541
+if ! [ -d "" ]; then
+  mkdir -p /.config/google-chrome/Crashpad
+  chown -R nobody /.config
+fi
+
 cube_service enable nginx
 cube_service start nginx
 
