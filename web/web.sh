@@ -379,9 +379,18 @@ fi
 # fi
 
 # https://github.com/rubycdp/ferrum/issues/541
-if ! [ -d "" ]; then
+if ! [ -d "/.config" ]; then
   mkdir -p /.config/google-chrome/Crashpad
   chown -R nobody /.config
+fi
+if ! [ -d "/opt/chromium/" ]; then
+  (
+    mkdir /opt/chromium/ || cube_check_return
+    cd /opt/chromium/ || cube_check_return
+    wget https://raw.githubusercontent.com/scheib/chromium-latest-linux/refs/heads/master/update.sh || cube_check_return
+    chmod +x update.sh || cube_check_return
+    ./update.sh || cube_check_return
+  ) || cube_check_return
 fi
 
 cube_service enable nginx
