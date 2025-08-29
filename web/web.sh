@@ -53,6 +53,8 @@ fi
 
 cube_ensure_directory "${cubevar_app_nfs_client_mount}/uploads/" 777
 
+cube_ensure_directory "/opt/cache/" 777
+
 if cube_set_file_contents "/usr/lib/systemd/system/nginx.service" "templates/nginx.service.template" ; then
   cube_service daemon-reload
 fi
