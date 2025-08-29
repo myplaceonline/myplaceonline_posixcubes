@@ -35,7 +35,7 @@ HEREDOC
   cube_set_file_contents_string "/etc/sudoers.d/90-cloud-init-users" "${cubevar_app_sudoers_nopasswd}"
 fi
 
-# Don't use tmpfs
+# Disable tmpfs: https://fedoraproject.org/wiki/Features/tmp-on-tmpfs
 systemctl mask tmp.mount
 
 # Description:
