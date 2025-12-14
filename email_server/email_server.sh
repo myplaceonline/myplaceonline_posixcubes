@@ -191,15 +191,27 @@ cube_service restart dovecot
 
 cube_package install opensmtpd mariadb-devel
 
-if ! cube_dir_exists "/usr/local/src/OpenSMTPD-extras" ; then
+#if ! cube_dir_exists "/usr/local/src/OpenSMTPD-extras" ; then
+#  (
+#    cd /usr/local/src/ || cube_check_return
+#    git clone https://github.com/OpenSMTPD/OpenSMTPD-extras.git || cube_check_return
+#    cd OpenSMTPD-extras || cube_check_return
+#    sh bootstrap || cube_check_return
+#    ./configure --libexecdir=/usr/libexec --with-table-passwd --with-filter-stub --with-queue-ram || cube_check_return
+#    make || cube_check_return
+#    make install || cube_check_return
+#  ) || cube_check_return
+#fi
+
+if ! cube_dir_exists "/usr/local/src/table-passwd" ; then
   (
     cd /usr/local/src/ || cube_check_return
-    git clone https://github.com/OpenSMTPD/OpenSMTPD-extras.git || cube_check_return
-    cd OpenSMTPD-extras || cube_check_return
+    git clone https://github.com/OpenSMTPD/table-passwd.git || cube_check_return
+    cd table-passwd || cube_check_return
     sh bootstrap || cube_check_return
-    ./configure --libexecdir=/usr/libexec --with-table-passwd --with-filter-stub --with-queue-ram || cube_check_return
+    ./configure --prefix=/usr || cube_check_return
     make || cube_check_return
-    make install || cube_check_return
+    make smtpdir=/usr/libexec/opensmtpd install || cube_check_return
   ) || cube_check_return
 fi
 
