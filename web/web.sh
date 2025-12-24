@@ -193,6 +193,7 @@ clone_update_engine() {
 clone_update_engine "${cubevar_app_gitlab_engine_path1_repo}" "${cubevar_app_gitlab_engine_path1_dir}" "${cubevar_app_gitlab_engine_path1_gitlab_token}"
 clone_update_engine "${cubevar_app_gitlab_engine_path2_repo}" "${cubevar_app_gitlab_engine_path2_dir}" "${cubevar_app_gitlab_engine_path2_gitlab_token}"
 clone_update_engine "${cubevar_app_gitlab_engine_path3_repo}" "${cubevar_app_gitlab_engine_path3_dir}" "${cubevar_app_gitlab_engine_path3_gitlab_token}"
+clone_update_engine "${cubevar_app_gitlab_engine_path4_repo}" "${cubevar_app_gitlab_engine_path4_dir}" "${cubevar_app_gitlab_engine_path4_gitlab_token}"
 
 # for i in ${cubevar_app_web_dir}/engines/*; do
 #   (
