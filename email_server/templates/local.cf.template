@@ -51,7 +51,7 @@ score BLACKLIST12 10
 header BLACKLIST13 Subject =~ /Detect All Traffic Radars, Beat Speeding Tickets/i
 score BLACKLIST13 10
 
-header   FH_DATE_PAST_202X      Date =~ /202[6-9]/ [if-unset: 2006]
+header   FH_DATE_PAST_202X      Date =~ /202[7-9]/ [if-unset: 2006]
 score FH_DATE_PAST_202X 10
 
 header   FH_DATE_PAST_2030      Date =~ /20[3-9]/ [if-unset: 2006]
