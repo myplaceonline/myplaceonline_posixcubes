@@ -51,6 +51,18 @@ score BLACKLIST12 10
 header BLACKLIST13 Subject =~ /Detect All Traffic Radars, Beat Speeding Tickets/i
 score BLACKLIST13 10
 
+header BLACKLIST14 Subject =~ /Let’s start getting to know each other./
+score BLACKLIST14 10
+
+header BLACKLIST15 Subject =~ /Complimentary Road Kit for AAA Licensed Drivers/
+score BLACKLIST15 10
+
+header BLACKLIST16 Subject =~ /For AAA Licensed Drivers: Courtesy Road Kit/
+score BLACKLIST16 10
+
+header BLACKLIST17 Subject =~ /Your open enrollment health kit is just being sent/
+score BLACKLIST17 10
+
 header   FH_DATE_PAST_202X      Date =~ /202[7-9]/ [if-unset: 2006]
 score FH_DATE_PAST_202X 10
 
