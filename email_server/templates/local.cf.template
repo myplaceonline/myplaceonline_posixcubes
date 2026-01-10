@@ -63,6 +63,9 @@ score BLACKLIST16 10
 header BLACKLIST17 Subject =~ /Your open enrollment health kit is just being sent/
 score BLACKLIST17 10
 
+header BLACKLIST18 Subject =~ /Your roadside kit is ready to ship now/
+score BLACKLIST18 10
+
 header   FH_DATE_PAST_202X      Date =~ /202[7-9]/ [if-unset: 2006]
 score FH_DATE_PAST_202X 10
 
@@ -71,6 +74,9 @@ score FH_DATE_PAST_2030 10
 
 header ANNOYING_FROM1	From =~ /endgameseries\.com/i
 score ANNOYING_FROM1 10
+
+header ANNOYING_FROM2	From =~ /Marriott Bonvoy/i
+score ANNOYING_FROM2 10
 
 # These values can be overridden by editing ~/.spamassassin/user_prefs.cf
 # (see spamassassin(1) for details)
