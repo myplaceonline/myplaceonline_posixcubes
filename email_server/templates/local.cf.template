@@ -78,7 +78,7 @@ score ANNOYING_FROM1 10
 header ANNOYING_FROM2  From =~ /Marriott Bonvoy/i
 score ANNOYING_FROM2 10
 
-body ANNOYING_BODY1 /Signature Marriott Luxury Pillows/
+body ANNOYING_BODY1 /Marriott Luxury Pillows/
 score ANNOYING_BODY1 10.0
 
 body ANNOYING_BODY2 /you can secure a Ninja Slushi/
@@ -86,6 +86,9 @@ score ANNOYING_BODY2 10.0
 
 body ANNOYING_BODY3 /man who infiltrated the Dubai Secret/
 score ANNOYING_BODY3 10.0
+
+body ANNOYING_BODY4 /And do THIS on your foot for 11 seconds/
+score ANNOYING_BODY4 10.0
 
 # These values can be overridden by editing ~/.spamassassin/user_prefs.cf
 # (see spamassassin(1) for details)
