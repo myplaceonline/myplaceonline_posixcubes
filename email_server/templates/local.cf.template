@@ -13,130 +13,175 @@
 
 # Explicit blacklist
 header BLACKLIST1 Subject =~ /Предложение/i
-score BLACKLIST1 10
+score BLACKLIST1 12
 
 header BLACKLIST2 Subject =~ /World Business List/i
-score BLACKLIST2 10
+score BLACKLIST2 12
 
 header BLACKLIST3 Subject =~ /World Company Registration/i
-score BLACKLIST3 10
+score BLACKLIST3 12
 
 header BLACKLIST4 Subject =~ /Michael Kors Handbags/i
-score BLACKLIST4 10
+score BLACKLIST4 12
 
 header BLACKLIST5 Subject =~ /Revolve Sunglasses/i
-score BLACKLIST5 10
+score BLACKLIST5 12
 
 header BLACKLIST6 Subject =~ /Сотрудничество/i
-score BLACKLIST6 10
+score BLACKLIST6 12
 
 header BLACKLIST7 Subject =~ /Get The Best Deals At The Lowest Prices/i
-score BLACKLIST7 10
+score BLACKLIST7 12
 
 header BLACKLIST8 Subject =~ /Financial freedom to expand and grow your business/i
-score BLACKLIST8 10
+score BLACKLIST8 12
 
 header BLACKLIST9 Subject =~ /Michael Kors Sale/i
-score BLACKLIST9 10
+score BLACKLIST9 12
 
 header BLACKLIST10 Subject =~ /Revolve Sunglasses/i
-score BLACKLIST10 10
+score BLACKLIST10 12
 
 header BLACKLIST11 Subject =~ /World Company Registration/i
-score BLACKLIST11 10
+score BLACKLIST11 12
 
 header BLACKLIST12 Subject =~ /Your time is almost up./i
-score BLACKLIST12 10
+score BLACKLIST12 12
 
 header BLACKLIST13 Subject =~ /Detect All Traffic Radars, Beat Speeding Tickets/i
-score BLACKLIST13 10
+score BLACKLIST13 12
 
 header BLACKLIST14 Subject =~ /Let’s start getting to know each other./i
-score BLACKLIST14 10
+score BLACKLIST14 12
 
 header BLACKLIST15 Subject =~ /Complimentary Road Kit for AAA/i
-score BLACKLIST15 10
+score BLACKLIST15 12
 
 header BLACKLIST16 Subject =~ /For AAA Licensed Drivers: Courtesy Road Kit/i
-score BLACKLIST16 10
+score BLACKLIST16 12
 
 header BLACKLIST17 Subject =~ /Your open enrollment health kit is just being sent/i
-score BLACKLIST17 10
+score BLACKLIST17 12
 
-header BLACKLIST18 Subject =~ /Your roadside kit is ready/i
-score BLACKLIST18 10
+header BLACKLIST18 Subject =~ /Your roadside kit/i
+score BLACKLIST18 12
 
-header BLACKLIST19 Subject =~ /0maha-Steaks/i
-score BLACKLIST19 10
+header BLACKLIST19 Subject =~ /0maha/i
+score BLACKLIST19 12
 
 header BLACKLIST20 Subject =~ /Keurig K-Elite/i
-score BLACKLIST20 10
+score BLACKLIST20 12
 
 header BLACKLIST21 Subject =~ /CompIementary/i
-score BLACKLIST21 10
+score BLACKLIST21 12
 
 header BLACKLIST22 Subject =~ /Your information about stay/i
-score BLACKLIST22 10
+score BLACKLIST22 12
 
 header BLACKLIST23 Subject =~ /THIS sound frequency makes you smarter/i
-score BLACKLIST23 10
+score BLACKLIST23 12
 
 header BLACKLIST24 Subject =~ /Meet Ukrainian beauties/i
-score BLACKLIST24 10
+score BLACKLIST24 12
 
 header BLACKLIST25 Subject =~ /BlueCross has an update/i
-score BLACKLIST25 10
+score BLACKLIST25 12
 
 header BLACKLIST26 Subject =~ /Tired of your Timeshare/i
-score BLACKLIST26 10
+score BLACKLIST26 12
 
 header BLACKLIST27 Subject =~ /your liver is FAILING/i
-score BLACKLIST27 10
+score BLACKLIST27 12
 
 header BLACKLIST28 Subject =~ /Diabetes to kill/i
-score BLACKLIST28 10
+score BLACKLIST28 12
 
 header BLACKLIST29 Subject =~ /Costco Special/i
-score BLACKLIST29 10
+score BLACKLIST29 12
 
 header BLACKLIST30 Subject =~ /ADT Security/i
-score BLACKLIST30 10
+score BLACKLIST30 12
 
 header BLACKLIST31 Subject =~ /or Vorzani/i
-score BLACKLIST31 10
+score BLACKLIST31 12
+
+header BLACKLIST32 Subject =~ /Ninja CREAMi/i
+score BLACKLIST32 12
+
+header BLACKLIST33 Subject =~ /CompIimentary/i
+score BLACKLIST33 12
+
+header BLACKLIST34 Subject =~ /allocating you a complimentary/i
+score BLACKLIST34 12
+
+header BLACKLIST35 Subject =~ /Marriott stay at Marriott/i
+score BLACKLIST35 12
+
+header BLACKLIST36 Subject =~ /Your roadside kit is set/i
+score BLACKLIST36 12
+
+header BLACKLIST37 Subject =~ /BlueCross has update/i
+score BLACKLIST37 12
+
+header BLACKLIST38 Subject =~ /Your thank you gift from/i
+score BLACKLIST38 12
+
+header BLACKLIST39 Subject =~ /BlueCross has an update on your Coverage/i
+score BLACKLIST39 12
+
+header BLACKLIST40 Subject =~ /Use This Simple Home Remedy/i
+score BLACKLIST40 12
+
+header BLACKLIST41 Subject =~ /Fizzy red cocktail/i
+score BLACKLIST41 12
+
+header BLACKLIST42 Subject =~ /2026 coverage plans are changing, select your options/i
+score BLACKLIST42 12
+
+header BLACKLIST43 Subject =~ /BlueCross has an important update regarding your Coverage/i
+score BLACKLIST43 12
+
+header BLACKLIST44 Subject =~ /BlueCross has an update regarding your health/i
+score BLACKLIST44 12
+
+header BLACKLIST45 Subject =~ /This is your actual soulmate/i
+score BLACKLIST45 12
+
+header BLACKLIST46 Subject =~ /Has Been Updated, View changes/i
+score BLACKLIST46 12
 
 header   FH_DATE_PAST_202X      Date =~ /202[7-9]/ [if-unset: 2006]
-score FH_DATE_PAST_202X 10
+score FH_DATE_PAST_202X 12
 
 header   FH_DATE_PAST_2030      Date =~ /20[3-9]/ [if-unset: 2006]
-score FH_DATE_PAST_2030 10
+score FH_DATE_PAST_2030 12
 
 header ANNOYING_FROM1  From =~ /endgameseries\.com/i
-score ANNOYING_FROM1 10
+score ANNOYING_FROM1 12
 
 header ANNOYING_FROM2  From =~ /Marriott Bonvoy/i
-score ANNOYING_FROM2 10
+score ANNOYING_FROM2 12
 
 header ANNOYING_FROM3  From =~ /Marriott Stay/i
-score ANNOYING_FROM3 10
+score ANNOYING_FROM3 12
 
 header ANNOYING_FROM4  From =~ /Marriott Travel/i
-score ANNOYING_FROM4 10
+score ANNOYING_FROM4 12
 
 body ANNOYING_BODY1 /Marriott Luxury Pillows/i
-score ANNOYING_BODY1 10.0
+score ANNOYING_BODY1 12
 
 body ANNOYING_BODY2 /you can secure a Ninja Slushi/i
-score ANNOYING_BODY2 10.0
+score ANNOYING_BODY2 12
 
 body ANNOYING_BODY3 /man who infiltrated the Dubai Secret/i
-score ANNOYING_BODY3 10.0
+score ANNOYING_BODY3 12
 
 body ANNOYING_BODY4 /And do THIS on your foot for 11 seconds/i
-score ANNOYING_BODY4 10.0
+score ANNOYING_BODY4 12
 
 body ANNOYING_BODY5 /Medicare Kit announcement/i
-score ANNOYING_BODY5 10.0
+score ANNOYING_BODY5 12
 
 # These values can be overridden by editing ~/.spamassassin/user_prefs.cf
 # (see spamassassin(1) for details)
