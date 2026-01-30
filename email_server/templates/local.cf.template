@@ -222,15 +222,13 @@ ifplugin Mail::SpamAssassin::Plugin::MIMEHeader
 score T_REMOTE_IMAGE 0.5
 endif
 
-# Learn spam and ham:
-# find /var/vmail -type f -not -path .imap -and -name TrainSpam | xargs sa-learn --mbox --spam --no-sync --dbpath /var/spool/spampd/.spamassassin/
-# find /var/vmail -type f -not -path .imap -and \( -name inbox -or -name Archives \) | xargs sa-learn --mbox --ham --no-sync --dbpath /var/spool/spampd/.spamassassin/
+# Learn spam:
+# find /mnt/mailvolume/ -type f -not -path .imap -and \( -name TrainSpam -or -name Spam \) | xargs sa-learn --mbox --spam --no-sync --dbpath /var/spool/spampd/.spamassassin/
+# Learn ham:
+# find /mnt/mailvolume/ -type f -not -path .imap -and \( -name inbox -or -name Archives -or -name Sent \) | xargs sa-learn --mbox --ham --no-sync --dbpath /var/spool/spampd/.spamassassin/
+# Finalize:
 # sa-learn --sync --dbpath /var/spool/spampd/.spamassassin/
 # chown spampd:spampd /var/spool/spampd/.spamassassin/bayes_*
-
-# find /var/vmail -type f -not -path .imap -and -name TrainSpam | xargs sa-learn --mbox --spam --no-sync --dbpath /root/.spamassassin/
-# find /var/vmail -type f -not -path .imap -and \( -name inbox -or -name Archives \) | xargs sa-learn --mbox --ham --no-sync --dbpath /root/.spamassassin/
-# sa-learn --sync --dbpath /root/.spamassassin/
 
 # Display stats:
 # sa-learn --dump magic
