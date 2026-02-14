@@ -192,6 +192,9 @@ score BLACKLIST59 12
 header BLACKLIST60 Subject =~ /See How I Lost/i
 score BLACKLIST60 12
 
+header BLACKLIST61 Subject =~ /use at McDonalds/i
+score BLACKLIST61 12
+
 header   FH_DATE_PAST_202X      Date =~ /202[7-9]/ [if-unset: 2006]
 score FH_DATE_PAST_202X 12
 
