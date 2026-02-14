@@ -150,6 +150,48 @@ score BLACKLIST45 12
 header BLACKLIST46 Subject =~ /Has Been Updated, View changes/i
 score BLACKLIST46 12
 
+header BLACKLIST47 Subject =~ /Thank you for your time, here is your/i
+score BLACKLIST47 12
+
+header BLACKLIST48 Subject =~ /but the clock runs out tomorrow/i
+score BLACKLIST48 12
+
+header BLACKLIST49 Subject =~ /meet real feeders/i
+score BLACKLIST49 12
+
+header BLACKLIST50 Subject =~ /Your Home Workout Bundle/i
+score BLACKLIST50 12
+
+header BLACKLIST51 Subject =~ /Remember your Marriott stay/i
+score BLACKLIST51 12
+
+header BLACKLIST52 Subject =~ /An offer for AAA licensed drivers/i
+score BLACKLIST52 12
+
+header BLACKLIST53 Subject =~ /Miss Out on AARP Membership/i
+score BLACKLIST53 12
+
+header BLACKLIST54 Subject =~ /A quick note about your 2026 plan/i
+score BLACKLIST54 12
+
+header BLACKLIST55 Subject =~ /for AAA members/i
+score BLACKLIST55 12
+
+header BLACKLIST56 Subject =~ /Here are some thoughts on your 2026 plan/i
+score BLACKLIST56 12
+
+header BLACKLIST57 Subject =~ /Do Not Eat This Fruit/i
+score BLACKLIST57 12
+
+header BLACKLIST58 Subject =~ /your complementary kit from AAA/i
+score BLACKLIST58 12
+
+header BLACKLIST59 Subject =~ /Your membership just got a cozy upgrade/i
+score BLACKLIST59 12
+
+header BLACKLIST60 Subject =~ /See How I Lost/i
+score BLACKLIST60 12
+
 header   FH_DATE_PAST_202X      Date =~ /202[7-9]/ [if-unset: 2006]
 score FH_DATE_PAST_202X 12
 

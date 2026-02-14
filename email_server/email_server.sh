@@ -228,8 +228,9 @@ fi
 cube_service enable opensmtpd
 cube_service stop opensmtpd
 cube_echo "Sleeping for a bit"
-sleep 61
+sleep 121
 cube_service start opensmtpd
+cube_service status opensmtpd
 
 if cube_set_file_contents "/etc/cron.d/letsencrypt" "templates/crontab_letsencrypt.template" ; then
   chmod 600 /etc/cron.d/letsencrypt
