@@ -198,6 +198,45 @@ score BLACKLIST61 12
 header BLACKLIST62 Subject =~ /blow at Walmart/i
 score BLACKLIST62 12
 
+header BLACKLIST63 Subject =~ /gift card, thank you for your time/i
+score BLACKLIST63 12
+
+header BLACKLIST64 Subject =~ /Watch the Best of TV Now/i
+score BLACKLIST64 12
+
+header BLACKLIST65 Subject =~ /This odd plant is beating pricey/i
+score BLACKLIST65 12
+
+header BLACKLIST66 Subject =~ /easy-to-build shed blueprints/i
+score BLACKLIST66 12
+
+header BLACKLIST67 Subject =~ /You receive a/i
+score BLACKLIST67 12
+
+header BLACKLIST68 Subject =~ /Pee Leaks/i
+score BLACKLIST68 12
+
+header BLACKLIST69 Subject =~ /would like to meet you, /i
+score BLACKLIST69 12
+
+header BLACKLIST70 Subject =~ /with this 10-sec trick/i
+score BLACKLIST70 12
+
+header BLACKLIST71 Subject =~ /can decrease your risk of heart/i
+score BLACKLIST71 12
+
+header BLACKLIST72 Subject =~ /New flute exercise videos/i
+score BLACKLIST72 12
+
+header BLACKLIST73 Subject =~ /odd but natural trick/i
+score BLACKLIST73 12
+
+header BLACKLIST74 Subject =~ /You will receive a gift card of/i
+score BLACKLIST74 12
+
+header BLACKLIST75 Subject =~ /You will receive for your participation a/i
+score BLACKLIST75 12
+
 header   FH_DATE_PAST_202X      Date =~ /202[7-9]/ [if-unset: 2006]
 score FH_DATE_PAST_202X 12
 
