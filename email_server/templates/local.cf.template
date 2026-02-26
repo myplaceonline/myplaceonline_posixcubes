@@ -234,8 +234,83 @@ score BLACKLIST73 12
 header BLACKLIST74 Subject =~ /You will receive a gift card of/i
 score BLACKLIST74 12
 
-header BLACKLIST75 Subject =~ /You will receive for your participation a/i
+header BLACKLIST75 Subject =~ /You will receive for your participation/i
 score BLACKLIST75 12
+
+header BLACKLIST76 Subject =~ /spend at your local Costco/i
+score BLACKLIST76 12
+
+header BLACKLIST77 Subject =~ /750.00 gift card/i
+score BLACKLIST77 12
+
+header BLACKLIST78 Subject =~ /1000 card, thank you for your time/i
+score BLACKLIST78 12
+
+header BLACKLIST79 Subject =~ /spend at local Costco/i
+score BLACKLIST79 12
+
+header BLACKLIST80 Subject =~ /Costco membership information/i
+score BLACKLIST80 12
+
+header BLACKLIST81 Subject =~ /Your Costco Meat/i
+score BLACKLIST81 12
+
+header BLACKLIST82 Subject =~ /For your participation, you will receive/i
+score BLACKLIST82 12
+
+header BLACKLIST83 Subject =~ /gift card are in transit/i
+score BLACKLIST83 12
+
+header BLACKLIST84 Subject =~ /C0STC0/i
+score BLACKLIST84 12
+
+header BLACKLIST85 Subject =~ /Last chance to recover your data/i
+score BLACKLIST85 12
+
+header BLACKLIST86 Subject =~ /choosing Marriott on your last trip/i
+score BLACKLIST86 12
+
+header BLACKLIST87 Subject =~ /Join AARP/i
+score BLACKLIST87 12
+
+header BLACKLIST88 Subject =~ /ExtraCare Points Are Expiring/i
+score BLACKLIST88 12
+
+header BLACKLIST89 Subject =~ /Thank You from ACE/i
+score BLACKLIST89 12
+
+header BLACKLIST90 Subject =~ /Protect Against Future Covered Repairs/i
+score BLACKLIST90 12
+
+header BLACKLIST91 Subject =~ /Your recent Marriott stay/i
+score BLACKLIST91 12
+
+header BLACKLIST92 Subject =~ /American Home Shield/i
+score BLACKLIST92 12
+
+header BLACKLIST93 Subject =~ /FINAL NOTICE: File deletion scheduled/i
+score BLACKLIST93 12
+
+header BLACKLIST94 Subject =~ /Steaks Box Awaits/i
+score BLACKLIST94 12
+
+header BLACKLIST95 Subject =~ /Update on your complimentary invoice review/i
+score BLACKLIST95 12
+
+header BLACKLIST96 Subject =~ /membership includes a road kit/i
+score BLACKLIST96 12
+
+header BLACKLIST97 Subject =~ /Introducing KeyStep/i
+score BLACKLIST97 12
+
+header BLACKLIST98 Subject =~ /driver kit has been dispatched/i
+score BLACKLIST98 12
+
+header BLACKLIST99 Subject =~ /Your EGO Power/i
+score BLACKLIST99 12
+
+header BLACKLIST100 Subject =~ /licensed AAA drivers/i
+score BLACKLIST100 12
 
 header   FH_DATE_PAST_202X      Date =~ /202[7-9]/ [if-unset: 2006]
 score FH_DATE_PAST_202X 12

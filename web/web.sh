@@ -26,7 +26,8 @@ HEREDOC
                        dejavu-serif-fonts liberation-mono-fonts \
                        liberation-sans-fonts liberation-serif-fonts \
                        google-noto-emoji-fonts google-noto-fonts-common \
-                       google-noto-sans-fonts google-noto-serif-fonts
+                       google-noto-sans-fonts google-noto-serif-fonts \
+                       tesseract
 elif cube_operating_system_has_flavor ${POSIXCUBE_OS_FLAVOR_DEBIAN}; then
 
   # https://yarnpkg.com/lang/en/docs/install/
