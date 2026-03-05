@@ -312,6 +312,153 @@ score BLACKLIST99 12
 header BLACKLIST100 Subject =~ /licensed AAA drivers/i
 score BLACKLIST100 12
 
+header BLACKLIST101 Subject =~ /You need an auto Warranty/i
+score BLACKLIST101 12
+
+header BLACKLIST102 Subject =~ /New Auto Insurance Rates/i
+score BLACKLIST102 12
+
+header BLACKLIST103 Subject =~ /750 to use at Sam/i
+score BLACKLIST103 12
+
+header BLACKLIST104 Subject =~ /Step Into the Next Level of HR Leadership/i
+score BLACKLIST104 12
+
+header BLACKLIST105 Subject =~ /Club budget runs out tomorrow/i
+score BLACKLIST105 12
+
+header BLACKLIST106 Subject =~ /your Tupperware set/i
+score BLACKLIST106 12
+
+header BLACKLIST107 Subject =~ /See If You Qualify/i
+score BLACKLIST107 12
+
+header BLACKLIST108 Subject =~ /the clock ends tomorrow/i
+score BLACKLIST108 12
+
+header BLACKLIST109 Subject =~ /Update to your complimentary membership benefits/i
+score BLACKLIST109 12
+
+header BLACKLIST110 Subject =~ /Update on your health kit shipment/i
+score BLACKLIST110 12
+
+header BLACKLIST111 Subject =~ /Your shopping card remains valid until end of day/i
+score BLACKLIST111 12
+
+header BLACKLIST112 Subject =~ /Microsoft account unusual sign-in activity:/i
+score BLACKLIST112 12
+
+header BLACKLIST113 Subject =~ /Your updated selection is prepared/i
+score BLACKLIST113 12
+
+header BLACKLIST114 Subject =~ /New Auto Insurance Rates Now Starting/i
+score BLACKLIST114 12
+
+header BLACKLIST115 Subject =~ /Endurance Auto Warranty/i
+score BLACKLIST115 12
+
+header BLACKLIST116 Subject =~ /courtesy package for AAA drivers/i
+score BLACKLIST116 12
+
+header BLACKLIST117 Subject =~ /300 off Endurance warranty purchase/i
+score BLACKLIST117 12
+
+header BLACKLIST118 Subject =~ /Your Target At Home Workout Bundle/i
+score BLACKLIST118 12
+
+header BLACKLIST119 Subject =~ /A Personal Notice Regarding Your Account/i
+score BLACKLIST119 12
+
+header BLACKLIST120 Subject =~ /Harbor Freight card option/i
+score BLACKLIST120 12
+
+header BLACKLIST121 Subject =~ /Update on your Professional tier status/i
+score BLACKLIST121 12
+
+header BLACKLIST122 Subject =~ /offer for AAA licensed/i
+score BLACKLIST122 12
+
+header BLACKLIST123 Subject =~ /750 to spend at Sam/i
+score BLACKLIST123 12
+
+header BLACKLIST124 Subject =~ /Permanent data loss warning/i
+score BLACKLIST124 12
+
+header BLACKLIST125 Subject =~ /Club budget expires tomorrow/i
+score BLACKLIST125 12
+
+header BLACKLIST126 Subject =~ /Your complimentary wellness review is now available/i
+score BLACKLIST126 12
+
+header BLACKLIST127 Subject =~ /New Auto Insurance Rates Now Starting/i
+score BLACKLIST127 12
+
+header BLACKLIST128 Subject =~ /Endurance Auto Warranty/i
+score BLACKLIST128 12
+
+header BLACKLIST129 Subject =~ /Regarding Your .100 Membership Balance/i
+score BLACKLIST129 12
+
+header BLACKLIST130 Subject =~ /Семинары марта/i
+score BLACKLIST130 12
+
+header BLACKLIST131 Subject =~ /750 for Sam/i
+score BLACKLIST131 12
+
+header BLACKLIST132 Subject =~ /Is It Time for a New CIO or Vice President of IT/i
+score BLACKLIST132 12
+
+header BLACKLIST133 Subject =~ /in transit: EGO Power/i
+score BLACKLIST133 12
+
+header BLACKLIST134 Subject =~ /Endurance plans as low as/i
+score BLACKLIST134 12
+
+header BLACKLIST135 Subject =~ /FINAL WARNING regarding/
+score BLACKLIST135 12
+
+header BLACKLIST136 Subject =~ /Club budget runs out tomorrow/i
+score BLACKLIST136 12
+
+header BLACKLIST137 Subject =~ /new with KeyStep 37/i
+score BLACKLIST137 12
+
+header BLACKLIST138 Subject =~ /AAA licensed drivers/i
+score BLACKLIST138 12
+
+header BLACKLIST139 Subject =~ /Update in progress for your 202. plan, pick your options/i
+score BLACKLIST139 12
+
+header BLACKLIST140 Subject =~ /Your Sam's Club/i
+score BLACKLIST140 12
+
+header BLACKLIST141 Subject =~ /Sam's Club... the clock runs out tomorrow/i
+score BLACKLIST141 12
+
+header BLACKLIST142 Subject =~ /New Auto Insurance Rates Now Starting/i
+score BLACKLIST142 12
+
+header BLACKLIST143 Subject =~ /Sam's Club budget runs out tomorrow/i
+score BLACKLIST143 12
+
+header BLACKLIST144 Subject =~ /Harvard researchers discovered why your brain blanks/i
+score BLACKLIST144 12
+
+header BLACKLIST145 Subject =~ /Club credit runs out tomorrow/i
+score BLACKLIST145 12
+
+header BLACKLIST146 Subject =~ /Update available: action requested on your account/i
+score BLACKLIST146 12
+
+header BLACKLIST147 Subject =~ /Details about your .100 membership balance/i
+score BLACKLIST147 12
+
+header BLACKLIST148 Subject =~ /Unlock Tax-Free Cash From Your Home/i
+score BLACKLIST148 12
+
+header BLACKLIST149 Subject =~ /XXXYYYZZZ/i
+score BLACKLIST149 12
+
 header   FH_DATE_PAST_202X      Date =~ /202[7-9]/ [if-unset: 2006]
 score FH_DATE_PAST_202X 12
 
@@ -329,6 +476,15 @@ score ANNOYING_FROM3 12
 
 header ANNOYING_FROM4  From =~ /Marriott Travel/i
 score ANNOYING_FROM4 12
+
+header ANNOYING_FROM5  From =~ /C0STC0/i
+score ANNOYING_FROM5 12
+
+header ANNOYING_FROM6  From =~ /Cloud Renewal/i
+score ANNOYING_FROM6 12
+
+header ANNOYING_FROM7  From =~ /Cloud Billing/i
+score ANNOYING_FROM7 12
 
 body ANNOYING_BODY1 /Marriott Luxury Pillows/i
 score ANNOYING_BODY1 12
