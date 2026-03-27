@@ -1,3 +1,8 @@
+# systemctl status spampd
+
+
+
+
 # https://spamassassin.apache.org/full/3.4.x/doc/Mail_SpamAssassin_Conf.html
 # https://spamassassin.apache.org/full/3.4.x/doc/spamassassin.html
 # https://spamassassin.apache.org/full/3.4.x/doc/sa-learn.html
