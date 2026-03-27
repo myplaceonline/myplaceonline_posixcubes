@@ -456,8 +456,38 @@ score BLACKLIST147 12
 header BLACKLIST148 Subject =~ /Unlock Tax-Free Cash From Your Home/i
 score BLACKLIST148 12
 
-header BLACKLIST149 Subject =~ /XXXYYYZZZ/i
+header BLACKLIST149 Subject =~ /Reminder: Your shopping card remains active through today/i
 score BLACKLIST149 12
+
+header BLACKLIST150 Subject =~ /Bring Down Your Monthly Payment/i
+score BLACKLIST150 12
+
+header BLACKLIST151 Subject =~ /Steak Sampler/i
+score BLACKLIST151 12
+
+header BLACKLIST152 Subject =~ /XXXYYYZZZ/i
+score BLACKLIST152 12
+
+header BLACKLIST153 Subject =~ /XXXYYYZZZ/i
+score BLACKLIST153 12
+
+header BLACKLIST154 Subject =~ /XXXYYYZZZ/i
+score BLACKLIST154 12
+
+header BLACKLIST155 Subject =~ /XXXYYYZZZ/i
+score BLACKLIST155 12
+
+header BLACKLIST156 Subject =~ /XXXYYYZZZ/i
+score BLACKLIST156 12
+
+header BLACKLIST157 Subject =~ /XXXYYYZZZ/i
+score BLACKLIST157 12
+
+header BLACKLIST158 Subject =~ /XXXYYYZZZ/i
+score BLACKLIST158 12
+
+header BLACKLIST159 Subject =~ /XXXYYYZZZ/i
+score BLACKLIST159 12
 
 header   FH_DATE_PAST_202X      Date =~ /202[7-9]/ [if-unset: 2006]
 score FH_DATE_PAST_202X 12
@@ -485,6 +515,12 @@ score ANNOYING_FROM6 12
 
 header ANNOYING_FROM7  From =~ /Cloud Billing/i
 score ANNOYING_FROM7 12
+
+header ANNOYING_FROM8  From =~ /Blue Cross/i
+score ANNOYING_FROM8 12
+
+header ANNOYING_FROM9  From =~ /BlueCross/i
+score ANNOYING_FROM9 12
 
 body ANNOYING_BODY1 /Marriott Luxury Pillows/i
 score ANNOYING_BODY1 12
