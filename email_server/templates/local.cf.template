@@ -465,10 +465,10 @@ score BLACKLIST150 12
 header BLACKLIST151 Subject =~ /Steak Sampler/i
 score BLACKLIST151 12
 
-header BLACKLIST152 Subject =~ /XXXYYYZZZ/i
+header BLACKLIST152 Subject =~ /Costco/i
 score BLACKLIST152 12
 
-header BLACKLIST153 Subject =~ /XXXYYYZZZ/i
+header BLACKLIST153 Subject =~ /Marriott/i
 score BLACKLIST153 12
 
 header BLACKLIST154 Subject =~ /XXXYYYZZZ/i
