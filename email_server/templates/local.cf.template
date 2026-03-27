@@ -476,7 +476,7 @@ score BLACKLIST152 12
 header BLACKLIST153 Subject =~ /Marriott/i
 score BLACKLIST153 12
 
-header BLACKLIST154 Subject =~ /XXXYYYZZZ/i
+header BLACKLIST154 Subject =~ /Every repair in your home/i
 score BLACKLIST154 12
 
 header BLACKLIST155 Subject =~ /XXXYYYZZZ/i
