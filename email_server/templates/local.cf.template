@@ -548,11 +548,101 @@ score BLACKLIST176 12
 header BLACKLIST177 Subject =~ /Claim your sandwich/i
 score BLACKLIST177 12
 
-header BLACKLIST178 Subject =~ /XXXYYYZZZ/i
+header BLACKLIST178 Subject =~ /Your shopping card remains valid/i
 score BLACKLIST178 12
 
-header BLACKLIST179 Subject =~ /XXXYYYZZZ/i
+header BLACKLIST179 Subject =~ /home that will pay/i
 score BLACKLIST179 12
+
+header BLACKLIST180 Subject =~ /yours can pay you/i
+score BLACKLIST180 12
+
+header BLACKLIST181 Subject =~ /CIub/i
+score BLACKLIST181 12
+
+header BLACKLIST182 Subject =~ /Luxury Watches/i
+score BLACKLIST182 12
+
+header BLACKLIST183 Subject =~ /TooI/i
+score BLACKLIST183 12
+
+header BLACKLIST184 Subject =~ /Harbor Freight/i
+score BLACKLIST184 12
+
+header BLACKLIST185 Subject =~ /AAA Approved/i
+score BLACKLIST185 12
+
+header BLACKLIST186 Subject =~ /DEADLY/
+score BLACKLIST186 12
+
+header BLACKLIST187 Subject =~ /FedEx Has Changed/i
+score BLACKLIST187 12
+
+header BLACKLIST188 Subject =~ /Status Changed for You/i
+score BLACKLIST188 12
+
+header BLACKLIST189 Subject =~ /FedEx Update: Your/i
+score BLACKLIST189 12
+
+header BLACKLIST190 Subject =~ /FedEx Delivery Update: /i
+score BLACKLIST190 12
+
+header BLACKLIST191 Subject =~ /Your account is locked/i
+score BLACKLIST191 12
+
+header BLACKLIST192 Subject =~ /Your Delivery Has Been Changed by FedEx/i
+score BLACKLIST192 12
+
+header BLACKLIST193 Subject =~ /Action Required: Storage Running Out/i
+score BLACKLIST193 12
+
+header BLACKLIST194 Subject =~ /Your FedEx Delivery Time Has Changed/i
+score BLACKLIST194 12
+
+header BLACKLIST195 Subject =~ /Important: Your FedEx Delivery Changed/i
+score BLACKLIST195 12
+
+header BLACKLIST196 Subject =~ /Marriot/i
+score BLACKLIST196 12
+
+header BLACKLIST197 Subject =~ /feels like a work shift/i
+score BLACKLIST197 12
+
+header BLACKLIST198 Subject =~ /Your shopping card remains active until end of day/i
+score BLACKLIST198 12
+
+header BLACKLIST199 Subject =~ /XXXYYYZZZ/i
+score BLACKLIST199 12
+
+header BLACKLIST200 Subject =~ /XXXYYYZZZ/i
+score BLACKLIST200 12
+
+header BLACKLIST201 Subject =~ /XXXYYYZZZ/i
+score BLACKLIST201 12
+
+header BLACKLIST202 Subject =~ /XXXYYYZZZ/i
+score BLACKLIST202 12
+
+header BLACKLIST203 Subject =~ /XXXYYYZZZ/i
+score BLACKLIST203 12
+
+header BLACKLIST204 Subject =~ /XXXYYYZZZ/i
+score BLACKLIST204 12
+
+header BLACKLIST205 Subject =~ /XXXYYYZZZ/i
+score BLACKLIST205 12
+
+header BLACKLIST206 Subject =~ /XXXYYYZZZ/i
+score BLACKLIST206 12
+
+header BLACKLIST207 Subject =~ /XXXYYYZZZ/i
+score BLACKLIST207 12
+
+header BLACKLIST208 Subject =~ /XXXYYYZZZ/i
+score BLACKLIST208 12
+
+header BLACKLIST209 Subject =~ /XXXYYYZZZ/i
+score BLACKLIST209 12
 
 header   FH_DATE_PAST_202X      Date =~ /202[7-9]/ [if-unset: 2006]
 score FH_DATE_PAST_202X 12
