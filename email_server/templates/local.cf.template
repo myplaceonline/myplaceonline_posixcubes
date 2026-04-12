@@ -647,32 +647,92 @@ score BLACKLIST209 12
 header BLACKLIST210 Subject =~ /Important FedEx Update/i
 score BLACKLIST210 12
 
-header BLACKLIST211 Subject =~ /XXXYYYZZZ/i
+header BLACKLIST211 Subject =~ /The End Of Dementia/i
 score BLACKLIST211 12
 
-header BLACKLIST212 Subject =~ /XXXYYYZZZ/i
+header BLACKLIST212 Subject =~ /advertisement for your business/i
 score BLACKLIST212 12
 
-header BLACKLIST213 Subject =~ /XXXYYYZZZ/i
+header BLACKLIST213 Subject =~ /parcel lost, returned to sender/i
 score BLACKLIST213 12
 
-header BLACKLIST214 Subject =~ /XXXYYYZZZ/i
+header BLACKLIST214 Subject =~ /parcel lost or returned sender/i
 score BLACKLIST214 12
 
-header BLACKLIST215 Subject =~ /XXXYYYZZZ/i
+header BLACKLIST215 Subject =~ /returned to sender or possibly lost/i
 score BLACKLIST215 12
 
-header BLACKLIST216 Subject =~ /XXXYYYZZZ/i
+header BLACKLIST216 Subject =~ /lost parcel or returned/i
 score BLACKLIST216 12
 
-header BLACKLIST217 Subject =~ /XXXYYYZZZ/i
+header BLACKLIST217 Subject =~ /Subject: Your plan has expired/i
 score BLACKLIST217 12
 
-header BLACKLIST218 Subject =~ /XXXYYYZZZ/i
+header BLACKLIST218 Subject =~ /FedEx Delivery Update/i
 score BLACKLIST218 12
 
-header BLACKLIST219 Subject =~ /XXXYYYZZZ/i
+header BLACKLIST219 Subject =~ /Subject: We could not process your payment/i
 score BLACKLIST219 12
+
+header BLACKLIST220 Subject =~ /package lost or sent back to sender/i
+score BLACKLIST220 12
+
+header BLACKLIST221 Subject =~ /lost parcel or return to sender/i
+score BLACKLIST221 12
+
+header BLACKLIST222 Subject =~ /Parcel returned or lost/i
+score BLACKLIST222 12
+
+header BLACKLIST223 Subject =~ /Subject: Your account is scheduled for closure/i
+score BLACKLIST223 12
+
+header BLACKLIST224 Subject =~ /Parcel Lost or Returned to Sender/i
+score BLACKLIST224 12
+
+header BLACKLIST225 Subject =~ /your package was lost or returned/i
+score BLACKLIST225 12
+
+header BLACKLIST226 Subject =~ /pIan/i
+score BLACKLIST226 12
+
+header BLACKLIST227 Subject =~ /FedEx package delivery update/i
+score BLACKLIST227 12
+
+header BLACKLIST228 Subject =~ /package was lost or returned/i
+score BLACKLIST228 12
+
+header BLACKLIST229 Subject =~ /The Exact Gelatin Protocol/i
+score BLACKLIST229 12
+
+header BLACKLIST230 Subject =~ /XXXYYYZZZ/i
+score BLACKLIST230 12
+
+header BLACKLIST231 Subject =~ /XXXYYYZZZ/i
+score BLACKLIST231 12
+
+header BLACKLIST232 Subject =~ /XXXYYYZZZ/i
+score BLACKLIST232 12
+
+header BLACKLIST233 Subject =~ /XXXYYYZZZ/i
+score BLACKLIST233 12
+
+header BLACKLIST234 Subject =~ /XXXYYYZZZ/i
+score BLACKLIST234 12
+
+header BLACKLIST235 Subject =~ /XXXYYYZZZ/i
+score BLACKLIST235 12
+
+header BLACKLIST236 Subject =~ /XXXYYYZZZ/i
+score BLACKLIST236 12
+
+header BLACKLIST237 Subject =~ /XXXYYYZZZ/i
+score BLACKLIST237 12
+
+header BLACKLIST238 Subject =~ /XXXYYYZZZ/i
+score BLACKLIST238 12
+
+header BLACKLIST239 Subject =~ /XXXYYYZZZ/i
+score BLACKLIST239 12
 
 header   FH_DATE_PAST_202X      Date =~ /202[7-9]/ [if-unset: 2006]
 score FH_DATE_PAST_202X 12
