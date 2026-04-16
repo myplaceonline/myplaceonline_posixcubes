@@ -704,35 +704,125 @@ score BLACKLIST228 12
 header BLACKLIST229 Subject =~ /The Exact Gelatin Protocol/i
 score BLACKLIST229 12
 
-header BLACKLIST230 Subject =~ /XXXYYYZZZ/i
+header BLACKLIST230 Subject =~ /Drivers from AAA/i
 score BLACKLIST230 12
 
-header BLACKLIST231 Subject =~ /XXXYYYZZZ/i
+header BLACKLIST231 Subject =~ /parcel lost or being/i
 score BLACKLIST231 12
 
-header BLACKLIST232 Subject =~ /XXXYYYZZZ/i
+header BLACKLIST232 Subject =~ /AAA Drivers/i
 score BLACKLIST232 12
 
-header BLACKLIST233 Subject =~ /XXXYYYZZZ/i
+header BLACKLIST233 Subject =~ /Your safety kit is ready/i
 score BLACKLIST233 12
 
-header BLACKLIST234 Subject =~ /XXXYYYZZZ/i
+header BLACKLIST234 Subject =~ /Your Delivery From FedEx/i
 score BLACKLIST234 12
 
-header BLACKLIST235 Subject =~ /XXXYYYZZZ/i
+header BLACKLIST235 Subject =~ /Lost Package Delivery Update/i
 score BLACKLIST235 12
 
-header BLACKLIST236 Subject =~ /XXXYYYZZZ/i
+header BLACKLIST236 Subject =~ /Critical: Payment Failure Affecting Your Account/i
 score BLACKLIST236 12
 
-header BLACKLIST237 Subject =~ /XXXYYYZZZ/i
+header BLACKLIST237 Subject =~ /Road Courtesy Kit/i
 score BLACKLIST237 12
 
-header BLACKLIST238 Subject =~ /XXXYYYZZZ/i
+header BLACKLIST238 Subject =~ /injured after using a Pressure/i
 score BLACKLIST238 12
 
-header BLACKLIST239 Subject =~ /XXXYYYZZZ/i
+header BLACKLIST239 Subject =~ /Courtesy Road Kit/i
 score BLACKLIST239 12
+
+header BLACKLIST240 Subject =~ /Billing Error Detected - Action Needed Immediately/i
+score BLACKLIST240 12
+
+header BLACKLIST241 Subject =~ /Change Was Made to Your FedEx Delivery/i
+score BLACKLIST241 12
+
+header BLACKLIST242 Subject =~ /Subject: Status Change: INACTIVE/i
+score BLACKLIST242 12
+
+header BLACKLIST243 Subject =~ /Road Essentials Kit/i
+score BLACKLIST243 12
+
+header BLACKLIST244 Subject =~ /Angle: Cloud Disabled/i
+score BLACKLIST244 12
+
+header BLACKLIST245 Subject =~ /From: Account Services/i
+score BLACKLIST245 12
+
+header BLACKLIST246 Subject =~ /SiriusXM/i
+score BLACKLIST246 12
+
+header BLACKLIST247 Subject =~ /FedEx Shipment Has Been/i
+score BLACKLIST247 12
+
+header BLACKLIST248 Subject =~ /Don't wait, help unlock what's next/i
+score BLACKLIST248 12
+
+header BLACKLIST249 Subject =~ /Get Cash In 10 Minutes/i
+score BLACKLIST249 12
+
+header BLACKLIST250 Subject =~ /Your delivery update from FedEx/i
+score BLACKLIST250 12
+
+header BLACKLIST251 Subject =~ /Updated FedEx delivery information for you/i
+score BLACKLIST251 12
+
+header BLACKLIST252 Subject =~ /From: Cloud Backup/i
+score BLACKLIST252 12
+
+header BLACKLIST253 Subject =~ /Gelatin For Fat Loss/i
+score BLACKLIST253 12
+
+header BLACKLIST254 Subject =~ /Updated: Your FedEx/i
+score BLACKLIST254 12
+
+header BLACKLIST255 Subject =~ /stubborn phlegm/i
+score BLACKLIST255 12
+
+header BLACKLIST256 Subject =~ /Critical: Payment Failure/i
+score BLACKLIST256 12
+
+header BLACKLIST257 Subject =~ /Final Notice: Your Storage Access/i
+score BLACKLIST257 12
+
+header BLACKLIST258 Subject =~ /STAY hard/
+score BLACKLIST258 12
+
+header BLACKLIST259 Subject =~ /Luxury Bags from/i
+score BLACKLIST259 12
+
+header BLACKLIST260 Subject =~ /XXXYYYZZZ/i
+score BLACKLIST260 12
+
+header BLACKLIST261 Subject =~ /XXXYYYZZZ/i
+score BLACKLIST261 12
+
+header BLACKLIST262 Subject =~ /XXXYYYZZZ/i
+score BLACKLIST262 12
+
+header BLACKLIST263 Subject =~ /XXXYYYZZZ/i
+score BLACKLIST263 12
+
+header BLACKLIST264 Subject =~ /XXXYYYZZZ/i
+score BLACKLIST264 12
+
+header BLACKLIST265 Subject =~ /XXXYYYZZZ/i
+score BLACKLIST265 12
+
+header BLACKLIST266 Subject =~ /XXXYYYZZZ/i
+score BLACKLIST266 12
+
+header BLACKLIST267 Subject =~ /XXXYYYZZZ/i
+score BLACKLIST267 12
+
+header BLACKLIST268 Subject =~ /XXXYYYZZZ/i
+score BLACKLIST268 12
+
+header BLACKLIST269 Subject =~ /XXXYYYZZZ/i
+score BLACKLIST269 12
 
 header   FH_DATE_PAST_202X      Date =~ /202[7-9]/ [if-unset: 2006]
 score FH_DATE_PAST_202X 12
