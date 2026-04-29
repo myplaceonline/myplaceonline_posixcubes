@@ -848,41 +848,101 @@ score BLACKLIST276 12
 header BLACKLIST277 Subject =~ /Omaha Steak/i
 score BLACKLIST277 12
 
-header BLACKLIST278 Subject =~ /XXXYYYZZZ/i
+header BLACKLIST278 Subject =~ /YETI/
 score BLACKLIST278 12
 
-header BLACKLIST279 Subject =~ /XXXYYYZZZ/i
+header BLACKLIST279 Subject =~ /membership with 100.00/i
 score BLACKLIST279 12
 
-header BLACKLIST280 Subject =~ /XXXYYYZZZ/i
+header BLACKLIST280 Subject =~ /1,000 chance to win/i
 score BLACKLIST280 12
 
-header BLACKLIST281 Subject =~ /XXXYYYZZZ/i
+header BLACKLIST281 Subject =~ /casino leads/i
 score BLACKLIST281 12
 
-header BLACKLIST282 Subject =~ /XXXYYYZZZ/i
+header BLACKLIST282 Subject =~ /100.00 Sam/i
 score BLACKLIST282 12
 
-header BLACKLIST283 Subject =~ /XXXYYYZZZ/i
+header BLACKLIST283 Subject =~ /Your Recent Visit Unlocked/i
 score BLACKLIST283 12
 
-header BLACKLIST284 Subject =~ /XXXYYYZZZ/i
+header BLACKLIST284 Subject =~ /Camping Set Confirmation Pending/i
 score BLACKLIST284 12
 
-header BLACKLIST285 Subject =~ /XXXYYYZZZ/i
+header BLACKLIST285 Subject =~ /Your Nike Delivery/i
 score BLACKLIST285 12
 
-header BLACKLIST286 Subject =~ /XXXYYYZZZ/i
+header BLACKLIST286 Subject =~ /Your account membership credit/i
 score BLACKLIST286 12
 
-header BLACKLIST287 Subject =~ /XXXYYYZZZ/i
+header BLACKLIST287 Subject =~ /Your Nike Air/i
 score BLACKLIST287 12
 
-header BLACKLIST288 Subject =~ /XXXYYYZZZ/i
+header BLACKLIST288 Subject =~ /auto repair bills/i
 score BLACKLIST288 12
 
-header BLACKLIST289 Subject =~ /XXXYYYZZZ/i
+header BLACKLIST289 Subject =~ /Your profile indicates you may have access/i
 score BLACKLIST289 12
+
+header BLACKLIST290 Subject =~ /Your complimentary road kit eligibility/i
+score BLACKLIST290 12
+
+header BLACKLIST291 Subject =~ /You were chosen for this brief survey/i
+score BLACKLIST291 12
+
+header BLACKLIST292 Subject =~ /access to an iPhone/i
+score BLACKLIST292 12
+
+header BLACKLIST293 Subject =~ /complimentary road kit/i
+score BLACKLIST293 12
+
+header BLACKLIST294 Subject =~ /AAA Road Kit/i
+score BLACKLIST294 12
+
+header BLACKLIST295 Subject =~ /Account Notice: Payment Required to Maintain Service/i
+score BLACKLIST295 12
+
+header BLACKLIST296 Subject =~ /Your Cart Note Today/i
+score BLACKLIST296 12
+
+header BLACKLIST297 Subject =~ /Trick Stops Vertigo/i
+score BLACKLIST297 12
+
+header BLACKLIST298 Subject =~ /The eligible items in your order ship today/i
+score BLACKLIST298 12
+
+header BLACKLIST299 Subject =~ /Your Ring Doorbell/i
+score BLACKLIST299 12
+
+header BLACKLIST300 Subject =~ /may save you money/i
+score BLACKLIST300 12
+
+header BLACKLIST301 Subject =~ /XXXYYYZZZ/i
+score BLACKLIST301 12
+
+header BLACKLIST302 Subject =~ /XXXYYYZZZ/i
+score BLACKLIST302 12
+
+header BLACKLIST303 Subject =~ /XXXYYYZZZ/i
+score BLACKLIST303 12
+
+header BLACKLIST304 Subject =~ /XXXYYYZZZ/i
+score BLACKLIST304 12
+
+header BLACKLIST305 Subject =~ /XXXYYYZZZ/i
+score BLACKLIST305 12
+
+header BLACKLIST306 Subject =~ /XXXYYYZZZ/i
+score BLACKLIST306 12
+
+header BLACKLIST307 Subject =~ /XXXYYYZZZ/i
+score BLACKLIST307 12
+
+header BLACKLIST308 Subject =~ /XXXYYYZZZ/i
+score BLACKLIST308 12
+
+header BLACKLIST309 Subject =~ /XXXYYYZZZ/i
+score BLACKLIST309 12
 
 header   FH_DATE_PAST_202X      Date =~ /202[7-9]/ [if-unset: 2006]
 score FH_DATE_PAST_202X 12
