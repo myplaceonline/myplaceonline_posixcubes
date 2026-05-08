@@ -917,32 +917,452 @@ score BLACKLIST299 12
 header BLACKLIST300 Subject =~ /may save you money/i
 score BLACKLIST300 12
 
-header BLACKLIST301 Subject =~ /XXXYYYZZZ/i
+header BLACKLIST301 Subject =~ /Recent Visit Unlocked These Items/i
 score BLACKLIST301 12
 
-header BLACKLIST302 Subject =~ /XXXYYYZZZ/i
+header BLACKLIST302 Subject =~ /A meal plan/i
 score BLACKLIST302 12
 
-header BLACKLIST303 Subject =~ /XXXYYYZZZ/i
+header BLACKLIST303 Subject =~ /HelloFresh/i
 score BLACKLIST303 12
 
-header BLACKLIST304 Subject =~ /XXXYYYZZZ/i
+header BLACKLIST304 Subject =~ /unlock Nike/i
 score BLACKLIST304 12
 
-header BLACKLIST305 Subject =~ /XXXYYYZZZ/i
+header BLACKLIST305 Subject =~ /from Nike /i
 score BLACKLIST305 12
 
-header BLACKLIST306 Subject =~ /XXXYYYZZZ/i
+header BLACKLIST306 Subject =~ /Reward waiting for you,/i
 score BLACKLIST306 12
 
-header BLACKLIST307 Subject =~ /XXXYYYZZZ/i
+header BLACKLIST307 Subject =~ /Is Making Headlines/i
 score BLACKLIST307 12
 
-header BLACKLIST308 Subject =~ /XXXYYYZZZ/i
+header BLACKLIST308 Subject =~ /SAME SAME BUT DIFFERENT/i
 score BLACKLIST308 12
 
-header BLACKLIST309 Subject =~ /XXXYYYZZZ/i
+header BLACKLIST309 Subject =~ /Can You Spare Two Minutes/i
 score BLACKLIST309 12
+
+header BLACKLIST310 Subject =~ /Improve Joint Mobility/i
+score BLACKLIST310 12
+
+header BLACKLIST311 Subject =~ /20 vision is possible/i
+score BLACKLIST311 12
+
+header BLACKLIST312 Subject =~ /selected shoppers are completing/i
+score BLACKLIST312 12
+
+header BLACKLIST313 Subject =~ /Your home security/i
+score BLACKLIST313 12
+
+header BLACKLIST314 Subject =~ /No wires. No mechanics/i
+score BLACKLIST314 12
+
+header BLACKLIST315 Subject =~ /a security camera that hides itself/i
+score BLACKLIST315 12
+
+header BLACKLIST316 Subject =~ /Cuban Bracelet/i
+score BLACKLIST316 12
+
+header BLACKLIST317 Subject =~ /Simple Morning Habit/i
+score BLACKLIST317 12
+
+header BLACKLIST318 Subject =~ /Your survey invite is still available/i
+score BLACKLIST318 12
+
+header BLACKLIST319 Subject =~ /Vacay Mode/i
+score BLACKLIST319 12
+
+header BLACKLIST320 Subject =~ /Better than Lasik/i
+score BLACKLIST320 12
+
+header BLACKLIST321 Subject =~ /Members keep more value by renewing/i
+score BLACKLIST321 12
+
+header BLACKLIST322 Subject =~ /Letzter Aufruf/i
+score BLACKLIST322 12
+
+header BLACKLIST323 Subject =~ /new approach to memory health/i
+score BLACKLIST323 12
+
+header BLACKLIST324 Subject =~ /cancer patients had this in common/i
+score BLACKLIST324 12
+
+header BLACKLIST325 Subject =~ /Endurance Warranty/i
+score BLACKLIST325 12
+
+header BLACKLIST326 Subject =~ /Last day today for your response/i
+score BLACKLIST326 12
+
+header BLACKLIST327 Subject =~ /reverse nerve pain/i
+score BLACKLIST327 12
+
+header BLACKLIST328 Subject =~ /Your final chance to claim the/i
+score BLACKLIST328 12
+
+header BLACKLIST329 Subject =~ /toenail fungus/i
+score BLACKLIST329 12
+
+header BLACKLIST330 Subject =~ /Liquid joint replacement/i
+score BLACKLIST330 12
+
+header BLACKLIST331 Subject =~ /UNCLOG your prostate/i
+score BLACKLIST331 12
+
+header BLACKLIST332 Subject =~ /process your Spotify Premium payment/i
+score BLACKLIST332 12
+
+header BLACKLIST333 Subject =~ /your survey invite/i
+score BLACKLIST333 12
+
+header BLACKLIST334 Subject =~ /Ready to take back your evenings/i
+score BLACKLIST334 12
+
+header BLACKLIST335 Subject =~ /survey access was opened for you/i
+score BLACKLIST335 12
+
+header BLACKLIST336 Subject =~ /hates this video/i
+score BLACKLIST336 12
+
+header BLACKLIST337 Subject =~ /selected from AAA/i
+score BLACKLIST337 12
+
+header BLACKLIST338 Subject =~ /Your Gear Score/i
+score BLACKLIST338 12
+
+header BLACKLIST339 Subject =~ /We Selected This Reward for You/i
+score BLACKLIST339 12
+
+header BLACKLIST340 Subject =~ /Your tactical gear shipment/i
+score BLACKLIST340 12
+
+header BLACKLIST341 Subject =~ /with this simple driving/i
+score BLACKLIST341 12
+
+header BLACKLIST342 Subject =~ /Shopping Cart and Its Validity/i
+score BLACKLIST342 12
+
+header BLACKLIST343 Subject =~ /with big potential savings/i
+score BLACKLIST343 12
+
+header BLACKLIST344 Subject =~ /New protocol for fading/i
+score BLACKLIST344 12
+
+header BLACKLIST345 Subject =~ /Kobalt Tool set/i
+score BLACKLIST345 12
+
+header BLACKLIST346 Subject =~ /Shipment update from Lowe/i
+score BLACKLIST346 12
+
+header BLACKLIST347 Subject =~ /trick going viral/i
+score BLACKLIST347 12
+
+header BLACKLIST348 Subject =~ /from Endurance/i
+score BLACKLIST348 12
+
+header BLACKLIST349 Subject =~ /Re: Your account membership balance update/i
+score BLACKLIST349 12
+
+header BLACKLIST350 Subject =~ /Your eligible items are headed out today/i
+score BLACKLIST350 12
+
+header BLACKLIST351 Subject =~ /Complimentary iPhone/i
+score BLACKLIST351 12
+
+header BLACKLIST352 Subject =~ /IglooCooler/i
+score BLACKLIST352 12
+
+header BLACKLIST353 Subject =~ /Before your points expire today convert them/i
+score BLACKLIST353 12
+
+header BLACKLIST354 Subject =~ /The natural vision loop/i
+score BLACKLIST354 12
+
+header BLACKLIST355 Subject =~ /Scotty Cameron/i
+score BLACKLIST355 12
+
+header BLACKLIST356 Subject =~ /to fix your eyes/i
+score BLACKLIST356 12
+
+header BLACKLIST357 Subject =~ /Your storage plan is suspended/i
+score BLACKLIST357 12
+
+header BLACKLIST358 Subject =~ /Grab Your Reward While/i
+score BLACKLIST358 12
+
+header BLACKLIST359 Subject =~ /Use your promo soon/i
+score BLACKLIST359 12
+
+header BLACKLIST360 Subject =~ /Upgrade You Didn't Expect/i
+score BLACKLIST360 12
+
+header BLACKLIST361 Subject =~ /woodworking plans/i
+score BLACKLIST361 12
+
+header BLACKLIST362 Subject =~ /tricks to last longer/i
+score BLACKLIST362 12
+
+header BLACKLIST363 Subject =~ /Re: About your requirement/i
+score BLACKLIST363 12
+
+header BLACKLIST364 Subject =~ / Nike Order/i
+score BLACKLIST364 12
+
+header BLACKLIST365 Subject =~ /Staring at screens all day/i
+score BLACKLIST365 12
+
+header BLACKLIST366 Subject =~ /roadside assistance/i
+score BLACKLIST366 12
+
+header BLACKLIST367 Subject =~ /Unlock Business Potential/i
+score BLACKLIST367 12
+
+header BLACKLIST368 Subject =~ /Botox/i
+score BLACKLIST368 12
+
+header BLACKLIST369 Subject =~ /Your cart is ready/i
+score BLACKLIST369 12
+
+header BLACKLIST370 Subject =~ /Cuban Chain/i
+score BLACKLIST370 12
+
+header BLACKLIST371 Subject =~ /Lowes/i
+score BLACKLIST371 12
+
+header BLACKLIST372 Subject =~ /Fuel Business Success/i
+score BLACKLIST372 12
+
+header BLACKLIST373 Subject =~ /Stop buying glasses/i
+score BLACKLIST373 12
+
+header BLACKLIST374 Subject =~ /Use Claude for/i
+score BLACKLIST374 12
+
+header BLACKLIST375 Subject =~ /Patients recover vision in weeks/i
+score BLACKLIST375 12
+
+header BLACKLIST376 Subject =~ /Latest Refinance Rate/i
+score BLACKLIST376 12
+
+header BLACKLIST377 Subject =~ /Why your eye doctor is wrong/i
+score BLACKLIST377 12
+
+header BLACKLIST378 Subject =~ /You Won't Believe What We're/i
+score BLACKLIST378 12
+
+header BLACKLIST379 Subject =~ /Your trailer is reserved/i
+score BLACKLIST379 12
+
+header BLACKLIST380 Subject =~ /Service Update: Automatic Renewal Notification/i
+score BLACKLIST380 12
+
+header BLACKLIST381 Subject =~ /Harvard discovery restores/i
+score BLACKLIST381 12
+
+header BLACKLIST382 Subject =~ /Your .... account benefit/i
+score BLACKLIST382 12
+
+header BLACKLIST383 Subject =~ /convert your points today/i
+score BLACKLIST383 12
+
+header BLACKLIST384 Subject =~ /Complimentary shipping today/i
+score BLACKLIST384 12
+
+header BLACKLIST385 Subject =~ /Walmary/i
+score BLACKLIST385 12
+
+header BLACKLIST386 Subject =~ /The real reason your ears/i
+score BLACKLIST386 12
+
+header BLACKLIST387 Subject =~ /Your items eligible go out on today/i
+score BLACKLIST387 12
+
+header BLACKLIST388 Subject =~ / KOBALT /i
+score BLACKLIST388 12
+
+header BLACKLIST389 Subject =~ /The Video Everyone Is Talking About/i
+score BLACKLIST389 12
+
+header BLACKLIST390 Subject =~ /dispatched your iPhone/i
+score BLACKLIST390 12
+
+header BLACKLIST391 Subject =~ /1,000 matching donation/i
+score BLACKLIST391 12
+
+header BLACKLIST392 Subject =~ /shipping out your iPhone/i
+score BLACKLIST392 12
+
+header BLACKLIST393 Subject =~ /Renew to resume backing up your files/i
+score BLACKLIST393 12
+
+header BLACKLIST394 Subject =~ /improve gut health/i
+score BLACKLIST394 12
+
+header BLACKLIST395 Subject =~ /Refinance Rate Drop/i
+score BLACKLIST395 12
+
+header BLACKLIST396 Subject =~ /Endurance coverage/i
+score BLACKLIST396 12
+
+header BLACKLIST397 Subject =~ /Bass Pro has it/i
+score BLACKLIST397 12
+
+header BLACKLIST398 Subject =~ /cIaim/i
+score BLACKLIST398 12
+
+header BLACKLIST399 Subject =~ /Your Subscription Has Been Updated Successfully/i
+score BLACKLIST399 12
+
+header BLACKLIST400 Subject =~ /1 spoonful/i
+score BLACKLIST400 12
+
+header BLACKLIST401 Subject =~ /Complimentry iPhone/i
+score BLACKLIST401 12
+
+header BLACKLIST402 Subject =~ /Your eligible products are on the way/i
+score BLACKLIST402 12
+
+header BLACKLIST403 Subject =~ /Kevin, still want this/i
+score BLACKLIST403 12
+
+header BLACKLIST404 Subject =~ /A quick update about the shipment/i
+score BLACKLIST404 12
+
+header BLACKLIST405 Subject =~ / Yeti /i
+score BLACKLIST405 12
+
+header BLACKLIST406 Subject =~ /Reach Decision Makers Directly/i
+score BLACKLIST406 12
+
+header BLACKLIST407 Subject =~ / Ace points/i
+score BLACKLIST407 12
+
+header BLACKLIST408 Subject =~ /Ace Hardware/i
+score BLACKLIST408 12
+
+header BLACKLIST409 Subject =~ /Your Files Are Pending Deletion/i
+score BLACKLIST409 12
+
+header BLACKLIST410 Subject =~ /Today only:/i
+score BLACKLIST410 12
+
+header BLACKLIST411 Subject =~ /Slatington/i
+score BLACKLIST411 12
+
+header BLACKLIST412 Subject =~ /Himalayan ritual/i
+score BLACKLIST412 12
+
+header BLACKLIST413 Subject =~ /Download this money/i
+score BLACKLIST413 12
+
+header BLACKLIST414 Subject =~ /Dental Antibiotic/i
+score BLACKLIST414 12
+
+header BLACKLIST415 Subject =~ /Simple Salt Water/i
+score BLACKLIST415 12
+
+header BLACKLIST416 Subject =~ /receiving iPhone/i
+score BLACKLIST416 12
+
+header BLACKLIST417 Subject =~ /Perfect Watch/i
+score BLACKLIST417 12
+
+header BLACKLIST418 Subject =~ /Please help us locate your/i
+score BLACKLIST418 12
+
+header BLACKLIST419 Subject =~ /at your table, waiting for/i
+score BLACKLIST419 12
+
+header BLACKLIST420 Subject =~ /Cheesecake Factory/i
+score BLACKLIST420 12
+
+header BLACKLIST421 Subject =~ /TheWaltCompany/i
+score BLACKLIST421 12
+
+header BLACKLIST422 Subject =~ /Pittsburgh Tool/i
+score BLACKLIST422 12
+
+header BLACKLIST423 Subject =~ / Nike /i
+score BLACKLIST423 12
+
+header BLACKLIST424 Subject =~ /your package was lost/i
+score BLACKLIST424 12
+
+header BLACKLIST425 Subject =~ /Complete Your 60-Second/i
+score BLACKLIST425 12
+
+header BLACKLIST426 Subject =~ /Your shopping card valid through/i
+score BLACKLIST426 12
+
+header BLACKLIST427 Subject =~ /Visit unlocked membership insights/i
+score BLACKLIST427 12
+
+header BLACKLIST428 Subject =~ /What to do next if your package was lost/i
+score BLACKLIST428 12
+
+header BLACKLIST429 Subject =~ /attempting to locate your shipment/i
+score BLACKLIST429 12
+
+header BLACKLIST430 Subject =~ /One stop solution/i
+score BLACKLIST430 12
+
+header BLACKLIST431 Subject =~ /Enquiry For Website/i
+score BLACKLIST431 12
+
+header BLACKLIST432 Subject =~ /Lowe's/i
+score BLACKLIST432 12
+
+header BLACKLIST433 Subject =~ /XXXYYYZZZ/i
+score BLACKLIST433 12
+
+header BLACKLIST434 Subject =~ /XXXYYYZZZ/i
+score BLACKLIST434 12
+
+header BLACKLIST435 Subject =~ /XXXYYYZZZ/i
+score BLACKLIST435 12
+
+header BLACKLIST436 Subject =~ /XXXYYYZZZ/i
+score BLACKLIST436 12
+
+header BLACKLIST437 Subject =~ /XXXYYYZZZ/i
+score BLACKLIST437 12
+
+header BLACKLIST438 Subject =~ /XXXYYYZZZ/i
+score BLACKLIST438 12
+
+header BLACKLIST439 Subject =~ /XXXYYYZZZ/i
+score BLACKLIST439 12
+
+header BLACKLIST440 Subject =~ /XXXYYYZZZ/i
+score BLACKLIST440 12
+
+header BLACKLIST441 Subject =~ /XXXYYYZZZ/i
+score BLACKLIST441 12
+
+header BLACKLIST442 Subject =~ /XXXYYYZZZ/i
+score BLACKLIST442 12
+
+header BLACKLIST443 Subject =~ /XXXYYYZZZ/i
+score BLACKLIST443 12
+
+header BLACKLIST444 Subject =~ /XXXYYYZZZ/i
+score BLACKLIST444 12
+
+header BLACKLIST445 Subject =~ /XXXYYYZZZ/i
+score BLACKLIST445 12
+
+header BLACKLIST446 Subject =~ /XXXYYYZZZ/i
+score BLACKLIST446 12
+
+header BLACKLIST447 Subject =~ /XXXYYYZZZ/i
+score BLACKLIST447 12
+
+header BLACKLIST448 Subject =~ /XXXYYYZZZ/i
+score BLACKLIST448 12
+
+header BLACKLIST449 Subject =~ /XXXYYYZZZ/i
+score BLACKLIST449 12
 
 header   FH_DATE_PAST_202X      Date =~ /202[7-9]/ [if-unset: 2006]
 score FH_DATE_PAST_202X 12
