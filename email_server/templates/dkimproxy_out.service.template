@@ -1,0 +1,12 @@
+[Unit]
+Description=DKIM Outbound Proxy
+After=opensmtpd.service
+
+[Service]
+Type=simple
+PIDFile=/usr/local/dkimproxy/var/run/dkimproxy_out.pid
+ExecStart=/usr/local/dkimproxy/bin/dkimproxy.sh start-out
+ExecStop=/usr/local/dkimproxy/bin/dkimproxy.sh stop-out
+
+[Install]
+WantedBy=multi-user.target

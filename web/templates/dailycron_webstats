@@ -1,0 +1,2 @@
+#!/bin/sh
+journalctl --since "24 hours ago" -u nginx | awk '/Myp.log_response_time MyplaceonlineRack.call/ && $14 > 100 && !/crontab/ { gsub(/.*>"/, "", $16); gsub(/",$/, "", $16); print $14, $16, $1, $2, $3, $4; }' | sort -nr | head -50 | mail -s "Slowest Requests for $(hostname)" -r root@myplaceonline.com kevin@myplaceonline.com

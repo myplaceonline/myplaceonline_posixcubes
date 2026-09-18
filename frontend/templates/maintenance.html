@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Maintenance</title>
+    <meta charset="UTF-8">
+  </head>
+  <body>
+    <div data-uniqueid="maintenance" data-role="page" data-url="https://myplaceonline.com">
+      <script>
+        function addCSS(cssText) {
+          var css = document.createElement("style");
+          css.type = "text/css";
+          css.innerHTML = cssText;
+          document.body.appendChild(css);
+        }
+        
+        if (window.jQuery) {
+          // If jQuery exists, assume we're in the phonegap app
+          addCSS("#preheader { display: none; } #maintenance_content { text-align: center; }");
+        } else {
+          addCSS("#maintenance_header, #maintenance_refresh_button { display: none; }");
+        }
+      </script>
+      <div id="maintenance_header" data-role="header">
+        <h1>Maintenance</h1>
+      </div>
+      <div id="maintenance_content" role="main" class="ui-content">
+        <p>Site under maintenance. Please try again after some time.</p>
+        <p><a class="ui-btn" id="maintenance_refresh_button">Retry</a></p>
+        <script>
+          if (window.jQuery) {
+            if (!window.hasAttachedMaintenanceRefresh) {
+              window.hasAttachedMaintenanceRefresh = true;
+              $(document).on("click", "#maintenance_refresh_button", function() {
+                app.navigate("/?phonegap=true");
+                return false;
+              });
+            }
+          }
+        </script>
+      </div>
+    </div>
+  </body>
+</html>

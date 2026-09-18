@@ -1,0 +1,24 @@
+# specify what address/port DKIMproxy should listen on
+listen    127.0.0.1:10027
+
+# specify what address/port DKIMproxy forwards mail to
+relay     127.0.0.1:10028
+
+# specify what domains DKIMproxy can sign for (comma-separated, no spaces)
+domain    ${cubevar_app_email_dkim_domains}
+
+# specify what signatures to add
+signature dkim(c=relaxed)
+signature domainkeys(c=nofws)
+
+# specify location of the private key
+keyfile   /usr/local/dkimproxy/etc/private.key
+
+# specify the selector (i.e. the name of the key record put in DNS)
+selector  selectormyplaceonline
+
+# control how many processes DKIMproxy uses
+#  - more information on these options (and others) can be found by
+#    running `perldoc Net::Server::PreFork'.
+#min_servers 5
+#min_spare_servers 2

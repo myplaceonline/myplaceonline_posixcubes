@@ -1,0 +1,2 @@
+#!/bin/sh
+/opt/basics.sh 2>&1 | mail -s "Daily: $(hostname)" -r root@myplaceonline.com kevin@myplaceonline.com

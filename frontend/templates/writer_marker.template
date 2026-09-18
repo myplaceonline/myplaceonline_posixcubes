@@ -1,0 +1,2 @@
+#!/bin/sh
+${cubevar_app_nginx_write_marker}

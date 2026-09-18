@@ -1,0 +1,76 @@
+global
+    log         127.0.0.1 local2
+
+    chroot      /var/lib/haproxy
+    pidfile     /var/run/haproxy.pid
+    maxconn     4000
+    user        haproxy
+    group       haproxy
+    daemon
+
+    # turn on stats unix socket
+    stats socket /var/lib/haproxy/stats
+    
+    # https://weakdh.org/sysadmin.html#haproxy
+    ssl-default-bind-ciphers ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256:DHE-DSS-AES128-GCM-SHA256:kEDH+AESGCM:ECDHE-RSA-AES128-SHA256:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA:ECDHE-ECDSA-AES128-SHA:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA:ECDHE-ECDSA-AES256-SHA:DHE-RSA-AES128-SHA256:DHE-RSA-AES128-SHA:DHE-DSS-AES128-SHA256:DHE-RSA-AES256-SHA256:DHE-DSS-AES256-SHA:DHE-RSA-AES256-SHA:AES128-GCM-SHA256:AES256-GCM-SHA384:AES128-SHA256:AES256-SHA256:AES128-SHA:AES256-SHA:AES:CAMELLIA:DES-CBC3-SHA:!aNULL:!eNULL:!EXPORT:!DES:!RC4:!MD5:!PSK:!aECDH:!EDH-DSS-DES-CBC3-SHA:!EDH-RSA-DES-CBC3-SHA:!KRB5-DES-CBC3-SHA
+
+#---------------------------------------------------------------------
+# common defaults that all the 'listen' and 'backend' sections will
+# use if not designated in their block
+#---------------------------------------------------------------------
+defaults
+    mode                    http
+    log                     global
+    option                  httplog
+    option                  dontlognull
+    option http-server-close
+    option forwardfor       except 127.0.0.0/8
+    option                  redispatch
+    retries                 1
+    timeout http-request    360s
+    timeout queue           5s
+    timeout connect         5s
+    timeout client          360s
+    timeout server          360s
+    timeout http-keep-alive 10s
+    timeout check           10s
+    maxconn                 3000
+
+listen internaladmin
+    bind 127.0.0.1:9444
+    stats enable
+    stats uri /
+    
+    # telegraf is constantly getting stats which pollutes the logs
+    http-request set-log-level silent
+
+#---------------------------------------------------------------------
+# backends
+#---------------------------------------------------------------------
+backend servers
+    balance     roundrobin
+    
+    # Usually we don't need server affinity but there are cases where a user makes a request to a newly updated server
+    # which references an asset with a hash that only the new build has; however, the browser's request for that asset
+    # might go to the old server if it doesn't re-use an existing socket.
+    #cookie SERVERID insert nocache preserve
+  
+    http-request set-header X-Forwarded-Proto https if { ssl_fc }
+    #http-response set-header Strict-Transport-Security max-age=31536000;\ includeSubDomains;\ preload;
+    
+    # http://serverfault.com/a/777764/363770
+${cubevar_app_haproxy_servers_bypass}
+
+    # http://www.haproxy.org/download/1.6/doc/configuration.txt
+    # 5.2. Server and default-server options
+${cubevar_app_haproxy_servers}
+  
+    server maintenance 127.0.0.1:81 backup
+
+backend letsencrypt
+    mode http
+    server letsencrypt 127.0.0.1:9999
+
+backend static_backend
+    server static_server1 127.0.0.1:81
+

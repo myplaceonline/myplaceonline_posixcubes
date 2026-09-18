@@ -1,0 +1,70 @@
+# https://man.openbsd.org/smtpd.conf
+
+# Configure Thunderbird:
+#   Incoming: {IMAP, Port: 993, SSL: SSL/TLS, Authentication: Normal password}
+#   Outgoing: {Port: 587, SSL: STARTTLS, Authentication: Normal password}
+
+table aliases file:/etc/mail/aliases
+table domains file:/etc/mail/domains
+table passwd passwd:/etc/mail/passwd
+table users file:/etc/mail/users
+table secrets file:/etc/mail/secrets
+
+smtp max-message-size 100M
+
+pki ${cubevar_app_email_host} cert "/etc/letsencrypt/live/${cubevar_app_email_host}/fullchain.pem"
+pki ${cubevar_app_email_host} key "/etc/letsencrypt/live/${cubevar_app_email_host}/privkey.pem"
+
+listen on lo   port  25 tls pki ${cubevar_app_email_host} auth-optional <passwd>
+listen on eth0 port  25 tls pki ${cubevar_app_email_host} auth-optional <passwd>
+
+listen on lo   port 587 tls-require pki ${cubevar_app_email_host} auth <passwd>
+listen on eth0 port 587 tls-require pki ${cubevar_app_email_host} auth <passwd>
+
+# Only support 587/STARTTLS due to a Thunderbird bug: https://github.com/OpenSMTPD/OpenSMTPD/issues/451
+#listen on lo   port 465 tls-require pki ${cubevar_app_email_host} auth <passwd>
+#listen on eth0 port 465 tls-require pki ${cubevar_app_email_host} auth <passwd>
+
+# DKIM
+listen on lo   port 10028 tag DKIM
+
+# spampd/spamassassin will relay back and we'll tag it with SPAMPD to note it has been processed by SPAMPD
+listen on lo   port 10030 tag SPAMPD
+
+# Accept incoming mail to local users from the local machine:
+action "process_local_mail" lmtp "/run/dovecot/lmtp" rcpt-to alias <aliases>
+match from local for local action "process_local_mail"
+
+# Accept external mail tagged after processing by SPAMPD and put in Dovecot. We don't bother with checking spam of
+# authenticated users relaying mail, so we only worry about incoming spam into Dovecot, so we only configure anti-spam
+# in Dovecot.
+action "process_spampd" lmtp "/run/dovecot/lmtp" rcpt-to virtual <users>
+match tag SPAMPD for domain <domains> action "process_spampd"
+
+# Accept external mail and forward to spampd on port 10029 which will relay it back into us on port 10030
+action "process_relay" relay host smtp://127.0.0.1:10029
+match from any for domain <domains> action "process_relay"
+
+# MX incoming mail will always come in on port 25. We set it to auth-optional so that anybody can send email to the
+# domains specified in <domains> and a matching user specified in <users>; however, only those users that authenticate
+# (on port 25 or 587) can send email through this server (to a relay) because once a user is authenticated, they
+# are treated as a local user:
+# 
+# "Any remote sender that passed SMTPAUTH is treated as if it was the server's local user that was sending the mail.
+#  This means that filter rules using from local will be matched."
+# https://man.openbsd.org/smtpd.conf
+
+# Authenticated outbound mails will come in and forward to the DKIM proxy on port 10027 which will sign with DKIM
+# and send back to us on port 10028 which we'll tag above and then process below to relay.
+
+# Accept DKIM-processed mails for final relay:
+action "process_outbound" relay host smtp+tls://label@${cubevar_app_outbound_smtp} auth <secrets>
+match tag DKIM for any action "process_outbound"
+
+# Accept incoming mail from authenticated users who want to send email to domains we don't manage, and send it to DKIM:
+action "process_dkim" relay host smtp://127.0.0.1:10027
+match from auth for any action "process_dkim"
+
+# Old config without DKIM:
+#action "process_nonkim" relay host smtp+tls://label@${cubevar_app_outbound_smtp} auth <secrets>
+#match from local for any action "process_nonkim"
