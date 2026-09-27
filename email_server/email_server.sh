@@ -170,6 +170,7 @@ cube_service restart dkimproxy_in
 cube_service enable dkimproxy_out
 cube_service restart dkimproxy_out
 
+cube_set_file_contents "/etc/dovecot/dovecot.conf" "templates/dovecot.conf.template"
 cube_set_file_contents "/etc/dovecot/conf.d/10-ssl.conf" "templates/10-ssl.conf.template"
 cube_set_file_contents "/etc/dovecot/conf.d/auth-system.conf.ext" "templates/auth-system.conf.ext.template"
 cube_set_file_contents "/etc/dovecot/conf.d/10-mail.conf" "templates/10-mail.conf.template"
