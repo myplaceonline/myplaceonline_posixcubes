@@ -41,7 +41,9 @@ server {
   passenger_env_var MINCACHE "${cubevar_app_web_mincache}";
   passenger_env_var BROWSER_PATH "${cubevar_app_chrome_path}";
   passenger_env_var CCBILLSALT "${cubevar_app_ccbillsalt}";
+  passenger_env_var TURNSTILE1 "${cubecar_app_turnstile1}";
   passenger_env_var LOADER_CACHE_DIR "/opt/cache/";
+  
   # NOTE: REMEMBER to update myplaceonline-delayjobs envars too
   
   location /assets/ {
