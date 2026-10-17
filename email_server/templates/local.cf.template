@@ -2816,82 +2816,82 @@ score BLACKLIST932 12
 header BLACKLIST933 Subject =~ /Your repair list/i
 score BLACKLIST933 12
 
-header BLACKLIST934 Subject =~ /XXXYYYZZZ/i
+header BLACKLIST934 Subject =~ /Arriving in your inbox tomorrow/i
 score BLACKLIST934 12
 
-header BLACKLIST935 Subject =~ /XXXYYYZZZ/i
+header BLACKLIST935 Subject =~ /Medicare information kit/i
 score BLACKLIST935 12
 
-header BLACKLIST936 Subject =~ /XXXYYYZZZ/i
+header BLACKLIST936 Subject =~ /when desire is still strong/i
 score BLACKLIST936 12
 
-header BLACKLIST937 Subject =~ /XXXYYYZZZ/i
+header BLACKLIST937 Subject =~ /Scheduled for delivery tomorrow/i
 score BLACKLIST937 12
 
-header BLACKLIST938 Subject =~ /XXXYYYZZZ/i
+header BLACKLIST938 Subject =~ /You Have a New voicemail from/i
 score BLACKLIST938 12
 
-header BLACKLIST939 Subject =~ /XXXYYYZZZ/i
+header BLACKLIST939 Subject =~ /THIS gadget a best/i
 score BLACKLIST939 12
 
-header BLACKLIST940 Subject =~ /XXXYYYZZZ/i
+header BLACKLIST940 Subject =~ /Please answer 4 questions/i
 score BLACKLIST940 12
 
-header BLACKLIST941 Subject =~ /XXXYYYZZZ/i
+header BLACKLIST941 Subject =~ /Most eye vitamins/i
 score BLACKLIST941 12
 
-header BLACKLIST942 Subject =~ /XXXYYYZZZ/i
+header BLACKLIST942 Subject =~ /New active customer databases/i
 score BLACKLIST942 12
 
-header BLACKLIST943 Subject =~ /XXXYYYZZZ/i
+header BLACKLIST943 Subject =~ /cuts heart attack/i
 score BLACKLIST943 12
 
-header BLACKLIST944 Subject =~ /XXXYYYZZZ/i
+header BLACKLIST944 Subject =~ /Health Screening/i
 score BLACKLIST944 12
 
-header BLACKLIST945 Subject =~ /XXXYYYZZZ/i
+header BLACKLIST945 Subject =~ /Cover one eye/i
 score BLACKLIST945 12
 
-header BLACKLIST946 Subject =~ /XXXYYYZZZ/i
+header BLACKLIST946 Subject =~ /Deals before Prime/i
 score BLACKLIST946 12
 
-header BLACKLIST947 Subject =~ /XXXYYYZZZ/i
+header BLACKLIST947 Subject =~ /You Asked. We Listened/i
 score BLACKLIST947 12
 
-header BLACKLIST948 Subject =~ /XXXYYYZZZ/i
+header BLACKLIST948 Subject =~ /ScottsBassLessons/i
 score BLACKLIST948 12
 
-header BLACKLIST949 Subject =~ /XXXYYYZZZ/i
+header BLACKLIST949 Subject =~ /swollen feet/i
 score BLACKLIST949 12
 
-header BLACKLIST950 Subject =~ /XXXYYYZZZ/i
+header BLACKLIST950 Subject =~ /courtesy vehicle kit/i
 score BLACKLIST950 12
 
-header BLACKLIST951 Subject =~ /XXXYYYZZZ/i
+header BLACKLIST951 Subject =~ /Lower your blood pressure/i
 score BLACKLIST951 12
 
-header BLACKLIST952 Subject =~ /XXXYYYZZZ/i
+header BLACKLIST952 Subject =~ /courtesy car kit/i
 score BLACKLIST952 12
 
-header BLACKLIST953 Subject =~ /XXXYYYZZZ/i
+header BLACKLIST953 Subject =~ /Do you have this parasite/i
 score BLACKLIST953 12
 
-header BLACKLIST954 Subject =~ /XXXYYYZZZ/i
+header BLACKLIST954 Subject =~ /rice farmers in China/i
 score BLACKLIST954 12
 
-header BLACKLIST955 Subject =~ /XXXYYYZZZ/i
+header BLACKLIST955 Subject =~ /Baking Soda Hack/i
 score BLACKLIST955 12
 
-header BLACKLIST956 Subject =~ /XXXYYYZZZ/i
+header BLACKLIST956 Subject =~ /Hiding in Your Kitchen/i
 score BLACKLIST956 12
 
-header BLACKLIST957 Subject =~ /XXXYYYZZZ/i
+header BLACKLIST957 Subject =~ /Arrange Your Fall Screening/i
 score BLACKLIST957 12
 
-header BLACKLIST958 Subject =~ /XXXYYYZZZ/i
+header BLACKLIST958 Subject =~ /Your New Volce Mail Message/i
 score BLACKLIST958 12
 
-header BLACKLIST959 Subject =~ /XXXYYYZZZ/i
+header BLACKLIST959 Subject =~ /Mix In Cold Water/i
 score BLACKLIST959 12
 
 header BLACKLIST960 Subject =~ /XXXYYYZZZ/i
