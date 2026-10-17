@@ -76,7 +76,7 @@ if ! cube_dir_exists "${cubevar_nginx_root}" ; then
                          zlib-devel wget openssl-devel libxml2-devel \
                          libxslt-devel gd-devel perl-ExtUtils-Embed \
                          GeoIP-devel gperftools gperftools-devel \
-                         libatomic_ops-devel
+                         libatomic_ops-devel vips vips-devel
   elif cube_operating_system_has_flavor ${POSIXCUBE_OS_FLAVOR_DEBIAN}; then
     cube_package install autoconf bison flex gcc g++ gettext \
                          make m4 patch libpcre3-dev libxml2-dev \
