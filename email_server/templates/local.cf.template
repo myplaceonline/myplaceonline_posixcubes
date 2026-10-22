@@ -2900,34 +2900,34 @@ score BLACKLIST960 12
 header BLACKLIST961 Subject =~ /Proof inside/i
 score BLACKLIST961 12
 
-header BLACKLIST962 Subject =~ /XXXYYYZZZ/i
+header BLACKLIST962 Subject =~ /The neural repair study/i
 score BLACKLIST962 12
 
-header BLACKLIST963 Subject =~ /XXXYYYZZZ/i
+header BLACKLIST963 Subject =~ /ATTN:/i
 score BLACKLIST963 12
 
-header BLACKLIST964 Subject =~ /XXXYYYZZZ/i
+header BLACKLIST964 Subject =~ /Connect your business tools/i
 score BLACKLIST964 12
 
-header BLACKLIST965 Subject =~ /XXXYYYZZZ/i
+header BLACKLIST965 Subject =~ /Senior Gifts/i
 score BLACKLIST965 12
 
-header BLACKLIST966 Subject =~ /XXXYYYZZZ/i
+header BLACKLIST966 Subject =~ /and get up to/i
 score BLACKLIST966 12
 
-header BLACKLIST967 Subject =~ /XXXYYYZZZ/i
+header BLACKLIST967 Subject =~ /Feeling Stressed/i
 score BLACKLIST967 12
 
-header BLACKLIST968 Subject =~ /XXXYYYZZZ/i
+header BLACKLIST968 Subject =~ /open a Chase Secure/i
 score BLACKLIST968 12
 
-header BLACKLIST969 Subject =~ /XXXYYYZZZ/i
+header BLACKLIST969 Subject =~ /Investment opportunit/i
 score BLACKLIST969 12
 
-header BLACKLIST970 Subject =~ /XXXYYYZZZ/i
+header BLACKLIST970 Subject =~ /Black Friday Early Access/i
 score BLACKLIST970 12
 
-header BLACKLIST971 Subject =~ /XXXYYYZZZ/i
+header BLACKLIST971 Subject =~ /mew voicemail/i
 score BLACKLIST971 12
 
 header BLACKLIST972 Subject =~ /XXXYYYZZZ/i
