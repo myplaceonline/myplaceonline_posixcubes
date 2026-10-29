@@ -4560,6 +4560,36 @@ score ANNOYING_FROM8 12
 header ANNOYING_FROM9  From =~ /BlueCross/i
 score ANNOYING_FROM9 12
 
+header ANNOYING_FROM10  From =~ /Harbor Freight/i
+score ANNOYING_FROM10 12
+
+header ANNOYING_TO1  To =~ /erik@rabbl\.com/i
+score ANNOYING_TO1 12
+
+header ANNOYING_TO2  To =~ /wade@rabbl\.com/i
+score ANNOYING_TO2 12
+
+header ANNOYING_TO3  To =~ /melissa@rabbl\.com/i
+score ANNOYING_TO3 12
+
+header ANNOYING_TO4  To =~ /kh@rabbl\.com/i
+score ANNOYING_TO4 12
+
+header ANNOYING_TO5  To =~ /kweku@rabbl\.com/i
+score ANNOYING_TO5 12
+
+header ANNOYING_TO6  To =~ /todo@rabbl\.com/i
+score ANNOYING_TO6 12
+
+header ANNOYING_TO7  To =~ /todo@rabbl\.com/i
+score ANNOYING_TO7 12
+
+header ANNOYING_TO8  To =~ /todo@rabbl\.com/i
+score ANNOYING_TO8 12
+
+header ANNOYING_TO9  To =~ /todo@rabbl\.com/i
+score ANNOYING_TO9 12
+
 body ANNOYING_BODY1 /Marriott Luxury Pillows/i
 score ANNOYING_BODY1 12
 
